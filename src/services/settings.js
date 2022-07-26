@@ -1,11 +1,11 @@
 import axios from "axios";
-import Commerce from '@chec/commerce.js';
+// import Commerce from '@chec/commerce.js';
 
 export const DOMAIN = "https://api.chec.io/v1";
 export const ACCESSTOKEN =
 "sk_447082bbb5ffe0fefd23b4c17b264bec885c147cca6c8";
 
-const checAPIKey = process.env.REACT_APP_CHEC_PUBLIC_KEY;
+// const checAPIKey = process.env.REACT_APP_CHEC_PUBLIC_KEY;
 
 //setup axios interceptor
 export const http = axios.create({
@@ -31,8 +31,8 @@ http.interceptors.request.use(
   }
 );
 
-export default new Commerce(
-  checAPIKey,
-  false,
-  http,
-);
+// export default new Commerce(
+//   checAPIKey,
+//   false,
+//   http,
+// );
