@@ -1,5 +1,8 @@
 //rxslice
-import { createSlice } from '@reduxjs/toolkit';
+import {
+  AnyAction,
+  createSlice, ThunkDispatch
+} from '@reduxjs/toolkit';
 import axios from 'axios';
 const initialState = {
   cart: [
@@ -54,32 +57,11 @@ const shopReducer = createSlice({
       const id = action.payload;
       state.cart = state.cart.filter((item) => item.id !== id);
     },
-    changeQuantityAction: (state, action, a) => {
-      const { id, quantity } = action.payload;
-
-      const itemCart = state.cart.find((item) => item.id === id);
-      if (itemCart) {
-        itemCart.quantity += quantity;
-        if (itemCart.quantity < 1) {
-          // alert('Số lượng nhỏ hơn 1');
-          // itemCart.quantity -= quantity;
-          if (window.confirm('Do you want to del ?')) {
-            state.cart = state.cart.filter((item) => item.id !== id);
-          } else {
-            itemCart.quantity -= quantity;
-          }
-        }
-      }
-    },
   },
 });
 
-export const {
-  getProductApiAction,
-  addToCartAction,
-  delItemAction,
-  changeQuantityAction,
-} = shopReducer.actions;
+export const { getProductApiAction, addToCartAction, delItemAction } =
+  shopReducer.actions;
 
 export default shopReducer.reducer;
 
@@ -88,7 +70,7 @@ export default shopReducer.reducer;
 
 //------------------ action thunk ------------
 export const getAllProductApi = () => {
-  return async (dispatch) => {
+  return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
     try {
       const result = await axios({
         url: 'https://shop.cyberlearn.vn/api/Product',

@@ -1,12 +1,11 @@
-import React from 'react';
-import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
-import './index.scss';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './index.scss';
 import { store } from './redux/configStore';
 import { StoreProvider } from './redux/contexts/storeContext';
-import { BrowserRouter } from 'react-router-dom';
+import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(

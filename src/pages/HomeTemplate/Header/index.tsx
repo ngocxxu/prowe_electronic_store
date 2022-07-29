@@ -67,7 +67,7 @@ export const Header = (props: Props) => {
               <Typography
                 variant='h6'
                 noWrap
-                component='a'
+                component='h6'
                 onClick={() => navigate('/')}
                 sx={{
                   mr: 2,
@@ -77,8 +77,9 @@ export const Header = (props: Props) => {
                   letterSpacing: '.3rem',
                   color: 'inherit',
                   textDecoration: 'none',
+                  cursorPointer: ''
                 }}
-              >
+              > 
                 LOGO
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
