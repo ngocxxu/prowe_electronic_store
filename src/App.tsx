@@ -8,7 +8,13 @@ function App() {
   const routes = [
     {
       element: <HomeTemplate />,
-      children: [{ path: '/', element: <Home /> }],
+      path: '/',
+      children: [
+        { path: '/home', element: <Home /> },
+        { path: '/shop', element: <Home /> },
+        { path: '/blog', element: <Home /> },
+        { path: '/contact', element: <Home /> },
+    ],
     },
     { path: '*', element: <ErrorTemplate /> },
   ];
