@@ -1,4 +1,3 @@
-import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
@@ -14,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { cloneElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+// import * as Logo from '../../../assets/images/others/logo.png'
 const pages = ['Home', 'Shop', 'Blog', 'Contact'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -38,6 +37,7 @@ function ElevationScroll(props: Props) {
 
 export const Header = (props: Props) => {
   const navigate = useNavigate();
+  const logo = require('../../../assets/img/others/logo.png');
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -60,28 +60,18 @@ export const Header = (props: Props) => {
   return (
     <>
       <ElevationScroll {...props}>
-        <AppBar>
+        <AppBar
+          sx={{
+            backgroundColor: 'white',
+            paddingBottom: '15px',
+            paddingTop: '15px',
+          }}
+        >
           <Container maxWidth='xl'>
             <Toolbar disableGutters>
-              <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-              <Typography
-                variant='h6'
-                noWrap
-                component='h6'
-                onClick={() => navigate('/')}
-                sx={{
-                  mr: 2,
-                  display: { xs: 'none', md: 'flex' },
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '.3rem',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                  cursorPointer: ''
-                }}
-              > 
-                LOGO
-              </Typography>
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                <img className='mw-full' width='150' src={logo} alt='logo' />
+              </Box>
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                   size='large'
@@ -89,7 +79,7 @@ export const Header = (props: Props) => {
                   aria-controls='menu-appbar'
                   aria-haspopup='true'
                   onClick={handleOpenNavMenu}
-                  color='inherit'
+                  // color='inherit'
                 >
                   <MenuIcon />
                 </IconButton>
@@ -119,25 +109,9 @@ export const Header = (props: Props) => {
                 </Menu>
               </Box>
               {/* Full Screen - Responsive*/}
-              <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-              <Typography
-                variant='h5'
-                noWrap
-                component='a'
-                href=''
-                sx={{
-                  mr: 2,
-                  display: { xs: 'flex', md: 'none' },
-                  flexGrow: 1,
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '.3rem',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                }}
-              >
-                LOGO
-              </Typography>
+              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                <img className='mw-full' width='150' src={logo} alt='logo' />
+              </Box>
               <Box
                 sx={{
                   flexGrow: 1,
@@ -149,7 +123,13 @@ export const Header = (props: Props) => {
                   <Button
                     key={page}
                     onClick={handleCloseNavMenu}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
+                    sx={{
+                      my: 2,
+                      fontWeight: 'bold',
+                      color: 'black',
+                      display: 'block',
+                      textTransform: 'initial',
+                    }}
                   >
                     {page}
                   </Button>
