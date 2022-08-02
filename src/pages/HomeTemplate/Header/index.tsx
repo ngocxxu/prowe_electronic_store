@@ -1,6 +1,5 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -8,12 +7,15 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
+import SearchIcon from '@mui/icons-material/Search';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import { cloneElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import * as Logo from '../../../assets/images/others/logo.png'
+
 const pages = ['Home', 'Shop', 'Blog', 'Contact'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -38,6 +40,7 @@ function ElevationScroll(props: Props) {
 export const Header = (props: Props) => {
   const navigate = useNavigate();
   const logo = require('../../../assets/img/others/logo.png');
+  // const HeartSVG = require('../../../assets/svg/heart.svg') as string;
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -63,13 +66,16 @@ export const Header = (props: Props) => {
         <AppBar
           sx={{
             backgroundColor: 'white',
-            paddingBottom: '15px',
-            paddingTop: '15px',
+            paddingBottom: '10px',
+            paddingTop: '10px',
           }}
         >
           <Container maxWidth='xl'>
             <Toolbar disableGutters>
-              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <Box
+                onClick={() => navigate('/')}
+                sx={{ display: { xs: 'none', md: 'flex' }, cursor: 'pointer' }}
+              >
                 <img className='mw-full' width='150' src={logo} alt='logo' />
               </Box>
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -79,7 +85,6 @@ export const Header = (props: Props) => {
                   aria-controls='menu-appbar'
                   aria-haspopup='true'
                   onClick={handleOpenNavMenu}
-                  // color='inherit'
                 >
                   <MenuIcon />
                 </IconButton>
@@ -109,7 +114,10 @@ export const Header = (props: Props) => {
                 </Menu>
               </Box>
               {/* Full Screen - Responsive*/}
-              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+              <Box
+                onClick={() => navigate('/')}
+                sx={{ display: { xs: 'flex', md: 'none' }, cursor: 'pointer' }}
+              >
                 <img className='mw-full' width='150' src={logo} alt='logo' />
               </Box>
               <Box
@@ -135,15 +143,26 @@ export const Header = (props: Props) => {
                   </Button>
                 ))}
               </Box>
-              <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title='Open settings'>
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar
-                      alt='Remy Sharp'
-                      src='/static/images/avatar/2.jpg'
-                    />
-                  </IconButton>
-                </Tooltip>
+              <Box>
+                <IconButton
+                  size='large'
+                  aria-label='search'
+                  sx={{ color: 'black' }}
+                >
+                  <SearchIcon />
+                </IconButton>
+                <IconButton
+                  onClick={handleOpenUserMenu}
+                  sx={{ p: 0, color: 'black' }}
+                >
+                  <PersonOutlineIcon />
+                </IconButton>
+                <IconButton sx={{ color: 'black' }}>
+                  <FavoriteBorderIcon />
+                </IconButton>
+                <IconButton sx={{ color: 'black' }}>
+                  <LocalMallOutlinedIcon />
+                </IconButton>
                 <Menu
                   sx={{ mt: '45px' }}
                   id='menu-appbar'
@@ -167,6 +186,7 @@ export const Header = (props: Props) => {
                   ))}
                 </Menu>
               </Box>
+              <Box sx={{ flexGrow: 0 }}></Box>
             </Toolbar>
           </Container>
         </AppBar>
