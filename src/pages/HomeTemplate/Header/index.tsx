@@ -1,4 +1,8 @@
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import SearchIcon from '@mui/icons-material/Search';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -9,15 +13,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
-import SearchIcon from '@mui/icons-material/Search';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import { cloneElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Carousel } from '../../../components/Carousel';
 
 const pages = ['Home', 'Shop', 'Blog', 'Contact'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Logout'];
 
 interface Props {
   window?: () => Window;
@@ -78,7 +79,7 @@ export const Header = (props: Props) => {
               >
                 <img className='mw-full' width='150' src={logo} alt='logo' />
               </Box>
-              <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+              <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
                 <IconButton
                   size='large'
                   aria-label='account of current user'
@@ -116,9 +117,14 @@ export const Header = (props: Props) => {
               {/* Full Screen - Responsive*/}
               <Box
                 onClick={() => navigate('/')}
-                sx={{ display: { xs: 'flex', md: 'none' }, cursor: 'pointer' }}
+                sx={{
+                  display: { xs: 'flex', md: 'none' },
+                  cursor: 'pointer',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}
               >
-                <img className='mw-full' width='150' src={logo} alt='logo' />
+                <img className='mw-full' width='100' src={logo} alt='logo' />
               </Box>
               <Box
                 sx={{
@@ -147,17 +153,25 @@ export const Header = (props: Props) => {
                 <IconButton
                   size='large'
                   aria-label='search'
-                  sx={{ color: 'black' }}
+                  sx={{
+                    color: 'black',
+                    display: { xs: 'none', md: 'inline-block' },
+                  }}
                 >
                   <SearchIcon />
                 </IconButton>
                 <IconButton
                   onClick={handleOpenUserMenu}
-                  sx={{ p: 0, color: 'black' }}
+                  sx={{ color: 'black' }}
                 >
                   <PersonOutlineIcon />
                 </IconButton>
-                <IconButton sx={{ color: 'black' }}>
+                <IconButton
+                  sx={{
+                    color: 'black',
+                    display: { xs: 'none', md: 'inline-block' },
+                  }}
+                >
                   <FavoriteBorderIcon />
                 </IconButton>
                 <IconButton sx={{ color: 'black' }}>
@@ -192,16 +206,9 @@ export const Header = (props: Props) => {
         </AppBar>
       </ElevationScroll>
       <Toolbar />
-      <Container>
-        <Box sx={{ my: 2 }}>
-          {[...new Array(100)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-            )
-            .join('\n')}
+      <Container maxWidth="xl">
+        <Box sx={{ my: 4 }}>
+          <Carousel />
         </Box>
       </Container>
     </>
