@@ -1,3 +1,4 @@
+import { createTheme, ThemeProvider } from '@mui/material';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -7,12 +8,22 @@ import { store } from './redux/configStore';
 import { StoreProvider } from './redux/contexts/storeContext';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const theme = createTheme({
+  typography: {
+    fontFamily: ['Jost'].join(','),
+  },
+});
+
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 root.render(
   <Provider store={store}>
     <StoreProvider>
       <BrowserRouter>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </BrowserRouter>
     </StoreProvider>
   </Provider>

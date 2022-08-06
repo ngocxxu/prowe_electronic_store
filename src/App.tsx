@@ -8,8 +8,8 @@ function App() {
   const routes = [
     {
       element: <HomeTemplate />,
-      path: '/',
       children: [
+        { path: '/', element: <Home /> },
         { path: '/home', element: <Home /> },
         { path: '/shop', element: <Home /> },
         { path: '/blog', element: <Home /> },

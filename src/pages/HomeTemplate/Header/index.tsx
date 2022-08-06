@@ -15,7 +15,6 @@ import Typography from '@mui/material/Typography';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { cloneElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Carousel } from '../../../components/Carousel';
 
 const pages = ['Home', 'Shop', 'Blog', 'Contact'];
 const settings = ['Profile', 'Account', 'Logout'];
@@ -41,7 +40,6 @@ function ElevationScroll(props: Props) {
 export const Header = (props: Props) => {
   const navigate = useNavigate();
   const logo = require('../../../assets/img/others/logo.png');
-  // const HeartSVG = require('../../../assets/svg/heart.svg') as string;
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -138,6 +136,7 @@ export const Header = (props: Props) => {
                     key={page}
                     onClick={handleCloseNavMenu}
                     sx={{
+                      fontSize: '16px',
                       my: 2,
                       fontWeight: 'bold',
                       color: 'black',
@@ -206,11 +205,6 @@ export const Header = (props: Props) => {
         </AppBar>
       </ElevationScroll>
       <Toolbar />
-      <Container maxWidth="xl">
-        <Box sx={{ my: 4 }}>
-          <Carousel />
-        </Box>
-      </Container>
     </>
   );
 };
