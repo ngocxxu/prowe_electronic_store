@@ -1,8 +1,9 @@
-import { Box, Button, Grid, styled, Typography } from '@mui/material';
+import { Box, Grid, styled, Typography } from '@mui/material';
 import Ba1 from '../../assets/img/background/ba1.jpg';
 import Ba2 from '../../assets/img/background/ba2.jpg';
 import Ba3 from '../../assets/img/background/ba3.jpg';
 import Ba4 from '../../assets/img/background/ba4.jpg';
+import { ShopButton } from '../Button';
 import './style.scss';
 
 const Item = styled(Box)(({ theme }) => ({
@@ -17,18 +18,6 @@ const Item = styled(Box)(({ theme }) => ({
   display: 'flex',
 }));
 
-const ButtonMUI = {
-  '&:hover': {
-    backgroundColor: 'transparent',
-    borderBottom: '2px solid transparent',
-  },
-  fontSize: '18px',
-  textTransform: 'initial',
-  borderBottom: '2px solid black',
-  padding: '0px',
-  borderRadius: '0px',
-  color: 'black',
-};
 export const Carousel = () => {
   return (
     <Grid container spacing={2}>
@@ -52,9 +41,7 @@ export const Carousel = () => {
               Lasted answer oppose to ye months no esteem.<br></br> Branched is
               on an ecstatic directly it.
             </Typography>
-            <Button variant='text' sx={ButtonMUI}>
-              Shop now
-            </Button>
+            <ShopButton />
           </Box>
         </Item>
       </Grid>
@@ -95,9 +82,7 @@ export const Carousel = () => {
               >
                 Headphones give you a<br></br> great experience
               </Typography>
-              <Button variant='text' sx={ButtonMUI}>
-                Shop now
-              </Button>
+              <ShopButton />
             </Box>
           </Item>
         </Grid>
@@ -122,9 +107,7 @@ export const Carousel = () => {
               >
                 It is a long established fact<br></br> that a reader will
               </Typography>
-              <Button variant='text' sx={ButtonMUI}>
-                Shop now
-              </Button>
+              <ShopButton />
             </Box>
           </Item>
         </Grid>

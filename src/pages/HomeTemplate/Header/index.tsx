@@ -15,17 +15,12 @@ import Typography from '@mui/material/Typography';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { cloneElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Props } from 'src/types/GeneralTypes';
 
 const pages = ['Home', 'Shop', 'Blog', 'Contact'];
 const settings = ['Profile', 'Account', 'Logout'];
 
-interface Props {
-  window?: () => Window;
-  children: React.ReactElement;
-}
-
-function ElevationScroll(props: Props) {
-  const { children, window } = props;
+function ElevationScroll({ children, window }: Props) {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
