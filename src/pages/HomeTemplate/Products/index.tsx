@@ -6,6 +6,7 @@ import {
   AccordionSummary,
   Box,
   Button,
+  Chip,
   Divider,
   FormControl,
   Grid,
@@ -17,13 +18,19 @@ import {
   Slider,
   Stack,
   styled,
-  Typography
+  Typography,
 } from '@mui/material';
 import { Container } from '@mui/system';
 import { useState } from 'react';
 import Breadcrumb from 'src/components/Breadcrumb';
 import Ba1 from '../../../assets/img/background/collection.jpg';
+import LogoBrand from '../../../assets/img/others/logo-brand.jpg';
 import './style.scss';
+
+interface ChipData {
+  key: number;
+  label: string;
+}
 
 const Item = styled(Box)(({ theme }) => ({
   backgroundPosition: 'center',
@@ -61,6 +68,15 @@ const SortingBox = () => {
 
 const DrawerMenu = () => {
   const [value, setValue] = useState<number[]>([20, 60]);
+  const [chipData, setChipData] = useState<readonly ChipData[]>([
+    { key: 0, label: 'Angular' },
+    { key: 1, label: 'jQuery' },
+    { key: 2, label: 'Polymer' },
+    { key: 3, label: 'Vue.js' },
+    { key: 3, label: 'Vue.js' },
+    { key: 3, label: 'Vue.js' },
+    { key: 3, label: 'Vue.js' },
+  ]);
 
   const marks = [
     {
@@ -73,18 +89,18 @@ const DrawerMenu = () => {
     },
   ];
 
-  const [open, setOpen] = useState(true);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
   function valuetext(value: number) {
     return `${value}°C`;
   }
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
+  };
+
+  const handleToggle = (chipToDelete: ChipData) => () => {
+    setChipData((chips) =>
+      chips.filter((chip) => chip.key !== chipToDelete.key)
+    );
   };
 
   return (
@@ -141,20 +157,62 @@ const DrawerMenu = () => {
           getAriaLabel={() => 'Temperature range'}
           value={value}
           onChange={handleChange}
+          sx={{ color: '#f97316' }}
         />
       </Box>
       <Divider sx={{ fontWeight: 500, letterSpacing: '2px' }} textAlign='left'>
         SIZE
       </Divider>
-      <Divider sx={{ fontWeight: 500, letterSpacing: '2px' }} textAlign='left'>
-        COLOR
-      </Divider>
+      <Stack
+        sx={{
+          marginTop: '15px',
+          marginBottom: '15px',
+        }}
+        direction='row'
+        justifyContent='center'
+        alignItems='center'
+        spacing={2}
+      >
+        <Button color='warning' variant='outlined' size='small'>
+          {`< 6 inch`}
+        </Button>
+        <Button color='warning' variant='contained' size='small'>
+          {`> 6 inch`}
+        </Button>
+      </Stack>
       <Divider sx={{ fontWeight: 500, letterSpacing: '2px' }} textAlign='left'>
         TAGS
       </Divider>
+      <Stack
+        sx={{
+          marginTop: '15px',
+          marginBottom: '15px',
+          flexWrap: 'wrap',
+          rowGap: '5px',
+        }}
+        direction='row'
+        spacing={1}
+      >
+        {chipData.map((data) => {
+          return (
+            <Box key={data.key}>
+              <Chip
+                label={data.label}
+                onClick={
+                  data.label === 'React' ? undefined : handleToggle(data)
+                }
+                clickable
+              />
+            </Box>
+          );
+        })}
+      </Stack>
       <Divider sx={{ fontWeight: 500, letterSpacing: '2px' }} textAlign='left'>
         BRAND
       </Divider>
+      <Box sx={{ maxWidth: '100%' }}>
+        <img className='w-full' src={LogoBrand} alt='list-logo' />
+      </Box>
     </Box>
   );
 };

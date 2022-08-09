@@ -3,6 +3,7 @@ import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import SearchIcon from '@mui/icons-material/Search';
+import { Badge } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -189,10 +190,14 @@ export const Header = (props: Props) => {
                     display: { xs: 'none', md: 'inline-block' },
                   }}
                 >
-                  <FavoriteBorderIcon />
+                  <Badge badgeContent={4} color='secondary'>
+                    <FavoriteBorderIcon />
+                  </Badge>
                 </IconButton>
                 <IconButton sx={{ color: 'black' }}>
-                  <LocalMallOutlinedIcon />
+                  <Badge badgeContent={4} color='success'>
+                    <LocalMallOutlinedIcon />
+                  </Badge>
                 </IconButton>
                 <Menu
                   sx={{ mt: '45px' }}
