@@ -17,7 +17,25 @@ import { cloneElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Props } from 'src/types/GeneralTypes';
 
-const pages = ['Home', 'Shop', 'Blog', 'Contact'];
+const pages = [
+  {
+    name: 'Home',
+    url: '/home',
+  },
+  {
+    name: 'Products',
+    url: '/home/products',
+  },
+  {
+    name: 'Blog',
+    url: '/home/blog',
+  },
+  {
+    name: 'Contact',
+    url: '/home/contact',
+  },
+];
+
 const settings = ['Profile', 'Account', 'Logout'];
 
 function ElevationScroll({ children, window }: Props) {
@@ -100,9 +118,14 @@ export const Header = (props: Props) => {
                     display: { xs: 'block', md: 'none' },
                   }}
                 >
-                  {pages.map((page) => (
-                    <MenuItem key={page} onClick={handleCloseNavMenu}>
-                      <Typography textAlign='center'>{page}</Typography>
+                  {pages.map((page, index) => (
+                    <MenuItem key={index} onClick={handleCloseNavMenu}>
+                      <Typography
+                        onClick={() => navigate(page.url)}
+                        textAlign='center'
+                      >
+                        {page.name}
+                      </Typography>
                     </MenuItem>
                   ))}
                 </Menu>
@@ -126,9 +149,9 @@ export const Header = (props: Props) => {
                   justifyContent: 'center',
                 }}
               >
-                {pages.map((page) => (
+                {pages.map((page, index) => (
                   <Button
-                    key={page}
+                    key={index}
                     onClick={handleCloseNavMenu}
                     sx={{
                       fontSize: '16px',
@@ -139,7 +162,7 @@ export const Header = (props: Props) => {
                       textTransform: 'initial',
                     }}
                   >
-                    {page}
+                    <Box onClick={() => navigate(page.url)}>{page.name}</Box>
                   </Button>
                 ))}
               </Box>
