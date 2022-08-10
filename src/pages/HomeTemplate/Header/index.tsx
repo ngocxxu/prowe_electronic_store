@@ -24,16 +24,20 @@ const pages = [
     url: '/home',
   },
   {
-    name: 'Products',
-    url: '/home/products',
+    name: 'Shop',
+    url: '/shop',
+  },
+  {
+    name: 'Product',
+    url: '/shop/laptop/123',
   },
   {
     name: 'Blog',
-    url: '/home/blog',
+    url: '/blog',
   },
   {
     name: 'Contact',
-    url: '/home/contact',
+    url: '/contact',
   },
 ];
 
@@ -173,7 +177,6 @@ export const Header = (props: Props) => {
                   aria-label='search'
                   sx={{
                     color: 'black',
-                    display: { xs: 'none', md: 'inline-block' },
                   }}
                 >
                   <SearchIcon />
@@ -187,7 +190,6 @@ export const Header = (props: Props) => {
                 <IconButton
                   sx={{
                     color: 'black',
-                    display: { xs: 'none', md: 'inline-block' },
                   }}
                 >
                   <Badge badgeContent={4} color='secondary'>

@@ -3,6 +3,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useLocation } from 'react-router-dom';
 
 function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
   event.preventDefault();
@@ -10,34 +11,46 @@ function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
 }
 
 export default function Breadcrumb() {
+  const location = useLocation();
+  const truePathname = location.pathname === '/shop';
+  console.log(location);
+
   const breadcrumbs = [
     <Link
       underline='hover'
       key='1'
       href='/'
       onClick={handleClick}
-      sx={{ color: '#fff' }}
+      sx={{ color: truePathname ? '#fff' : '#000' }}
     >
-      MUI
+      Home
     </Link>,
     <Link
       underline='hover'
       key='2'
       href='/material-ui/getting-started/installation/'
       onClick={handleClick}
-      sx={{ color: '#fff' }}
+      sx={{ color: truePathname ? '#fff' : '#000' }}
     >
-      Core
+      Shop
     </Link>,
-    <Typography key='3' sx={{ color: '#fff', fontWeight: '600' }}>
-      Breadcrumb
+    <Typography
+      key='3'
+      sx={{ color: truePathname ? '#fff' : '#f97316', fontWeight: '600' }}
+    >
+      Laptop
     </Typography>,
   ];
 
   return (
-    <Stack spacing={2} sx={{marginTop:'20px', marginBottom:'40px'}}>
+    <Stack spacing={2} sx={{ marginTop: '20px', marginBottom: '40px' }}>
       <Breadcrumbs
-        separator={<NavigateNextIcon sx={{ color: '#fff' }} fontSize='small' />}
+        separator={
+          <NavigateNextIcon
+            sx={{ color: truePathname ? '#fff' : '#000' }}
+            fontSize='small'
+          />
+        }
         aria-label='breadcrumb'
       >
         {breadcrumbs}

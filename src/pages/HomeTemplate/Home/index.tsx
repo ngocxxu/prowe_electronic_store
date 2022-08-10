@@ -155,6 +155,12 @@ const BestSeller = () => {
         <Grid item xs={6} sm={4} md={3}>
           <ProductItem />
         </Grid>
+        <Grid item xs={6} sm={4} md={3}>
+          <ProductItem />
+        </Grid>
+        <Grid item xs={6} sm={4} md={3}>
+          <ProductItem />
+        </Grid>
       </Grid>
     </div>
   );

@@ -1,11 +1,12 @@
 import { useRoutes } from 'react-router-dom';
 import './App.scss';
+import { ProductDetail } from './components/ProductDetail';
 import { ErrorTemplate } from './pages/ErrorTemplate';
 import { HomeTemplate } from './pages/HomeTemplate';
 import { Blog } from './pages/HomeTemplate/Blog';
 import { Contact } from './pages/HomeTemplate/Contact';
 import { Home } from './pages/HomeTemplate/Home';
-import { Products } from './pages/HomeTemplate/Products';
+import { Shop } from './pages/HomeTemplate/Shop';
 
 function App() {
   const routes = [
@@ -14,9 +15,10 @@ function App() {
       children: [
         { path: '/', element: <Home /> },
         { path: '/home', element: <Home /> },
-        { path: '/home/products', element: <Products /> },
-        { path: '/home/blog', element: <Blog /> },
-        { path: '/home/contact', element: <Contact /> },
+        { path: '/shop', element: <Shop /> },
+        { path: '/shop/:category/:id', element: <ProductDetail /> },
+        { path: '/blog', element: <Blog /> },
+        { path: '/contact', element: <Contact /> },
       ],
     },
     { path: '*', element: <ErrorTemplate /> },

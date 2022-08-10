@@ -23,14 +23,11 @@ import {
 import { Container } from '@mui/system';
 import { useState } from 'react';
 import Breadcrumb from 'src/components/Breadcrumb';
+import { ProductItem } from 'src/components/ProductItem';
+import { ChipData } from 'src/types/GeneralTypes';
 import Ba1 from '../../../assets/img/background/collection.jpg';
 import LogoBrand from '../../../assets/img/others/logo-brand.jpg';
 import './style.scss';
-
-interface ChipData {
-  key: number;
-  label: string;
-}
 
 const Item = styled(Box)(({ theme }) => ({
   backgroundPosition: 'center',
@@ -217,7 +214,8 @@ const DrawerMenu = () => {
   );
 };
 
-export const Products = () => {
+export const Shop = () => {
+  const [toggleFilter, setToggleFilter] = useState(false);
   return (
     <Box>
       <Item
@@ -231,7 +229,7 @@ export const Products = () => {
       >
         <Box>
           <Typography variant='h3' sx={{ fontWeight: 400, color: 'white' }}>
-            Products
+            Shop
           </Typography>
           <Breadcrumb />
         </Box>
@@ -248,6 +246,7 @@ export const Products = () => {
           spacing={2}
         >
           <Button
+            onClick={() => setToggleFilter(!toggleFilter)}
             size='large'
             variant='outlined'
             startIcon={<FilterAltOutlinedIcon />}
@@ -271,10 +270,31 @@ export const Products = () => {
           </Box>
         </Stack>
         <Grid container spacing={2}>
-          <Grid item md={3}>
-            <DrawerMenu />
+          {toggleFilter && (
+            <Grid sx={{ transition: 'all 3s ease-out' }} item md={3}>
+              <DrawerMenu />
+            </Grid>
+          )}
+          <Grid container spacing={2} item md={toggleFilter ? 9 : 12}>
+            <Grid item md={toggleFilter ? 4 : 3}>
+              <ProductItem />
+            </Grid>
+            <Grid item md={toggleFilter ? 4 : 3}>
+              <ProductItem />
+            </Grid>
+            <Grid item md={toggleFilter ? 4 : 3}>
+              <ProductItem />
+            </Grid>
+            <Grid item md={toggleFilter ? 4 : 3}>
+              <ProductItem />
+            </Grid>
+            <Grid item md={toggleFilter ? 4 : 3}>
+              <ProductItem />
+            </Grid>
+            <Grid item md={toggleFilter ? 4 : 3}>
+              <ProductItem />
+            </Grid>
           </Grid>
-          <Grid item md={9}></Grid>
         </Grid>
       </Container>
     </Box>
