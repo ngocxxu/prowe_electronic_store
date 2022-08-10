@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Pd1 from '../../assets/img/product/7.1.jpg';
 import './style.scss';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 
 export const ProductItem = () => {
   return (
@@ -64,6 +65,23 @@ export const ProductItem = () => {
             >
               <IconButton>
                 <FavoriteBorderIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip
+              sx={{
+                backgroundColor: 'white',
+                padding: '12px',
+                '&:hover': {
+                  backgroundColor: '#f9773a',
+                  color: 'white',
+                },
+              }}
+              title='Compare'
+              placement='top'
+              arrow
+            >
+              <IconButton>
+                <CompareArrowsIcon />
               </IconButton>
             </Tooltip>
           </div>

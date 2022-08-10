@@ -1,11 +1,11 @@
 import { useRoutes } from 'react-router-dom';
 import './App.scss';
-import { ProductDetail } from './components/ProductDetail';
 import { ErrorTemplate } from './pages/ErrorTemplate';
 import { HomeTemplate } from './pages/HomeTemplate';
 import { Blog } from './pages/HomeTemplate/Blog';
 import { Contact } from './pages/HomeTemplate/Contact';
 import { Home } from './pages/HomeTemplate/Home';
+import { ProductDetail } from './pages/HomeTemplate/ProductDetail';
 import { Shop } from './pages/HomeTemplate/Shop';
 
 function App() {
