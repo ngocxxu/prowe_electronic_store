@@ -3,22 +3,23 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 import './style.scss';
 
 // import required modules
-import SwiperCore, {
-  Pagination,
-  Navigation,
-  FreeMode,
-  Thumbs,
-  Autoplay,
-} from 'swiper';
 import { useState } from 'react';
 import { SwiperProps } from 'src/types/GeneralTypes';
+import SwiperCore, {
+  Autoplay,
+  FreeMode,
+  Navigation,
+  Pagination,
+  Thumbs,
+} from 'swiper';
+import { ProductItem } from '../ProductItem';
 
 export const InstaSwiper = ({ arrayInsta }: SwiperProps) => {
   return (
@@ -67,6 +68,68 @@ export const InstaSwiper = ({ arrayInsta }: SwiperProps) => {
     </div>
   );
 };
+
+export const RelatedProductSwiper = () =>
+  // { arrayInsta }: SwiperProps
+  {
+    return (
+      <div className='insta-swiper-container'>
+        <Swiper
+          breakpoints={{
+            '@0.00': {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            '@0.75': {
+              slidesPerView: 2,
+              spaceBetween: 20,
+            },
+            '@1.00': {
+              slidesPerView: 3,
+              spaceBetween: 40,
+            },
+            '@1.50': {
+              slidesPerView: 4,
+              spaceBetween: 50,
+            },
+          }}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          slidesPerView={1}
+          spaceBetween={30}
+          // slidesPerGroup={3}
+          loop={true}
+          loopFillGroupWithBlank={true}
+          pagination={{
+            clickable: true,
+          }}
+          // navigation={true}
+          modules={[Pagination, Navigation, Autoplay]}
+          className='mySwiper'
+        >
+          {/* {arrayInsta?.map((item, index) => (
+          <SwiperSlide key={index}>
+            <img src={item.image} alt={item.content} />
+          </SwiperSlide>
+        ))} */}
+          <SwiperSlide>
+            <ProductItem />
+          </SwiperSlide>
+          <SwiperSlide>
+            <ProductItem />
+          </SwiperSlide>
+          <SwiperSlide>
+            <ProductItem />
+          </SwiperSlide>
+          <SwiperSlide>
+            <ProductItem />
+          </SwiperSlide>
+        </Swiper>
+      </div>
+    );
+  };
 
 export const ProductSwiper = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore>();

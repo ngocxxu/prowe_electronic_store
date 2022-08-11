@@ -9,6 +9,7 @@ export type SwiperProps = {
     content: string;
   }[];
 };
+
 export interface ChipData {
   key: number;
   label: string;
