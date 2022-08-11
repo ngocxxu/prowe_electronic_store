@@ -67,7 +67,8 @@ const ProductIntro = () => {
   return (
     <Grid container spacing={10}>
       <Grid item md={7}>
-        <ProductSwiper />
+        123
+        {/* <ProductSwiper /> */}
       </Grid>
       <Grid item md={5}>
         <Stack
@@ -215,14 +216,15 @@ const ProductIntro = () => {
 
 const ProductServices = () => {
   return (
-    <Stack
-      sx={{ margin: '60px 0' }}
-      direction='row'
-      justifyContent='space-between'
-      alignItems='center'
+    <div
+      className='lg:flex justify-center items-center my-20 gap-10'
+      // sx={{ margin: '60px 0' }}
+      // direction='row'
+      // justifyContent='space-between'
+      // alignItems='center'
     >
       {arrayProductServices.map((item, index) => (
-        <Item>
+        <Item sx={{ margin: '10px 0' }} key={index}>
           <item.icon fontSize='large' sx={{ color: '#f97316' }} />
           <Typography
             sx={{
@@ -237,13 +239,14 @@ const ProductServices = () => {
           </Typography>
         </Item>
       ))}
-    </Stack>
+    </div>
   );
 };
 
 const ProductTabs = () => {
   const [value, setValue] = useState('1');
   const [reviewValue, setReviewValue] = useState<number | null>(2);
+  const [text, setText] = useState<string | null>();
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -556,25 +559,36 @@ const ProductTabs = () => {
               alignItems='start'
               sx={{ marginTop: '15px' }}
             >
-              <Box sx={{ width: '100%' }} component='form'>
+              <Box
+                sx={{ width: '100%' }}
+                component='form'
+                onSubmit={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  console.log('submit called');
+                  e.preventDefault();
+                }}
+              >
                 <TextField
-                  error={false}
-                  helperText='Please input your review.'
+                  required
+                  value={text}
+                  onChange={(event) => setText(event.target.value)}
+                  error={text === ''}
+                  helperText={text === '' ? 'Please input your review!' : ' '}
                   fullWidth
                   id='outlined-multiline-static'
                   label='Your Review'
                   multiline
                   rows={4}
                 />
+                <Button
+                  type='submit'
+                  sx={{ width: '100%' }}
+                  size='large'
+                  color='warning'
+                  variant='contained'
+                >
+                  Submit
+                </Button>
               </Box>
-              <Button
-                sx={{ width: '100%' }}
-                size='large'
-                color='warning'
-                variant='contained'
-              >
-                Submit
-              </Button>
             </Stack>
           </Container>
         </TabPanel>

@@ -13,7 +13,6 @@ function handleClick(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
 export default function Breadcrumb() {
   const location = useLocation();
   const truePathname = location.pathname === '/shop';
-  console.log(location);
 
   const breadcrumbs = [
     <Link
