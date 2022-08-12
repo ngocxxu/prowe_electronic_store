@@ -24,6 +24,8 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import { useState } from 'react';
 import Breadcrumb from 'src/components/Breadcrumb';
@@ -57,20 +59,20 @@ const Item = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  padding: '18px 65px',
 }));
 
 const ProductIntro = () => {
   const [value, setValue] = useState<number | null>(2);
   const [totalBill, setTotalBill] = useState<number | string | null>(1);
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Grid container spacing={10}>
-      <Grid item md={7}>
-        123
-        {/* <ProductSwiper /> */}
+    <Grid container spacing={!isSmall ? 10 : 5}>
+      <Grid item xs={12} md={7}>
+        <ProductSwiper />
       </Grid>
-      <Grid item md={5}>
+      <Grid item xs={12} md={5}>
         <Stack
           direction='row'
           justifyContent='space-between'
@@ -216,15 +218,16 @@ const ProductIntro = () => {
 
 const ProductServices = () => {
   return (
-    <div
-      className='lg:flex justify-center items-center my-20 gap-10'
-      // sx={{ margin: '60px 0' }}
-      // direction='row'
-      // justifyContent='space-between'
-      // alignItems='center'
-    >
+    <div className='lg:flex justify-center items-center my-20 gap-10'>
       {arrayProductServices.map((item, index) => (
-        <Item sx={{ margin: '10px 0' }} key={index}>
+        <Item
+          sx={{
+            textAlign: 'center',
+            margin: '10px 0',
+            padding: { md: '10px 50px', lg: '18px 65px' },
+          }}
+          key={index}
+        >
           <item.icon fontSize='large' sx={{ color: '#f97316' }} />
           <Typography
             sx={{
@@ -615,7 +618,9 @@ export const ProductDetail = () => {
   return (
     <>
       <Container maxWidth='xl' sx={{ paddingTop: '40px' }}>
-        <Breadcrumb />
+        <Box sx={{ paddingBottom: '30px' }}>
+          <Breadcrumb />
+        </Box>
         <ProductIntro />
         <ProductServices />
       </Container>

@@ -19,6 +19,10 @@ import SwiperCore, {
   Pagination,
   Thumbs,
 } from 'swiper';
+import Prod1 from '../../assets/img/product/14.1.jpg';
+import Prod2 from '../../assets/img/product/10.1.jpg';
+import Prod3 from '../../assets/img/product/16.1.jpg';
+import Prod4 from '../../assets/img/product/15.1.jpg';
 import { ProductItem } from '../ProductItem';
 
 export const InstaSwiper = ({ arrayInsta }: SwiperProps) => {
@@ -139,43 +143,26 @@ export const ProductSwiper = () => {
       <Swiper
         loop={true}
         spaceBetween={10}
-        navigation={true}
+        // navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs]}
         className='mySwiper2'
       >
         <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-1.jpg' />
+          <img src={Prod1} alt='prod1' />
         </SwiperSlide>
         <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-2.jpg' />
+          <img src={Prod2} alt='prod2' />
         </SwiperSlide>
         <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-3.jpg' />
+          <img src={Prod3} alt='prod3' />
         </SwiperSlide>
         <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-4.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-5.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-6.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-7.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-8.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-9.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-10.jpg' />
+          <img src={Prod4} alt='prod4' />
         </SwiperSlide>
       </Swiper>
       <Swiper
+        // navigation={true}
         onSwiper={setThumbsSwiper}
         loop={true}
         spaceBetween={10}
@@ -186,34 +173,16 @@ export const ProductSwiper = () => {
         className='mySwiper'
       >
         <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-1.jpg' />
+          <img src={Prod1} alt='prod1' />
         </SwiperSlide>
         <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-2.jpg' />
+          <img src={Prod2} alt='prod2' />
         </SwiperSlide>
         <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-3.jpg' />
+          <img src={Prod3} alt='prod3' />
         </SwiperSlide>
         <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-4.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-5.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-6.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-7.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-8.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-9.jpg' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src='https://swiperjs.com/demos/images/nature-10.jpg' />
+          <img src={Prod4} alt='prod4' />
         </SwiperSlide>
       </Swiper>
     </div>

@@ -224,7 +224,7 @@ export const Shop = () => {
           justifyContent: 'center',
           alignItems: 'flex-end',
           textAlign: 'center',
-          paddingTop: '60px',
+          padding: '60px 0',
         }}
       >
         <Box>

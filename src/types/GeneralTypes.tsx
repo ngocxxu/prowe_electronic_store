@@ -14,3 +14,13 @@ export interface ChipData {
   key: number;
   label: string;
 }
+
+export type IProduct = {
+  _id: string;
+  name: string;
+  code: string;
+  price: number;
+  image: HTMLImageElement | String | File;
+  quantity: 1,
+  total: number;
+};

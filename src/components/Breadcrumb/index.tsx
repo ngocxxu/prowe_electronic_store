@@ -42,7 +42,7 @@ export default function Breadcrumb() {
   ];
 
   return (
-    <Stack spacing={2} sx={{ marginTop: '20px', marginBottom: '40px' }}>
+    <Stack spacing={2}>
       <Breadcrumbs
         separator={
           <NavigateNextIcon
