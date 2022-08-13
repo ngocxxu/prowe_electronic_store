@@ -5,14 +5,14 @@ import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CheckoutForm } from '..';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 
-const steps = [
-  'Select campaign settings',
-  'Create an ad group',
-  'Create an ad',
-];
+const steps = ['Information', 'Shipping', 'Payment'];
 
 export default function HorizontalLinearStepper() {
+  const navigate = useNavigate();
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
 
@@ -59,24 +59,24 @@ export default function HorizontalLinearStepper() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', p: 4 }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps: { completed?: boolean } = {};
-          const labelProps: {
-            optional?: React.ReactNode;
-          } = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant='caption'>Optional</Typography>
-            );
-          }
+          // const labelProps: {
+          //   optional?: React.ReactNode;
+          // } = {};
+          // if (isStepOptional(index)) {
+          //   labelProps.optional = (
+          //     <Typography variant='caption'>Optional</Typography>
+          //   );
+          // }
           if (isStepSkipped(index)) {
             stepProps.completed = false;
           }
           return (
             <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
+              <StepLabel>{label}</StepLabel>
             </Step>
           );
         })}
@@ -93,16 +93,26 @@ export default function HorizontalLinearStepper() {
         </>
       ) : (
         <>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+          {activeStep === 0 && <CheckoutForm />}
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Button
-              color='inherit'
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
-            </Button>
+            {activeStep === 0 ? (
+              <Button
+                onClick={() => navigate('/cart')}
+                sx={{ mr: 1 }}
+                startIcon={<NavigateBeforeIcon />}
+              >
+                Return To Cart
+              </Button>
+            ) : (
+              <Button
+                color='inherit'
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+              >
+                Back
+              </Button>
+            )}
             <Box sx={{ flex: '1 1 auto' }} />
             {isStepOptional(activeStep) && (
               <Button color='inherit' onClick={handleSkip} sx={{ mr: 1 }}>

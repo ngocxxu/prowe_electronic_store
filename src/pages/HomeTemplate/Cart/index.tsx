@@ -1,3 +1,4 @@
+import ClearIcon from '@mui/icons-material/Clear';
 import {
   Box,
   Button,
@@ -12,13 +13,13 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material';
-import ClearIcon from '@mui/icons-material/Clear';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Breadcrumb from 'src/components/Breadcrumb';
 import { IProduct } from 'src/types/GeneralTypes';
 import Prod from '../../../assets/img/product/14.1.jpg';
-import { useState } from 'react';
 
 const rows: IProduct[] = [
   {
@@ -32,6 +33,7 @@ const rows: IProduct[] = [
   },
 ];
 export const Cart = () => {
+  const navigate = useNavigate();
   const [totalBill, setTotalBill] = useState<number | string | null>(1);
 
   return (
@@ -95,7 +97,12 @@ export const Cart = () => {
           <Button variant='contained' size='large' color='success'>
             UPDATE CART
           </Button>
-          <Button size='large' variant='contained' color='warning'>
+          <Button
+            onClick={() => navigate('/shop')}
+            size='large'
+            variant='contained'
+            color='warning'
+          >
             CONTINUE SHOPPING
           </Button>
         </Stack>
@@ -113,6 +120,7 @@ export const Cart = () => {
             <Typography variant='h6'>$360.00</Typography>
           </Stack>
           <Button
+            onClick={() => navigate('/cart/checkout')}
             sx={{ marginTop: '20px' }}
             size='large'
             variant='contained'
