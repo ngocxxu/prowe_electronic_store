@@ -4,8 +4,13 @@ import {
   Button,
   Container,
   Divider,
+  FormControl,
+  FormControlLabel,
   Grid,
   MenuItem,
+  Radio,
+  RadioGroup,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
@@ -136,6 +141,87 @@ export const CheckoutForm = () => {
             label='ZIP code'
           />
         </Box>
+      </Box>
+    </>
+  );
+};
+
+export const CheckoutShipping = () => {
+  const [value, setValue] = useState('standard');
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue((event.target as HTMLInputElement).value);
+  };
+
+  return (
+    <>
+      <Box
+        sx={{
+          border: '1px solid #d9d9d9',
+          borderRadius: '5px',
+          mt: 4,
+          mb: 4,
+          p: 2,
+        }}
+      >
+        <Stack
+          direction='row'
+          justifyContent='space-between'
+          alignItems='center'
+        >
+          <div className='flex justify-between items-center'>
+            <h1 className='text-[#737373]'>Contact</h1>
+            <p className='ml-10'>abc@gmail.com</p>
+          </div>
+          <Button variant='text'>Change</Button>
+        </Stack>
+        <Divider />
+        <Stack
+          direction='row'
+          justifyContent='space-between'
+          alignItems='center'
+        >
+          <div className='flex justify-between items-center'>
+            <h1 className='text-[#737373]'>Ship to</h1>
+            <p className='ml-10'>15 Tran Hung Dao</p>
+          </div>
+          <Button variant='text'>Change</Button>
+        </Stack>
+        {/* <Divider /> */}
+      </Box>
+      <Typography sx={{ mt: 4 }} variant='h6'>
+        Shipping Method
+      </Typography>
+      <Box
+        sx={{
+          border: '1px solid #d9d9d9',
+          borderRadius: '5px',
+          mt: 1,
+          mb: 4,
+          p: 2,
+        }}
+      >
+        <Stack
+          direction='row'
+          justifyContent='space-between'
+          alignItems='center'
+        >
+          <FormControl>
+            <RadioGroup
+              aria-labelledby='demo-controlled-radio-buttons-group'
+              name='controlled-radio-buttons-group'
+              value={value}
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value='standard'
+                control={<Radio />}
+                label='Standard'
+              />
+            </RadioGroup>
+          </FormControl>
+          <p>$19.70</p>
+        </Stack>
       </Box>
     </>
   );
