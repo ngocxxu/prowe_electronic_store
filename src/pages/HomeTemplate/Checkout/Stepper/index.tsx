@@ -1,3 +1,4 @@
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Step from '@mui/material/Step';
@@ -5,15 +6,19 @@ import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from 'src/redux/configStore';
+import { updateActiveStep } from 'src/redux/reducers/otherReducer';
 import { CheckoutForm, CheckoutShipping } from '..';
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 
 const steps = ['Information', 'Shipping', 'Payment'];
 
 export default function HorizontalLinearStepper() {
+  const { activeStep } = useSelector((state: RootState) => state.otherReducer);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [activeStep, setActiveStep] = useState(0);
+  // const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set<number>());
 
   const isStepOptional = (step: number) => {
@@ -31,12 +36,14 @@ export default function HorizontalLinearStepper() {
       newSkipped.delete(activeStep);
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    dispatch(updateActiveStep(activeStep + 1));
+    // setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    dispatch(updateActiveStep(activeStep - 1));
+    // setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const handleSkip = () => {
@@ -46,7 +53,8 @@ export default function HorizontalLinearStepper() {
       throw new Error("You can't skip a step that isn't optional.");
     }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    dispatch(updateActiveStep(activeStep + 1));
+    // setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped((prevSkipped) => {
       const newSkipped = new Set(prevSkipped.values());
       newSkipped.add(activeStep);
@@ -55,7 +63,8 @@ export default function HorizontalLinearStepper() {
   };
 
   const handleReset = () => {
-    setActiveStep(0);
+    dispatch(updateActiveStep(0));
+    // setActiveStep(0);
   };
 
   return (
@@ -98,7 +107,7 @@ export default function HorizontalLinearStepper() {
           {/* Shipping */}
           {activeStep === 1 && <CheckoutShipping />}
           {/* Payment */}
-          {activeStep === 1 && <CheckoutShipping />}
+          {activeStep === 2 && <CheckoutShipping />}
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             {activeStep === 0 ? (
               <Button

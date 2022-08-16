@@ -21,6 +21,10 @@ export type IProduct = {
   code: string;
   price: number;
   image: HTMLImageElement | String | File;
-  quantity: 1,
+  quantity: 1;
   total: number;
 };
+
+export interface OtherState {
+  activeStep: number;
+}
