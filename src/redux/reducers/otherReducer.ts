@@ -4,6 +4,7 @@ import { OtherState } from 'src/types/GeneralTypes';
 
 const initialState: OtherState = {
   activeStep: 0,
+  isDrawer: false,
 };
 
 const otherReducer = createSlice({
@@ -13,9 +14,12 @@ const otherReducer = createSlice({
     updateActiveStep: (state, action) => {
       state.activeStep = action.payload;
     },
+    toggleDrawer: (state, action) => {
+      state.isDrawer = action.payload;
+    },
   },
 });
 
-export const { updateActiveStep } = otherReducer.actions;
+export const { updateActiveStep, toggleDrawer } = otherReducer.actions;
 
 export default otherReducer.reducer;

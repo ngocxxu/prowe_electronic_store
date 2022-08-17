@@ -27,4 +27,5 @@ export type IProduct = {
 
 export interface OtherState {
   activeStep: number;
+  isDrawer: boolean;
 }
