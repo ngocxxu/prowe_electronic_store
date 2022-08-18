@@ -15,7 +15,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { cloneElement, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { TemporaryDrawer } from 'src/components/Drawer/index2';
+import { RootState } from 'src/redux/configStore';
+import { toggleDrawer } from 'src/redux/reducers/otherReducer';
 import { Props } from 'src/types/GeneralTypes';
 
 const pages = [
@@ -56,6 +60,8 @@ function ElevationScroll({ children, window }: Props) {
 }
 
 export const Header = (props: Props) => {
+  const { isDrawer } = useSelector((state: RootState) => state.otherReducer);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const logo = require('../../../assets/img/others/logo.png');
 
@@ -171,7 +177,7 @@ export const Header = (props: Props) => {
                   </Button>
                 ))}
               </Box>
-              <Box>
+              <Box sx={{ display: 'flex' }}>
                 <IconButton
                   size='large'
                   aria-label='search'
@@ -196,11 +202,7 @@ export const Header = (props: Props) => {
                     <FavoriteBorderIcon />
                   </Badge>
                 </IconButton>
-                <IconButton sx={{ color: 'black' }}>
-                  <Badge badgeContent={4} color='success'>
-                    <LocalMallOutlinedIcon />
-                  </Badge>
-                </IconButton>
+                <TemporaryDrawer direction='right' />
                 <Menu
                   sx={{ mt: '45px' }}
                   id='menu-appbar'
