@@ -1,8 +1,6 @@
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import SearchIcon from '@mui/icons-material/Search';
 import { Badge } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -17,9 +15,8 @@ import useScrollTrigger from '@mui/material/useScrollTrigger';
 import { cloneElement, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { TemporaryDrawer } from 'src/components/Drawer/index2';
+import { TemporaryDrawer } from 'src/components/Drawer/index';
 import { RootState } from 'src/redux/configStore';
-import { toggleDrawer } from 'src/redux/reducers/otherReducer';
 import { Props } from 'src/types/GeneralTypes';
 
 const pages = [
@@ -178,15 +175,7 @@ export const Header = (props: Props) => {
                 ))}
               </Box>
               <Box sx={{ display: 'flex' }}>
-                <IconButton
-                  size='large'
-                  aria-label='search'
-                  sx={{
-                    color: 'black',
-                  }}
-                >
-                  <SearchIcon />
-                </IconButton>
+                <TemporaryDrawer direction='top' />
                 <IconButton
                   onClick={handleOpenUserMenu}
                   sx={{ color: 'black' }}
