@@ -5,8 +5,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Pd1 from '../../assets/img/product/7.1.jpg';
 import './style.scss';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import { useNavigate } from 'react-router-dom';
 
 export const ProductItem = () => {
+  const navigate = useNavigate();
+
   return (
     <div className='mb-10 container-product-item'>
       <div className='max-w-full cursor-pointer relative group overflow-hidden'>
@@ -88,7 +91,10 @@ export const ProductItem = () => {
         </div>
       </div>
       <div className='text-center'>
-        <div className='font-semibold mb-2 mt-3'>
+        <div
+          className='font-semibold mb-2 mt-3'
+          onClick={() => navigate('/shop/phone/123')}
+        >
           <span className='hover:text-orange-500 transition ease-out cursor-pointer'>
             Samsung Galaxy S9+
           </span>

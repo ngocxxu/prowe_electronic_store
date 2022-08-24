@@ -1,4 +1,5 @@
-import { Box, Grid, styled, Typography } from '@mui/material';
+import { Box, Grid, Modal, styled, Typography } from '@mui/material';
+import { useState } from 'react';
 import Ba1 from '../../assets/img/background/ba1.jpg';
 import Ba2 from '../../assets/img/background/ba2.jpg';
 import Ba3 from '../../assets/img/background/ba3.jpg';
@@ -18,7 +19,23 @@ const Item = styled(Box)(({ theme }) => ({
   display: 'flex',
 }));
 
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  // width: 400,
+  // bgcolor: 'background.paper',
+  // border: '2px solid #000',
+  // boxShadow: 24,
+  // p: 4,
+};
+
 export const Carousel = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Grid container spacing={2}>
       <Grid sx={{ height: '800px' }} item xs={12} md={6}>
@@ -55,9 +72,27 @@ export const Carousel = () => {
             }}
           >
             <div className='relative md:my-0 my-24'>
-              <div className='video-play-button'>
+              <div className='video-play-button' onClick={handleOpen}>
                 <span></span>
               </div>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby='modal-modal-title'
+                aria-describedby='modal-modal-description'
+              >
+                <Box sx={style}>
+                  <iframe
+                    width='1268'
+                    height='713'
+                    src='https://www.youtube.com/embed/9tobL8U7dQo'
+                    title='The new MacBook Pro | Supercharged for pros | Apple'
+                    // frameborder='0'
+                    allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                    // allowfullscreen
+                  ></iframe>
+                </Box>
+              </Modal>
             </div>
           </Item>
         </Grid>

@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const ButtonMUI = {
   '&:hover': {
@@ -14,16 +15,19 @@ const ButtonMUI = {
 };
 
 export const ShopButton = () => {
+  const navigate = useNavigate();
   return (
-    <Button variant='text' sx={ButtonMUI}>
+    <Button onClick={() => navigate('/shop')} variant='text' sx={ButtonMUI}>
       Shop now
     </Button>
   );
 };
 
 export const ShopRoundButton = () => {
+  const navigate = useNavigate();
   return (
     <Button
+      onClick={() => navigate('/shop')}
       variant='contained'
       sx={{
         backgroundColor: 'black',
@@ -36,8 +40,10 @@ export const ShopRoundButton = () => {
 };
 
 export const ShopWhiteButton = () => {
+  const navigate = useNavigate();
   return (
     <Button
+      onClick={() => navigate('/shop')}
       variant='contained'
       sx={{
         backgroundColor: 'transparent',
