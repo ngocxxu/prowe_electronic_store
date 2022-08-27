@@ -1,9 +1,9 @@
 import { all } from 'redux-saga/effects';
-// import * as CommentSaga from './Jira/CommentSaga'
+import * as ProductSaga from './ProductSaga'
 
 export function* rootSaga() {
   // follow all action
   yield all([
-    // CommentSaga.theoDoiGetAllCommentSaga()
+    ProductSaga.followGetAllProductsSaga()
   ]);
 }

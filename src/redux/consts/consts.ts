@@ -1,1 +1,2 @@
-export const SORT_PRODUCT = 'SORT_PRODUCT'
+export const SORT_PRODUCT = 'SORT_PRODUCT';
+export const GET_ALL_PRODUCTS_SAGA = 'GET_ALL_PRODUCTS_SAGA';

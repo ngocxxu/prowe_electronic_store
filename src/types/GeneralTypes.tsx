@@ -29,3 +29,24 @@ export interface OtherState {
   activeStep: number;
   isDrawer: boolean;
 }
+
+export type IProductAPI = {
+  _id: string;
+  name: string;
+  description: string;
+  price: {
+    raw: number;
+  };
+  categories: string[];
+  inventory: number;
+  is: {
+    hot: boolean;
+    sale: boolean;
+    available: boolean;
+  };
+  image: {
+    main: HTMLImageElement | String | File;
+    library: string[];
+  };
+  updatedAt: string;
+};

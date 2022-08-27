@@ -1,3 +1,4 @@
+import SendIcon from '@mui/icons-material/Send';
 import {
   Box,
   Container,
@@ -8,22 +9,25 @@ import {
   styled,
   Typography,
 } from '@mui/material';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   ShopButton,
   ShopRoundButton,
   ShopWhiteButton,
 } from 'src/components/Button';
-import SendIcon from '@mui/icons-material/Send';
 import { Carousel } from 'src/components/Carousel';
 import { ProductItem } from 'src/components/ProductItem';
 import { InstaSwiper } from 'src/components/Swiper';
+import { RootState } from 'src/redux/configStore';
+import { GET_ALL_PRODUCTS_SAGA } from 'src/redux/consts/consts';
+import Ba10 from '../../../assets/img/background/ba10.jpg';
 import Ba11 from '../../../assets/img/background/ba11.jpg';
 import Tracking1 from '../../../assets/img/background/ba5.jpg';
 import Tracking2 from '../../../assets/img/background/ba6.jpg';
 import Ba7 from '../../../assets/img/background/ba7.jpg';
 import Ba8 from '../../../assets/img/background/ba8.jpg';
 import Ba9 from '../../../assets/img/background/ba9.jpg';
-import Ba10 from '../../../assets/img/background/ba10.jpg';
 import Icon1 from '../../../assets/img/icon/1.png';
 import Icon2 from '../../../assets/img/icon/2.png';
 import Icon3 from '../../../assets/img/icon/3.png';
@@ -136,6 +140,17 @@ const DynamicTracking = () => {
 };
 
 const BestSeller = () => {
+  const { dataAllProducts } = useSelector(
+    (state: RootState) => state.productReducer
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: GET_ALL_PRODUCTS_SAGA,
+    });
+  }, [dispatch]);
+
   return (
     <div>
       <div className='text-center'>
