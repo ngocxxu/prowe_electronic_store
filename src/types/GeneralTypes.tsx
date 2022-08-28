@@ -31,7 +31,9 @@ export interface OtherState {
 }
 
 export type IProductAPI = {
-  _id: string;
+  _id: {
+        $oid: string,
+      };
   name: string;
   description: string;
   price: {
@@ -45,8 +47,10 @@ export type IProductAPI = {
     available: boolean;
   };
   image: {
-    main: HTMLImageElement | String | File;
+    main: string;
     library: string[];
   };
-  updatedAt: string;
+  updatedAt: {
+        $date: string,
+      };
 };

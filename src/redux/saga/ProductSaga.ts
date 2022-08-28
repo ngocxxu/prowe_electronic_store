@@ -8,9 +8,9 @@ import { getAllProductsApiAction } from '../reducers/productReducer';
 
 function* getAllProductsSaga() {
   try {
-    const { status, data } = yield call<
-      () => Promise<AxiosResponse<IProductAPI>>
-    >(() => GetAllProductHTTP());
+    const { status, data }: AxiosResponse<IProductAPI[]> = yield call(() =>
+      GetAllProductHTTP()
+    );
 
     if (status === STATUS_CODES.SUCCESS) {
       yield put(getAllProductsApiAction(data));

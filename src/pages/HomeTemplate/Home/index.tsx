@@ -7,19 +7,18 @@ import {
   InputBase,
   Paper,
   styled,
-  Typography,
+  Typography
 } from '@mui/material';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   ShopButton,
   ShopRoundButton,
-  ShopWhiteButton,
+  ShopWhiteButton
 } from 'src/components/Button';
 import { Carousel } from 'src/components/Carousel';
 import { ProductItem } from 'src/components/ProductItem';
 import { InstaSwiper } from 'src/components/Swiper';
-import { RootState } from 'src/redux/configStore';
 import { GET_ALL_PRODUCTS_SAGA } from 'src/redux/consts/consts';
 import Ba10 from '../../../assets/img/background/ba10.jpg';
 import Ba11 from '../../../assets/img/background/ba11.jpg';
@@ -140,9 +139,9 @@ const DynamicTracking = () => {
 };
 
 const BestSeller = () => {
-  const { dataAllProducts } = useSelector(
-    (state: RootState) => state.productReducer
-  );
+  // const { dataAllProducts } = useSelector(
+  //   (state: RootState) => state.productReducer
+  // );
   const dispatch = useDispatch();
 
   useEffect(() => {

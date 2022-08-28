@@ -1,6 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IProductAPI } from 'src/types/GeneralTypes';
 
-const initialState = {
+interface InitialStateProduct {
+  dataAllProducts: IProductAPI[];
+}
+
+const initialState: InitialStateProduct = {
   dataAllProducts: [
     {
       _id: {
@@ -16,6 +21,7 @@ const initialState = {
       inventory: 30,
       is: {
         hot: false,
+        sale: false,
         available: false,
       },
       image: {
@@ -26,9 +32,6 @@ const initialState = {
           'https://m.media-amazon.com/images/I/51Jd+uGiZBL._AC_SL1001_.jpg',
           'https://m.media-amazon.com/images/I/61qC7BIjHiL._AC_SL1001_.jpg',
         ],
-      },
-      createdAt: {
-        $date: '2022-08-27T03:48:11.789Z',
       },
       updatedAt: {
         $date: '2022-08-27T03:48:11.789Z',
@@ -41,7 +44,7 @@ const productReducer = createSlice({
   name: 'productReducer',
   initialState,
   reducers: {
-    getAllProductsApiAction: (state, action) => {
+    getAllProductsApiAction: (state, action: PayloadAction<IProductAPI[]>) => {
       state.dataAllProducts = action.payload;
     },
   },

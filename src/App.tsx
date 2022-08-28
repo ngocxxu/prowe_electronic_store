@@ -9,6 +9,9 @@ import { Contact } from './pages/HomeTemplate/Contact';
 import { Home } from './pages/HomeTemplate/Home';
 import { ProductDetail } from './pages/HomeTemplate/ProductDetail';
 import { Shop } from './pages/HomeTemplate/Shop';
+import UserTemplate from './pages/UserTemplate';
+import Login from './pages/UserTemplate/Login';
+import Register from './pages/UserTemplate/Register';
 
 function App() {
   const routes = [
@@ -25,6 +28,13 @@ function App() {
       ],
     },
     { path: '/cart/checkout', element: <Checkout /> },
+    {
+      element: <UserTemplate />,
+      children: [
+        { path: '/login', element: <Login /> },
+        { path: '/register', element: <Register /> },
+      ],
+    },
     { path: '*', element: <ErrorTemplate /> },
   ];
 
