@@ -8,9 +8,7 @@ interface InitialStateProduct {
 const initialState: InitialStateProduct = {
   dataAllProducts: [
     {
-      _id: {
-        $oid: '630993fb7bf16e2b4d5cff9c',
-      },
+      _id: '630993fb7bf16e2b4d5cff9c',
       name: 'Xiaomi Poco F4',
       description:
         'Flagship 4nm Snapdragon® 8 Gen 1 Smart 120W HyperCharge 120Hz flat AMOLED display',
@@ -32,9 +30,6 @@ const initialState: InitialStateProduct = {
           'https://m.media-amazon.com/images/I/51Jd+uGiZBL._AC_SL1001_.jpg',
           'https://m.media-amazon.com/images/I/61qC7BIjHiL._AC_SL1001_.jpg',
         ],
-      },
-      updatedAt: {
-        $date: '2022-08-27T03:48:11.789Z',
       },
     },
   ],

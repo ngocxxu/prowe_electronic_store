@@ -12,6 +12,7 @@ import { Shop } from './pages/HomeTemplate/Shop';
 import UserTemplate from './pages/UserTemplate';
 import Login from './pages/UserTemplate/Login';
 import Register from './pages/UserTemplate/Register';
+import RegisterSuccess from './pages/UserTemplate/Register/RegisterSuccess';
 
 function App() {
   const routes = [
@@ -33,6 +34,7 @@ function App() {
       children: [
         { path: '/login', element: <Login /> },
         { path: '/register', element: <Register /> },
+        { path: '/register/register-success', element: <RegisterSuccess /> },
       ],
     },
     { path: '*', element: <ErrorTemplate /> },

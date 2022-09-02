@@ -5,6 +5,11 @@ import { OtherState } from 'src/types/GeneralTypes';
 const initialState: OtherState = {
   activeStep: 0,
   isDrawer: false,
+  notify: {
+    isNotification: false,
+    severity: 'info',
+    message: '',
+  },
 };
 
 const otherReducer = createSlice({
@@ -17,9 +22,13 @@ const otherReducer = createSlice({
     toggleDrawer: (state, action) => {
       state.isDrawer = action.payload;
     },
+    toggleNotification: (state, action) => {
+      state.notify = action.payload;
+    },
   },
 });
 
-export const { updateActiveStep, toggleDrawer } = otherReducer.actions;
+export const { updateActiveStep, toggleDrawer, toggleNotification } =
+  otherReducer.actions;
 
 export default otherReducer.reducer;

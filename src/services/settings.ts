@@ -2,9 +2,12 @@ import axios from 'axios';
 // // import Commerce from '@chec/commerce.js';
 
 export const STATUS_CODES = {
-  SUCCESS: 200,
-  FAILURE: 404,
-}
+  SUCCESS: 200 | 201,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOTFOUND: 404,
+  SERVER_ERROR: 500,
+};
 export const DOMAIN = 'http://localhost:4030/api';
 // export const ACCESSTOKEN =
 // "sk_447082bbb5ffe0fefd23b4c17b264bec885c147cca6c8";

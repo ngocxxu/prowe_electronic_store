@@ -1,7 +1,22 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+  Typography
+} from '@mui/material';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { REGISTER_USER_SAGA } from 'src/redux/consts/consts';
+import * as yup from 'yup';
 
 const validationSchema = yup.object({
   email: yup
@@ -15,7 +30,11 @@ const validationSchema = yup.object({
 });
 
 const Register = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [show, setShow] = useState({
+    showPassword: false,
+  });
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -23,9 +42,28 @@ const Register = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      dispatch({
+        type: REGISTER_USER_SAGA,
+        payload: {
+          data: values,
+          navigate: () => navigate('/register/register-success'),
+        },
+      });
     },
   });
+
+  const handleClickShowPassword = () => {
+    setShow({
+      ...show,
+      showPassword: !show.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
 
   return (
     <Box
@@ -48,18 +86,38 @@ const Register = () => {
         error={formik.touched.email && Boolean(formik.errors.email)}
         helperText={formik.touched.email && formik.errors.email}
       />
-      <TextField
-        fullWidth
-        margin='normal'
-        id='password'
-        name='password'
-        label='Password'
-        type='password'
-        value={formik.values.password}
-        onChange={formik.handleChange}
+      <FormControl
         error={formik.touched.password && Boolean(formik.errors.password)}
-        helperText={formik.touched.password && formik.errors.password}
-      />
+        sx={{ mt: 2, mb: 2, width: '100%' }}
+        variant='outlined'
+      >
+        <InputLabel htmlFor='outlined-adornment-password'>Password</InputLabel>
+        <OutlinedInput
+          fullWidth
+          id='password'
+          name='password'
+          label='Password'
+          type={show.showPassword ? 'text' : 'password'}
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          endAdornment={
+            <InputAdornment position='end'>
+              <IconButton
+                aria-label='toggle password visibility'
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge='end'
+              >
+                {show.showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+        <FormHelperText id='password'>
+          {formik.touched.password && formik.errors.password}
+        </FormHelperText>
+      </FormControl>
+
       <Button
         type='submit'
         sx={{

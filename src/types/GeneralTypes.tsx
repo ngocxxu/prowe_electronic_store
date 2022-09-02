@@ -1,3 +1,5 @@
+import { AlertColor } from '@mui/material';
+
 export interface Props {
   window?: () => Window;
   children: React.ReactElement;
@@ -28,12 +30,19 @@ export type IProduct = {
 export interface OtherState {
   activeStep: number;
   isDrawer: boolean;
+  notify: {
+    isNotification: boolean;
+    severity: AlertColor;
+    message?: string;
+  };
 }
 
+export type UserState = {
+  myInfo: IUser;
+};
+
 export type IProductAPI = {
-  _id: {
-        $oid: string,
-      };
+  _id: string;
   name: string;
   description: string;
   price: {
@@ -50,7 +59,10 @@ export type IProductAPI = {
     main: string;
     library: string[];
   };
-  updatedAt: {
-        $date: string,
-      };
+};
+
+export type IUser = {
+  _id?: string;
+  email: string;
+  isAdmin?: boolean;
 };
