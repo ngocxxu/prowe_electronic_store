@@ -47,7 +47,7 @@ const Register = () => {
         type: REGISTER_USER_SAGA,
         payload: {
           data: values,
-          navigate: () => navigate('/register/register-success'),
+          navigate,
         },
       });
     },

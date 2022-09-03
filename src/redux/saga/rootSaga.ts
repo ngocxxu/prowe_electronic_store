@@ -8,5 +8,8 @@ export function* rootSaga() {
     ProductSaga.followGetAllProductsSaga(),
     UserSaga.followRegisterUserSaga(),
     UserSaga.followLoginUserSaga(),
+    UserSaga.followGetMyUserSaga(),
+    UserSaga.followLogoutUserSaga(),
+    UserSaga.followRefreshTokenUserSaga(),
   ]);
 }

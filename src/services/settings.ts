@@ -8,9 +8,11 @@ export const STATUS_CODES = {
   NOTFOUND: 404,
   SERVER_ERROR: 500,
 };
+
+export const ACCESSTOKEN = 'accessToken';
+export const REFRESHTOKEN = 'refreshToken';
+
 export const DOMAIN = 'http://localhost:4030/api';
-// export const ACCESSTOKEN =
-// "sk_447082bbb5ffe0fefd23b4c17b264bec885c147cca6c8";
 
 // // const checAPIKey = process.env.REACT_APP_CHEC_PUBLIC_KEY;
 
@@ -25,11 +27,12 @@ httpClient.interceptors.request.use(
     config.headers = {
       ...config.headers, //Lấy lại tất cả các giá trị header qua thuộc tính headers
       Accept: 'application/json',
+      Authorization: `${
+        localStorage.getItem(ACCESSTOKEN)
+          ? 'Bearer ' + JSON.parse(localStorage.getItem(ACCESSTOKEN) || '')
+          : ''
+      }`,
       'Content-Type': 'application/json',
-      // "X-Authorization": ACCESSTOKEN,
-      // "X-Chec-Agent": "commerce.js/v2",
-      // "Chec-Version": "2021-10-06",
-      // "Authorization": "Bearer " + localStorage.getItem(ACCESSTOKEN),
     };
     return config;
   },

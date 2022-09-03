@@ -1,12 +1,23 @@
 import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { STATUS_CODES } from 'src/services/settings';
-import { LoginUserHTTP, RegisterUserHTTP } from 'src/services/UserService';
-import { IAuth } from 'src/types/GeneralTypes';
+import { ACCESSTOKEN, REFRESHTOKEN, STATUS_CODES } from 'src/services/settings';
 import {
+  GetMyUserHTTP,
+  LoginUserHTTP,
+  LogoutUserHTTP,
+  RefreshTokenUserHTTP,
+  RegisterUserHTTP,
+} from 'src/services/UserService';
+import { IAuth, IUser } from 'src/types/GeneralTypes';
+import {
+  GET_MY_USER_SAGA,
   LOGIN_USER_SAGA,
+  LOGOUT_USER_SAGA,
+  REFRESH_TOKEN_USER_SAGA,
   REGISTER_USER_SAGA,
   TypeLoginUserAction,
+  TypeLogoutUserAction,
+  TypeRefreshTokenUserAction,
   TypeRegisterUserAction,
 } from '../consts/consts';
 import { toggleNotification } from '../reducers/otherReducer';
@@ -21,6 +32,7 @@ function* registerUserSaga(action: TypeRegisterUserAction) {
     if (status === STATUS_CODES.SUCCESS) {
       yield put(getMyInfo(data));
 
+      // When register success --> auto login
       yield put({
         type: LOGIN_USER_SAGA,
         payload: {
@@ -37,7 +49,7 @@ function* registerUserSaga(action: TypeRegisterUserAction) {
       );
 
       // Navigate when successful register
-      action.payload.navigate();
+      action.payload.navigate('/register/register-success');
     } else {
       console.log('error');
     }
@@ -46,10 +58,10 @@ function* registerUserSaga(action: TypeRegisterUserAction) {
       toggleNotification({
         isNotification: true,
         severity: 'error',
-        message: `${((err as AxiosError).response?.data as any).error}`,
+        message: `${((err as AxiosError).response?.data as any)?.error}`,
       })
     );
-    console.log(((err as AxiosError).response?.data as any).error);
+    console.log((err as AxiosError).message);
   }
 }
 export function* followRegisterUserSaga() {
@@ -63,10 +75,8 @@ function* loginUserSaga(action: TypeLoginUserAction) {
     );
 
     if (status === STATUS_CODES.SUCCESS) {
-      localStorage.setItem('accessToken', JSON.stringify(data.accessToken));
-      localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken));
-
-      yield put(getMyInfo(action.payload.data));
+      localStorage.setItem(ACCESSTOKEN, JSON.stringify(data.accessToken));
+      localStorage.setItem(REFRESHTOKEN, JSON.stringify(data.refreshToken));
 
       yield put(
         toggleNotification({
@@ -76,8 +86,7 @@ function* loginUserSaga(action: TypeLoginUserAction) {
         })
       );
 
-      // Navigate when successful register
-      action.payload.navigate();
+      action.payload.navigate('/');
     } else {
       console.log('error');
     }
@@ -94,4 +103,70 @@ function* loginUserSaga(action: TypeLoginUserAction) {
 }
 export function* followLoginUserSaga() {
   yield takeLatest(LOGIN_USER_SAGA, loginUserSaga);
+}
+
+function* getMyUserSaga() {
+  try {
+    const { status, data }: AxiosResponse<IUser> = yield call(() =>
+      GetMyUserHTTP()
+    );
+
+    if (status === STATUS_CODES.SUCCESS) {
+      yield put(getMyInfo(data));
+    } else {
+      console.log('error');
+    }
+  } catch (err: unknown) {
+    yield put({
+      type: REFRESH_TOKEN_USER_SAGA,
+      payload: {
+        token: JSON.parse(localStorage.getItem(REFRESHTOKEN) || ''),
+      },
+    });
+    console.log((err as AxiosError).message);
+  }
+}
+export function* followGetMyUserSaga() {
+  yield takeLatest(GET_MY_USER_SAGA, getMyUserSaga);
+}
+
+function* logoutUserSaga(action: TypeLogoutUserAction) {
+  try {
+    const { status }: AxiosResponse = yield call(() =>
+      LogoutUserHTTP(action.payload)
+    );
+
+    if (status === STATUS_CODES.SUCCESS) {
+      localStorage.removeItem(ACCESSTOKEN);
+      localStorage.removeItem(REFRESHTOKEN);
+
+      action.payload.navigate('/login');
+    } else {
+      console.log('error');
+    }
+  } catch (err: unknown) {
+    console.log((err as AxiosError).message);
+  }
+}
+export function* followLogoutUserSaga() {
+  yield takeLatest(LOGOUT_USER_SAGA, logoutUserSaga);
+}
+
+function* refreshTokenUserSaga(action: TypeRefreshTokenUserAction) {
+  try {
+    const { status, data }: AxiosResponse<IAuth> = yield call(() =>
+      RefreshTokenUserHTTP(action.payload)
+    );
+
+    if (status === STATUS_CODES.SUCCESS) {
+      localStorage.setItem(ACCESSTOKEN, JSON.stringify(data.accessToken));
+    } else {
+      console.log('error');
+    }
+  } catch (err: unknown) {
+    console.log((err as AxiosError).message);
+  }
+}
+export function* followRefreshTokenUserSaga() {
+  yield takeLatest(REFRESH_TOKEN_USER_SAGA, refreshTokenUserSaga);
 }

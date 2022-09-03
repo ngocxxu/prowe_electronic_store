@@ -12,11 +12,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
-import { cloneElement, useState } from 'react';
+import { cloneElement, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { TemporaryDrawer } from 'src/components/Drawer/index';
 import { RootState } from 'src/redux/configStore';
+import { GET_MY_USER_SAGA, LOGOUT_USER_SAGA } from 'src/redux/consts/consts';
+import { REFRESHTOKEN } from 'src/services/settings';
 import { Props } from 'src/types/GeneralTypes';
 
 const pages = [
@@ -42,7 +44,7 @@ const pages = [
   },
 ];
 
-const settings = ['Profile', 'Account', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 function ElevationScroll({ children, window }: Props) {
   const trigger = useScrollTrigger({
@@ -58,7 +60,6 @@ function ElevationScroll({ children, window }: Props) {
 
 export const Header = (props: Props) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
-  console.log(myInfo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logo = require('../../../assets/img/others/logo.png');
@@ -80,6 +81,12 @@ export const Header = (props: Props) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  useEffect(() => {
+    dispatch({
+      type: GET_MY_USER_SAGA,
+    });
+  }, [dispatch]);
 
   return (
     <>
@@ -183,7 +190,10 @@ export const Header = (props: Props) => {
                       sx={{ mt: 'auto', mb: 'auto' }}
                       onClick={handleOpenUserMenu}
                       avatar={
-                        <Avatar alt='Natacha' src='https://i.pravatar.cc/50' />
+                        <Avatar
+                          alt='Natacha'
+                          src={`https://avatars.dicebear.com/api/bottts/${myInfo._id}.svg`}
+                        />
                       }
                       label={`${myInfo.email}`}
                       variant='outlined'
@@ -225,11 +235,30 @@ export const Header = (props: Props) => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign='center'>{setting}</Typography>
-                    </MenuItem>
-                  ))}
+                  {settings.map((setting) =>
+                    setting === 'Logout' ? (
+                      <MenuItem
+                        key={setting}
+                        onClick={() =>
+                          dispatch({
+                            type: LOGOUT_USER_SAGA,
+                            payload: {
+                              token: JSON.parse(
+                                localStorage.getItem(REFRESHTOKEN) || ''
+                              ),
+                              navigate,
+                            },
+                          })
+                        }
+                      >
+                        <Typography textAlign='center'>{setting}</Typography>
+                      </MenuItem>
+                    ) : (
+                      <MenuItem key={setting}>
+                        <Typography textAlign='center'>{setting}</Typography>
+                      </MenuItem>
+                    )
+                  )}
                 </Menu>
               </Box>
               <Box sx={{ flexGrow: 0 }}></Box>

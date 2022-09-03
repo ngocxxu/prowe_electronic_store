@@ -47,7 +47,7 @@ const Login = () => {
         type: LOGIN_USER_SAGA,
         payload: {
           data: values,
-          navigate: () => navigate('/'),
+          navigate,
         },
       });
     },

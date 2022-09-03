@@ -70,5 +70,5 @@ export type IUser = {
 
 export type IAuth = {
   accessToken: string;
-  refreshToken: string;
+  refreshToken?: string;
 };
