@@ -1,7 +1,8 @@
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { STATUS_CODES } from 'src/services/settings';
-import { RegisterUserHTTP } from 'src/services/UserService';
+import { LoginUserHTTP, RegisterUserHTTP } from 'src/services/UserService';
+import { IAuth } from 'src/types/GeneralTypes';
 import {
   LOGIN_USER_SAGA,
   REGISTER_USER_SAGA,
@@ -9,7 +10,6 @@ import {
   TypeRegisterUserAction,
 } from '../consts/consts';
 import { toggleNotification } from '../reducers/otherReducer';
-import { getAllProductsApiAction } from '../reducers/productReducer';
 import { getMyInfo } from '../reducers/userReducer';
 
 function* registerUserSaga(action: TypeRegisterUserAction) {
@@ -19,17 +19,25 @@ function* registerUserSaga(action: TypeRegisterUserAction) {
     );
 
     if (status === STATUS_CODES.SUCCESS) {
-      // Navigate when successful register
-      action.payload.navigate();
+      yield put(getMyInfo(data));
+
+      yield put({
+        type: LOGIN_USER_SAGA,
+        payload: {
+          data: { ...data, password: action.payload.data.password },
+        },
+      });
 
       yield put(
         toggleNotification({
           isNotification: true,
           severity: 'success',
-          message: 'Register',
+          message: 'Register is success',
         })
       );
-      yield put(getMyInfo(data));
+
+      // Navigate when successful register
+      action.payload.navigate();
     } else {
       console.log('error');
     }
@@ -38,10 +46,10 @@ function* registerUserSaga(action: TypeRegisterUserAction) {
       toggleNotification({
         isNotification: true,
         severity: 'error',
-        message: 'Register',
+        message: `${((err as AxiosError).response?.data as any).error}`,
       })
     );
-    console.log((err as Error).message);
+    console.log(((err as AxiosError).response?.data as any).error);
   }
 }
 export function* followRegisterUserSaga() {
@@ -50,17 +58,38 @@ export function* followRegisterUserSaga() {
 
 function* loginUserSaga(action: TypeLoginUserAction) {
   try {
-    const { status, data }: AxiosResponse = yield call(() =>
-      RegisterUserHTTP(action.payload)
+    const { status, data }: AxiosResponse<IAuth> = yield call(() =>
+      LoginUserHTTP(action.payload.data)
     );
 
     if (status === STATUS_CODES.SUCCESS) {
-      yield put(getAllProductsApiAction(data));
+      localStorage.setItem('accessToken', JSON.stringify(data.accessToken));
+      localStorage.setItem('refreshToken', JSON.stringify(data.refreshToken));
+
+      yield put(getMyInfo(action.payload.data));
+
+      yield put(
+        toggleNotification({
+          isNotification: true,
+          severity: 'success',
+          message: 'Login is success',
+        })
+      );
+
+      // Navigate when successful register
+      action.payload.navigate();
     } else {
       console.log('error');
     }
   } catch (err: unknown) {
-    console.log((err as Error).message);
+    yield put(
+      toggleNotification({
+        isNotification: true,
+        severity: 'error',
+        message: `${((err as AxiosError).response?.data as any).error}`,
+      })
+    );
+    console.log(((err as AxiosError).response?.data as any).error);
   }
 }
 export function* followLoginUserSaga() {

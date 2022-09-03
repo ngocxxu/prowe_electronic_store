@@ -32,7 +32,7 @@ export interface OtherState {
   isDrawer: boolean;
   notify: {
     isNotification: boolean;
-    severity: AlertColor;
+    severity?: AlertColor;
     message?: string;
   };
 }
@@ -64,5 +64,11 @@ export type IProductAPI = {
 export type IUser = {
   _id?: string;
   email: string;
+  password?: string;
   isAdmin?: boolean;
+};
+
+export type IAuth = {
+  accessToken: string;
+  refreshToken: string;
 };

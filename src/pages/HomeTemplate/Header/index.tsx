@@ -1,7 +1,7 @@
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MenuIcon from '@mui/icons-material/Menu';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import { Badge } from '@mui/material';
+import PersonOutlineIcon from '@mui/icons-material/Person';
+import { Avatar, Badge, Chip } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -57,7 +57,8 @@ function ElevationScroll({ children, window }: Props) {
 }
 
 export const Header = (props: Props) => {
-  const { isDrawer } = useSelector((state: RootState) => state.otherReducer);
+  const { myInfo } = useSelector((state: RootState) => state.userReducer);
+  console.log(myInfo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logo = require('../../../assets/img/others/logo.png');
@@ -176,12 +177,28 @@ export const Header = (props: Props) => {
               </Box>
               <Box sx={{ display: 'flex' }}>
                 <TemporaryDrawer direction='top' />
-                <IconButton
-                  onClick={handleOpenUserMenu}
-                  sx={{ color: 'black' }}
-                >
-                  <PersonOutlineIcon />
-                </IconButton>
+                {myInfo.email ? (
+                  <>
+                    <Chip
+                      sx={{ mt: 'auto', mb: 'auto' }}
+                      onClick={handleOpenUserMenu}
+                      avatar={
+                        <Avatar alt='Natacha' src='https://i.pravatar.cc/50' />
+                      }
+                      label={`${myInfo.email}`}
+                      variant='outlined'
+                    />
+                  </>
+                ) : (
+                  <>
+                    <IconButton
+                      onClick={() => navigate('/login')}
+                      sx={{ color: 'black' }}
+                    >
+                      <PersonOutlineIcon />
+                    </IconButton>
+                  </>
+                )}
                 <IconButton
                   sx={{
                     color: 'black',

@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import otherReducer from './reducers/otherReducer';
 import shopReducer from './reducers/shopReducer';
 import productReducer from './reducers/productReducer';
+import userReducer from './reducers/userReducer';
 import { rootSaga } from './saga/rootSaga';
 
 const middleWareSaga = createSagaMiddleware();
@@ -13,6 +14,7 @@ export const store = configureStore({
     otherReducer: otherReducer,
     shopReducer: shopReducer,
     productReducer: productReducer,
+    userReducer: userReducer,
   },
   middleware,
 });

@@ -6,6 +6,7 @@ const initialState: UserState = {
   myInfo: {
     _id: '',
     email: '',
+    password: '',
   },
 };
 

@@ -15,5 +15,8 @@ export interface TypeRegisterUserAction {
 
 export interface TypeLoginUserAction {
   type: typeof LOGIN_USER_SAGA;
-  payload: IUser;
+  payload: {
+    data: IUser;
+    navigate: () => void;
+  };
 }

@@ -9,12 +9,13 @@ import {
   InputLabel,
   OutlinedInput,
   TextField,
-  Typography
+  Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Notification } from 'src/components/Notification';
 import { REGISTER_USER_SAGA } from 'src/redux/consts/consts';
 import * as yup from 'yup';
 
@@ -72,6 +73,7 @@ const Register = () => {
       component='form'
       autoComplete='off'
     >
+      <Notification />
       <Typography sx={{ textAlign: 'center' }} variant='h5'>
         Register right now!
       </Typography>

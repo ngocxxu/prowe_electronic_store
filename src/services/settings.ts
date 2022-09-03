@@ -2,7 +2,7 @@ import axios from 'axios';
 // // import Commerce from '@chec/commerce.js';
 
 export const STATUS_CODES = {
-  SUCCESS: 200 | 201,
+  SUCCESS: 200,
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
   NOTFOUND: 404,

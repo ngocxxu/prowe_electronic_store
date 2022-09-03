@@ -12,30 +12,26 @@ export const Notification = () => {
   return (
     <>
       <Snackbar
-        autoHideDuration={4000}
+        autoHideDuration={5000}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={isNotification}
         onClose={() =>
           dispatch(
             toggleNotification({
               isNotification: false,
-              severity: 'success',
             })
           )
         }
-        message={`${message} is successful`}
         key={'topright'}
       >
         <Alert
           onClose={() =>
-            dispatch(
-              toggleNotification({ isNotification: false, severity: 'success' })
-            )
+            dispatch(toggleNotification({ isNotification: false }))
           }
-          severity={`${severity}`}
+          severity={severity}
           sx={{ width: '100%' }}
         >
-          {`${message} is ${severity}`}
+          {`${message}`}
         </Alert>
       </Snackbar>
     </>
