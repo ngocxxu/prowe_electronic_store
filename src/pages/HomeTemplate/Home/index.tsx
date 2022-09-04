@@ -7,14 +7,14 @@ import {
   InputBase,
   Paper,
   styled,
-  Typography
+  Typography,
 } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   ShopButton,
   ShopRoundButton,
-  ShopWhiteButton
+  ShopWhiteButton,
 } from 'src/components/Button';
 import { Carousel } from 'src/components/Carousel';
 import { ProductItem } from 'src/components/ProductItem';
@@ -257,7 +257,7 @@ const NewArrivals = () => {
         NEW ARRIVALS
       </h1>
       <Grid container>
-        <Grid xs={12} md={4}>
+        <Grid item xs={12} md={4}>
           <Item
             sx={{
               marginRight: { sm: '0px', md: '16px' },
@@ -285,7 +285,7 @@ const NewArrivals = () => {
             <ShopWhiteButton />
           </Item>
         </Grid>
-        <Grid container xs={12} md={8}>
+        <Grid item container xs={12} md={8}>
           <div className='mt-8 md:mt-0 md:flex justify-center items-center gap-4'>
             <ProductItem />
             <ProductItem />

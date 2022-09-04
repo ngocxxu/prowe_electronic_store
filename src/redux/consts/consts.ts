@@ -1,4 +1,3 @@
-import { NavigateFunction } from 'react-router-dom';
 import { IUser } from 'src/types/GeneralTypes';
 
 export const SORT_PRODUCT = 'SORT_PRODUCT';
@@ -13,7 +12,6 @@ export interface TypeRegisterUserAction {
   type: typeof REGISTER_USER_SAGA;
   payload: {
     data: IUser;
-    navigate: NavigateFunction;
   };
 }
 
@@ -21,7 +19,6 @@ export interface TypeLoginUserAction {
   type: typeof LOGIN_USER_SAGA;
   payload: {
     data: IUser;
-    navigate: NavigateFunction;
   };
 }
 
@@ -29,7 +26,6 @@ export interface TypeLogoutUserAction {
   type: typeof LOGOUT_USER_SAGA;
   payload: {
     token: string;
-    navigate: NavigateFunction;
   };
 }
 

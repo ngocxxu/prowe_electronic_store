@@ -11,6 +11,7 @@ import { ProductDetail } from './pages/HomeTemplate/ProductDetail';
 import { Shop } from './pages/HomeTemplate/Shop';
 import UserTemplate from './pages/UserTemplate';
 import Login from './pages/UserTemplate/Login';
+import LoginExpired from './pages/UserTemplate/Login/LoginExpired';
 import Register from './pages/UserTemplate/Register';
 import RegisterSuccess from './pages/UserTemplate/Register/RegisterSuccess';
 
@@ -35,12 +36,14 @@ function App() {
         { path: '/login', element: <Login /> },
         { path: '/register', element: <Register /> },
         { path: '/register/register-success', element: <RegisterSuccess /> },
+        { path: '/login/login-expiration', element: <LoginExpired /> },
       ],
     },
     { path: '*', element: <ErrorTemplate /> },
   ];
 
   const element = useRoutes(routes);
+
   return <>{element}</>;
 }
 

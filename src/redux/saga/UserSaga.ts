@@ -49,7 +49,7 @@ function* registerUserSaga(action: TypeRegisterUserAction) {
       );
 
       // Navigate when successful register
-      action.payload.navigate('/register/register-success');
+      window.location.replace('/register/register-success');
     } else {
       console.log('error');
     }
@@ -86,7 +86,7 @@ function* loginUserSaga(action: TypeLoginUserAction) {
         })
       );
 
-      action.payload.navigate('/');
+      window.location.replace('/');
     } else {
       console.log('error');
     }
@@ -117,12 +117,6 @@ function* getMyUserSaga() {
       console.log('error');
     }
   } catch (err: unknown) {
-    yield put({
-      type: REFRESH_TOKEN_USER_SAGA,
-      payload: {
-        token: JSON.parse(localStorage.getItem(REFRESHTOKEN) || ''),
-      },
-    });
     console.log((err as AxiosError).message);
   }
 }
@@ -137,10 +131,9 @@ function* logoutUserSaga(action: TypeLogoutUserAction) {
     );
 
     if (status === STATUS_CODES.SUCCESS) {
-      localStorage.removeItem(ACCESSTOKEN);
-      localStorage.removeItem(REFRESHTOKEN);
+      localStorage.clear();
 
-      action.payload.navigate('/login');
+      window.location.replace('/login');
     } else {
       console.log('error');
     }

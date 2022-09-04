@@ -47,7 +47,6 @@ const Register = () => {
         type: REGISTER_USER_SAGA,
         payload: {
           data: values,
-          navigate,
         },
       });
     },

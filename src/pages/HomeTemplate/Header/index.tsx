@@ -17,7 +17,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { TemporaryDrawer } from 'src/components/Drawer/index';
 import { RootState } from 'src/redux/configStore';
-import { GET_MY_USER_SAGA, LOGOUT_USER_SAGA } from 'src/redux/consts/consts';
+import {
+  GET_MY_USER_SAGA,
+  LOGOUT_USER_SAGA
+} from 'src/redux/consts/consts';
 import { REFRESHTOKEN } from 'src/services/settings';
 import { Props } from 'src/types/GeneralTypes';
 
