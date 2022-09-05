@@ -27,9 +27,11 @@ import {
   useMediaQuery,
   useTheme
 } from '@mui/material';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Breadcrumb from 'src/components/Breadcrumb';
 import { ProductSwiper, RelatedProductSwiper } from 'src/components/Swiper';
+import { GET_ALL_PRODUCTS_SAGA } from 'src/redux/consts/consts';
 import Insta10 from '../../../assets/img/lib/instagram10.jpg';
 import Insta9 from '../../../assets/img/lib/instagram9.jpg';
 import Prod from '../../../assets/img/product/14.1.jpg';
@@ -615,6 +617,14 @@ const RelatedProducts = () => {
 };
 
 export const ProductDetail = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: GET_ALL_PRODUCTS_SAGA,
+    });
+  }, [dispatch]);
+
   return (
     <>
       <Container maxWidth='xl' sx={{ paddingTop: '40px' }}>

@@ -50,8 +50,10 @@ export type IProductAPI = {
   };
   categories: string[];
   inventory: number;
+  sale: number;
   is: {
     hot: boolean;
+    new: boolean;
     sale: boolean;
     available: boolean;
   };
@@ -71,4 +73,8 @@ export type IUser = {
 export type IAuth = {
   accessToken: string;
   refreshToken?: string;
+};
+
+export type IHomeProps = {
+  dataAllProducts: IProductAPI[];
 };

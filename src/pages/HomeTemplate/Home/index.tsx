@@ -7,19 +7,21 @@ import {
   InputBase,
   Paper,
   styled,
-  Typography,
+  Typography
 } from '@mui/material';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { memo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   ShopButton,
   ShopRoundButton,
-  ShopWhiteButton,
+  ShopWhiteButton
 } from 'src/components/Button';
 import { Carousel } from 'src/components/Carousel';
 import { ProductItem } from 'src/components/ProductItem';
 import { InstaSwiper } from 'src/components/Swiper';
+import { RootState } from 'src/redux/configStore';
 import { GET_ALL_PRODUCTS_SAGA } from 'src/redux/consts/consts';
+import { IHomeProps } from 'src/types/GeneralTypes';
 import Ba10 from '../../../assets/img/background/ba10.jpg';
 import Ba11 from '../../../assets/img/background/ba11.jpg';
 import Tracking1 from '../../../assets/img/background/ba5.jpg';
@@ -138,7 +140,7 @@ const DynamicTracking = () => {
   );
 };
 
-const BestSeller = () => {
+const BestSeller = memo(({ dataAllProducts }: IHomeProps) => {
   // const { dataAllProducts } = useSelector(
   //   (state: RootState) => state.productReducer
   // );
@@ -157,28 +159,16 @@ const BestSeller = () => {
         <p className='mt-4 mb-8'>Best Seller Product This Week!</p>
       </div>
       <Grid container spacing={2}>
-        <Grid item xs={6} sm={4} md={3}>
-          <ProductItem />
-        </Grid>
-        <Grid item xs={6} sm={4} md={3}>
-          <ProductItem />
-        </Grid>
-        <Grid item xs={6} sm={4} md={3}>
-          <ProductItem />
-        </Grid>
-        <Grid item xs={6} sm={4} md={3}>
-          <ProductItem />
-        </Grid>
-        <Grid item xs={6} sm={4} md={3}>
-          <ProductItem />
-        </Grid>
-        <Grid item xs={6} sm={4} md={3}>
-          <ProductItem />
-        </Grid>
+        {dataAllProducts.length > 0 &&
+          dataAllProducts.map((item) => (
+            <Grid key={item._id} item xs={6} sm={4} md={3}>
+              <ProductItem item={item} />
+            </Grid>
+          ))}
       </Grid>
     </div>
   );
-};
+});
 
 const DailyEssential = () => {
   return (
@@ -250,7 +240,7 @@ const DailyEssential = () => {
   );
 };
 
-const NewArrivals = () => {
+const NewArrivals = memo(({ dataAllProducts }: IHomeProps) => {
   return (
     <Box>
       <h1 className='font-medium text-5xl text-center mb-10 mt-20'>
@@ -287,9 +277,12 @@ const NewArrivals = () => {
         </Grid>
         <Grid item container xs={12} md={8}>
           <div className='mt-8 md:mt-0 md:flex justify-center items-center gap-4'>
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
+            {dataAllProducts.length > 0 &&
+              dataAllProducts.map((item) => (
+                <React.Fragment key={item._id}>
+                  <ProductItem item={item} />
+                </React.Fragment>
+              ))}
           </div>
           {/* <Grid xs={12} md={4}>
         </Grid>
@@ -303,7 +296,7 @@ const NewArrivals = () => {
       </Grid>
     </Box>
   );
-};
+});
 
 const InstagramComponent = () => {
   return (
@@ -358,6 +351,17 @@ const GetUpdate = () => {
 };
 
 export const Home = () => {
+  const dispatch = useDispatch();
+  const { dataAllProducts } = useSelector(
+    (state: RootState) => state.productReducer
+  );
+
+  useEffect(() => {
+    dispatch({
+      type: GET_ALL_PRODUCTS_SAGA,
+    });
+  }, [dispatch]);
+
   return (
     <>
       <Box sx={{ my: 4 }}>
@@ -366,7 +370,7 @@ export const Home = () => {
       <Container maxWidth='xl'>
         <ServiceItems />
         <DynamicTracking />
-        <BestSeller />
+        <BestSeller dataAllProducts={dataAllProducts} />
       </Container>
       <Box sx={{ marginTop: '30px', marginBottom: '30px' }}>
         <Box
@@ -381,7 +385,7 @@ export const Home = () => {
         </Box>
       </Box>
       <Container maxWidth='xl'>
-        <NewArrivals />
+        <NewArrivals dataAllProducts={dataAllProducts} />
         <InstagramComponent />
       </Container>
       <Item

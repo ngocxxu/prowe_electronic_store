@@ -17,8 +17,10 @@ const initialState: InitialStateProduct = {
       },
       categories: ['Mobiles', 'Tablets'],
       inventory: 30,
+      sale: 0,
       is: {
         hot: false,
+        new: false,
         sale: false,
         available: false,
       },

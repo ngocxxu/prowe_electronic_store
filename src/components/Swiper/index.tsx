@@ -24,6 +24,8 @@ import Prod2 from '../../assets/img/product/10.1.jpg';
 import Prod3 from '../../assets/img/product/16.1.jpg';
 import Prod4 from '../../assets/img/product/15.1.jpg';
 import { ProductItem } from '../ProductItem';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/configStore';
 
 export const InstaSwiper = ({ arrayInsta }: SwiperProps) => {
   return (
@@ -73,67 +75,62 @@ export const InstaSwiper = ({ arrayInsta }: SwiperProps) => {
   );
 };
 
-export const RelatedProductSwiper = () =>
-  // { arrayInsta }: SwiperProps
-  {
-    return (
-      <div className='insta-swiper-container'>
-        <Swiper
-          breakpoints={{
-            '@0.00': {
-              slidesPerView: 1,
-              spaceBetween: 10,
-            },
-            '@0.75': {
-              slidesPerView: 2,
-              spaceBetween: 20,
-            },
-            '@1.00': {
-              slidesPerView: 3,
-              spaceBetween: 40,
-            },
-            '@1.50': {
-              slidesPerView: 4,
-              spaceBetween: 50,
-            },
-          }}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          slidesPerView={1}
-          spaceBetween={30}
-          // slidesPerGroup={3}
-          loop={true}
-          loopFillGroupWithBlank={true}
-          pagination={{
-            clickable: true,
-          }}
-          // navigation={true}
-          modules={[Pagination, Navigation, Autoplay]}
-          className='mySwiper'
-        >
-          {/* {arrayInsta?.map((item, index) => (
+export const RelatedProductSwiper = () => {
+  const { dataAllProducts } = useSelector(
+    (state: RootState) => state.productReducer
+  );
+  return (
+    <div className='insta-swiper-container'>
+      <Swiper
+        breakpoints={{
+          '@0.00': {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          '@0.75': {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          '@1.00': {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+          '@1.50': {
+            slidesPerView: 4,
+            spaceBetween: 50,
+          },
+        }}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        slidesPerView={1}
+        spaceBetween={30}
+        // slidesPerGroup={3}
+        loop={true}
+        loopFillGroupWithBlank={true}
+        pagination={{
+          clickable: true,
+        }}
+        // navigation={true}
+        modules={[Pagination, Navigation, Autoplay]}
+        className='mySwiper'
+      >
+        {/* {arrayInsta?.map((item, index) => (
           <SwiperSlide key={index}>
             <img src={item.image} alt={item.content} />
           </SwiperSlide>
         ))} */}
-          <SwiperSlide>
-            <ProductItem />
-          </SwiperSlide>
-          <SwiperSlide>
-            <ProductItem />
-          </SwiperSlide>
-          <SwiperSlide>
-            <ProductItem />
-          </SwiperSlide>
-          <SwiperSlide>
-            <ProductItem />
-          </SwiperSlide>
-        </Swiper>
-      </div>
-    );
-  };
+        {dataAllProducts.length > 0 &&
+          dataAllProducts.map((item) => (
+            <SwiperSlide key={item._id}>
+              <ProductItem item={item} />
+            </SwiperSlide>
+          ))}
+      </Swiper>
+    </div>
+  );
+};
 
 export const ProductSwiper = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore>();

@@ -1,5 +1,6 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import Pagination from '@mui/material/Pagination';
 import {
   Accordion,
   AccordionDetails,
@@ -21,9 +22,12 @@ import {
   Typography,
 } from '@mui/material';
 import { Container } from '@mui/system';
-import { useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Breadcrumb from 'src/components/Breadcrumb';
 import { ProductItem } from 'src/components/ProductItem';
+import { RootState } from 'src/redux/configStore';
+import { GET_ALL_PRODUCTS_SAGA } from 'src/redux/consts/consts';
 import { ChipData } from 'src/types/GeneralTypes';
 import Ba1 from '../../../assets/img/background/collection.jpg';
 import LogoBrand from '../../../assets/img/others/logo-brand.jpg';
@@ -45,12 +49,7 @@ const SortingBox = () => {
 
   return (
     <FormControl variant='standard' sx={{ m: 1, minWidth: 130 }}>
-      <Select
-        value={age}
-        onChange={handleChange}
-        displayEmpty
-        inputProps={{ 'aria-label': 'Without label' }}
-      >
+      <Select value={age} onChange={handleChange} displayEmpty>
         <MenuItem value=''>Default sorting</MenuItem>
         <MenuItem value='best-selling'>Best Selling</MenuItem>
         <MenuItem value='alphabetically'>Alphabetically, A-Z</MenuItem>
@@ -70,9 +69,9 @@ const DrawerMenu = () => {
     { key: 1, label: 'jQuery' },
     { key: 2, label: 'Polymer' },
     { key: 3, label: 'Vue.js' },
-    { key: 3, label: 'Vue.js' },
-    { key: 3, label: 'Vue.js' },
-    { key: 3, label: 'Vue.js' },
+    { key: 4, label: 'Vue.js' },
+    { key: 5, label: 'Vue.js' },
+    { key: 6, label: 'Vue.js' },
   ]);
 
   const marks = [
@@ -146,7 +145,6 @@ const DrawerMenu = () => {
       </Divider>
       <Box sx={{ width: 300, margin: '10px auto' }}>
         <Slider
-          aria-label='Custom marks'
           getAriaValueText={valuetext}
           step={10}
           valueLabelDisplay='auto'
@@ -215,7 +213,39 @@ const DrawerMenu = () => {
 };
 
 export const Shop = () => {
+  const dispatch = useDispatch();
   const [toggleFilter, setToggleFilter] = useState(false);
+  const { dataAllProducts } = useSelector(
+    (state: RootState) => state.productReducer
+  );
+  const [dataTable, setDataTable] = useState({
+    minValue: 0,
+    maxValue: 12,
+  });
+
+  const handleChangeGrid = useCallback(
+    (event: React.ChangeEvent<unknown>, page: number) => {
+      if (page <= 1) {
+        setDataTable({
+          minValue: 0,
+          maxValue: 12,
+        });
+      } else {
+        setDataTable({
+          minValue: dataTable.maxValue,
+          maxValue: page * 12,
+        });
+      }
+    },
+    [dataTable]
+  );
+
+  useEffect(() => {
+    dispatch({
+      type: GET_ALL_PRODUCTS_SAGA,
+    });
+  }, [dispatch]);
+
   return (
     <Box>
       <Item
@@ -276,23 +306,26 @@ export const Shop = () => {
             </Grid>
           )}
           <Grid container spacing={2} item md={toggleFilter ? 9 : 12}>
-            <Grid item md={toggleFilter ? 4 : 3}>
-              <ProductItem />
-            </Grid>
-            <Grid item md={toggleFilter ? 4 : 3}>
-              <ProductItem />
-            </Grid>
-            <Grid item md={toggleFilter ? 4 : 3}>
-              <ProductItem />
-            </Grid>
-            <Grid item md={toggleFilter ? 4 : 3}>
-              <ProductItem />
-            </Grid>
-            <Grid item md={toggleFilter ? 4 : 3}>
-              <ProductItem />
-            </Grid>
-            <Grid item md={toggleFilter ? 4 : 3}>
-              <ProductItem />
+            {dataAllProducts &&
+              dataAllProducts.length > 0 &&
+              dataAllProducts
+                .slice(dataTable.minValue, dataTable.maxValue)
+                .map((item) => (
+                  <Grid key={item._id} item md={toggleFilter ? 4 : 3}>
+                    <ProductItem item={item} />
+                  </Grid>
+                ))}
+            <Grid
+              container
+              direction='row'
+              justifyContent='center'
+              alignItems='center'
+            >
+              <Pagination
+                sx={{ ml: 'auto', mr: 'auto' }}
+                count={Math.ceil(dataAllProducts.length / 12)}
+                onChange={handleChangeGrid}
+              />
             </Grid>
           </Grid>
         </Grid>
