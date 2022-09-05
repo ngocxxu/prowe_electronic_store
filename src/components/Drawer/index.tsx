@@ -19,6 +19,10 @@ import { useNavigate } from 'react-router-dom';
 
 type Anchor = 'top' | 'right';
 
+type DrawerAction = {
+  direction: 'top' | 'right';
+};
+
 export const TemporaryDrawer = memo(({ direction }: { direction: Anchor }) => {
   const navigate = useNavigate();
   const [state, setState] = useState({
