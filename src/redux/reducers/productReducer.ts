@@ -3,19 +3,19 @@ import { IProductAPI } from 'src/types/GeneralTypes';
 
 interface InitialStateProduct {
   dataAllProducts: IProductAPI[];
+  dataProduct: IProductAPI;
 }
 
 const initialState: InitialStateProduct = {
   dataAllProducts: [
     {
-      _id: '630993fb7bf16e2b4d5cff9c',
-      name: 'Xiaomi Poco F4',
-      description:
-        'Flagship 4nm Snapdragon® 8 Gen 1 Smart 120W HyperCharge 120Hz flat AMOLED display',
+      _id: '',
+      name: '',
+      description: '',
       price: {
         raw: 650,
       },
-      categories: ['Mobiles', 'Tablets'],
+      categories: ['', ''],
       inventory: 30,
       sale: 0,
       is: {
@@ -23,6 +23,7 @@ const initialState: InitialStateProduct = {
         new: false,
         sale: false,
         available: false,
+        delete: false,
       },
       image: {
         main: 'https://specs-tech.com/wp-content/uploads/2021/07/Xiaomi-Poco-F4-2.jpg',
@@ -35,6 +36,30 @@ const initialState: InitialStateProduct = {
       },
     },
   ],
+  dataProduct: {
+    _id: '',
+    name: '',
+    description: '',
+    price: {
+      raw: 650,
+    },
+    categories: ['Mobiles', 'Tablets'],
+    inventory: 30,
+    sale: 0,
+    is: {
+      hot: false,
+      new: false,
+      sale: false,
+      available: false,
+      delete: false,
+    },
+    image: {
+      main: '',
+      library: [
+        '',
+      ],
+    },
+  },
 };
 
 const productReducer = createSlice({
@@ -44,9 +69,13 @@ const productReducer = createSlice({
     getAllProductsApiAction: (state, action: PayloadAction<IProductAPI[]>) => {
       state.dataAllProducts = action.payload;
     },
+    getProductApiAction: (state, action: PayloadAction<IProductAPI>) => {
+      state.dataProduct = action.payload;
+    },
   },
 });
 
-export const { getAllProductsApiAction } = productReducer.actions;
+export const { getAllProductsApiAction, getProductApiAction } =
+  productReducer.actions;
 
 export default productReducer.reducer;

@@ -7,14 +7,14 @@ import {
   InputBase,
   Paper,
   styled,
-  Typography
+  Typography,
 } from '@mui/material';
 import React, { memo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   ShopButton,
   ShopRoundButton,
-  ShopWhiteButton
+  ShopWhiteButton,
 } from 'src/components/Button';
 import { Carousel } from 'src/components/Carousel';
 import { ProductItem } from 'src/components/ProductItem';
@@ -160,11 +160,13 @@ const BestSeller = memo(({ dataAllProducts }: IHomeProps) => {
       </div>
       <Grid container spacing={2}>
         {dataAllProducts.length > 0 &&
-          dataAllProducts.map((item) => (
-            <Grid key={item._id} item xs={6} sm={4} md={3}>
-              <ProductItem item={item} />
-            </Grid>
-          ))}
+          dataAllProducts
+            .filter((item) => item.is.hot)
+            .map((item) => (
+              <Grid key={item._id} item xs={6} sm={4} md={3}>
+                <ProductItem item={item} />
+              </Grid>
+            ))}
       </Grid>
     </div>
   );
@@ -278,11 +280,13 @@ const NewArrivals = memo(({ dataAllProducts }: IHomeProps) => {
         <Grid item container xs={12} md={8}>
           <div className='mt-8 md:mt-0 md:flex justify-center items-center gap-4'>
             {dataAllProducts.length > 0 &&
-              dataAllProducts.map((item) => (
-                <React.Fragment key={item._id}>
-                  <ProductItem item={item} />
-                </React.Fragment>
-              ))}
+              dataAllProducts
+                .filter((item) => item.is.new)
+                .map((item) => (
+                  <React.Fragment key={item._id}>
+                    <ProductItem item={item} />
+                  </React.Fragment>
+                ))}
           </div>
           {/* <Grid xs={12} md={4}>
         </Grid>

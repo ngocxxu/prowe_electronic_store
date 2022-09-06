@@ -56,6 +56,7 @@ export type IProductAPI = {
     new: boolean;
     sale: boolean;
     available: boolean;
+    delete: boolean;
   };
   image: {
     main: string;

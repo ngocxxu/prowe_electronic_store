@@ -24,7 +24,7 @@ function App() {
         { path: '/home', element: <Home /> },
         { path: '/cart', element: <Cart /> },
         { path: '/shop', element: <Shop /> },
-        { path: '/shop/:category/:id', element: <ProductDetail /> },
+        { path: '/shop/:id', element: <ProductDetail /> },
         { path: '/blog', element: <Blog /> },
         { path: '/contact', element: <Contact /> },
       ],

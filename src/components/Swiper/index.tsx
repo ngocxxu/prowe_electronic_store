@@ -11,21 +11,17 @@ import './style.scss';
 
 // import required modules
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/configStore';
 import { SwiperProps } from 'src/types/GeneralTypes';
 import SwiperCore, {
   Autoplay,
   FreeMode,
   Navigation,
   Pagination,
-  Thumbs,
+  Thumbs
 } from 'swiper';
-import Prod1 from '../../assets/img/product/14.1.jpg';
-import Prod2 from '../../assets/img/product/10.1.jpg';
-import Prod3 from '../../assets/img/product/16.1.jpg';
-import Prod4 from '../../assets/img/product/15.1.jpg';
 import { ProductItem } from '../ProductItem';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/redux/configStore';
 
 export const InstaSwiper = ({ arrayInsta }: SwiperProps) => {
   return (
@@ -132,7 +128,7 @@ export const RelatedProductSwiper = () => {
   );
 };
 
-export const ProductSwiper = () => {
+export const ProductSwiper = ({ imageLib }: { imageLib: string[] }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore>();
 
   return (
@@ -145,18 +141,11 @@ export const ProductSwiper = () => {
         modules={[FreeMode, Navigation, Thumbs]}
         className='mySwiper2'
       >
-        <SwiperSlide>
-          <img src={Prod1} alt='prod1' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={Prod2} alt='prod2' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={Prod3} alt='prod3' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={Prod4} alt='prod4' />
-        </SwiperSlide>
+        {imageLib.map((img, index) => (
+          <SwiperSlide key={index}>
+            <img src={img} alt={`prod${index}`} />
+          </SwiperSlide>
+        ))}
       </Swiper>
       <Swiper
         // navigation={true}
@@ -169,18 +158,11 @@ export const ProductSwiper = () => {
         modules={[FreeMode, Navigation, Thumbs]}
         className='mySwiper'
       >
-        <SwiperSlide>
-          <img src={Prod1} alt='prod1' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={Prod2} alt='prod2' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={Prod3} alt='prod3' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src={Prod4} alt='prod4' />
-        </SwiperSlide>
+        {imageLib.map((img, index) => (
+          <SwiperSlide key={index}>
+            <img src={img} alt={`prod${index}`} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

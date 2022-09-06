@@ -4,11 +4,14 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Tooltip } from '@mui/material';
 import { memo } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { GET_PRODUCT_SAGA } from 'src/redux/consts/consts';
 import { IProductAPI } from 'src/types/GeneralTypes';
 import './style.scss';
 
 export const ProductItem = memo(({ item }: { item: IProductAPI }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { is, image, name, price, _id, sale } = item;
 
@@ -20,7 +23,18 @@ export const ProductItem = memo(({ item }: { item: IProductAPI }) => {
             <span>{sale}%</span>
           </figure>
         )}
-        <img className='w-full' src={image.main} alt='pd1' />
+        <img
+          className='w-full'
+          onClick={() => {
+            dispatch({
+              type: GET_PRODUCT_SAGA,
+              payload: _id,
+            });
+            navigate(`/shop/${_id}`);
+          }}
+          src={image.main}
+          alt='pd1'
+        />
         <div className='absolute bottom-2 sm:bottom-6 left-1/2 -translate-x-1/2 -translate-y-1/2 mx-auto'>
           <div className='opacity-0 group-hover:opacity-100 transition ease-in-out delay-150 flex justify-around items-center gap-3'>
             <Tooltip
@@ -97,7 +111,13 @@ export const ProductItem = memo(({ item }: { item: IProductAPI }) => {
       <div className='text-center'>
         <div
           className='font-semibold mb-2 mt-3'
-          onClick={() => navigate(`/shop/phone/${_id}`)}
+          onClick={() => {
+            dispatch({
+              type: GET_PRODUCT_SAGA,
+              payload: _id,
+            });
+            navigate(`/shop/${_id}`);
+          }}
         >
           <span className='hover:text-orange-500 transition ease-out cursor-pointer'>
             {name}

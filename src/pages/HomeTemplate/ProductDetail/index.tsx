@@ -27,11 +27,17 @@ import {
   useMediaQuery,
   useTheme
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { memo, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import Breadcrumb from 'src/components/Breadcrumb';
 import { ProductSwiper, RelatedProductSwiper } from 'src/components/Swiper';
-import { GET_ALL_PRODUCTS_SAGA } from 'src/redux/consts/consts';
+import { RootState } from 'src/redux/configStore';
+import {
+  GET_ALL_PRODUCTS_SAGA,
+  GET_PRODUCT_SAGA
+} from 'src/redux/consts/consts';
+import { IProductAPI } from 'src/types/GeneralTypes';
 import Insta10 from '../../../assets/img/lib/instagram10.jpg';
 import Insta9 from '../../../assets/img/lib/instagram9.jpg';
 import Prod from '../../../assets/img/product/14.1.jpg';
@@ -63,16 +69,18 @@ const Item = styled(Box)(({ theme }) => ({
   alignItems: 'center',
 }));
 
-const ProductIntro = () => {
+const ProductIntro = memo(({ dataProduct }: { dataProduct: IProductAPI }) => {
   const [value, setValue] = useState<number | null>(2);
   const [totalBill, setTotalBill] = useState<number | string | null>(1);
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const { is, image, name, price, _id, sale, categories, description } =
+    dataProduct;
 
   return (
     <Grid container spacing={!isSmall ? 10 : 5}>
       <Grid item xs={12} md={7}>
-        <ProductSwiper />
+        <ProductSwiper imageLib={image.library} />
       </Grid>
       <Grid item xs={12} md={5}>
         <Stack
@@ -83,7 +91,7 @@ const ProductIntro = () => {
         >
           <Box>
             <Typography variant='h5' sx={{ fontWeight: '500' }}>
-              Laptop ASUS VivoBook
+              {name}
             </Typography>
             <Stack direction='row' alignItems='center'>
               <Typography
@@ -94,13 +102,13 @@ const ProductIntro = () => {
                   textDecoration: 'line-through',
                 }}
               >
-                $360.00 USD
+                ${price.raw} USD
               </Typography>
               <Typography
                 variant='h6'
                 sx={{ fontWeight: '500', color: '#f97316' }}
               >
-                &nbsp; $360.00 USD
+                &nbsp; ${price.raw} USD
               </Typography>
             </Stack>
           </Box>
@@ -129,11 +137,7 @@ const ProductIntro = () => {
         </Stack>
         <Divider />
         <Typography sx={{ color: '#969696', margin: '20px 0' }} variant='body1'>
-          Things You Need To Know There are many variations of passages of Lorem
-          Ipsum available, but the majority have suffered alteration in some
-          form, by injected humour, or randomised words which don't look even
-          slightly believable. If you are going to use a passage of Lorem Ipsum,
-          you need to...
+          {description}
         </Typography>
         <Stack
           spacing={3}
@@ -201,7 +205,7 @@ const ProductIntro = () => {
         </Button>
         <Divider sx={{ margin: '30px 0' }} />
         <Typography sx={{ margin: '20px 0' }} variant='body1'>
-          Categories :{' '}
+          Categories :
           <Typography
             component='span'
             sx={{
@@ -210,13 +214,13 @@ const ProductIntro = () => {
               '&:hover': { color: '#f97316' },
             }}
           >
-            laptop
+            &nbsp;{categories.join(', ')}
           </Typography>
         </Typography>
       </Grid>
     </Grid>
   );
-};
+});
 
 const ProductServices = () => {
   return (
@@ -618,12 +622,24 @@ const RelatedProducts = () => {
 
 export const ProductDetail = () => {
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  const { dataProduct } = useSelector(
+    (state: RootState) => state.productReducer
+  );
 
   useEffect(() => {
     dispatch({
       type: GET_ALL_PRODUCTS_SAGA,
     });
-  }, [dispatch]);
+    dispatch({
+      type: GET_PRODUCT_SAGA,
+      payload: pathname.split('/').pop(),
+    });
+  }, [dispatch, pathname]);
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, []);
 
   return (
     <>
@@ -631,7 +647,7 @@ export const ProductDetail = () => {
         <Box sx={{ paddingBottom: '30px' }}>
           <Breadcrumb />
         </Box>
-        <ProductIntro />
+        <ProductIntro dataProduct={dataProduct} />
         <ProductServices />
       </Container>
       <ProductTabs />
