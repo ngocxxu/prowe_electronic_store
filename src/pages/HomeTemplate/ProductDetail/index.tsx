@@ -1,3 +1,4 @@
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import AssignmentReturnOutlinedIcon from '@mui/icons-material/AssignmentReturnOutlined';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -74,8 +75,17 @@ const ProductIntro = memo(({ dataProduct }: { dataProduct: IProductAPI }) => {
   const [totalBill, setTotalBill] = useState<number | string | null>(1);
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
-  const { is, image, name, price, _id, sale, categories, description } =
-    dataProduct;
+  const {
+    inventory,
+    is,
+    image,
+    name,
+    price,
+    _id,
+    sale,
+    categories,
+    description,
+  } = dataProduct;
 
   return (
     <Grid container spacing={!isSmall ? 10 : 5}>
@@ -186,7 +196,18 @@ const ProductIntro = memo(({ dataProduct }: { dataProduct: IProductAPI }) => {
             value={totalBill}
             onChange={(event) => setTotalBill(event.target.value)}
           />
+          <Typography sx={{ margin: '20px 0' }} variant='body1'>
+            <span className='text-red-600'>{inventory} item(s)</span> available
+          </Typography>
+        </Stack>
+        <Stack
+          spacing={2}
+          direction='row'
+          alignItems='center'
+          sx={{ margin: '30px 0' }}
+        >
           <Button
+            startIcon={<AddShoppingCartIcon />}
             sx={{ width: '100%' }}
             color='warning'
             variant='contained'
@@ -194,15 +215,15 @@ const ProductIntro = memo(({ dataProduct }: { dataProduct: IProductAPI }) => {
           >
             ADD TO CART
           </Button>
+          <Button
+            sx={{ backgroundColor: 'black', width: '100%' }}
+            color='warning'
+            variant='contained'
+            size='large'
+          >
+            BUY IT NOW
+          </Button>
         </Stack>
-        <Button
-          sx={{ backgroundColor: 'black', width: '100%' }}
-          color='warning'
-          variant='contained'
-          size='large'
-        >
-          BUY IT NOW
-        </Button>
         <Divider sx={{ margin: '30px 0' }} />
         <Typography sx={{ margin: '20px 0' }} variant='body1'>
           Categories :
@@ -636,10 +657,6 @@ export const ProductDetail = () => {
       payload: pathname.split('/').pop(),
     });
   }, [dispatch, pathname]);
-
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, []);
 
   return (
     <>

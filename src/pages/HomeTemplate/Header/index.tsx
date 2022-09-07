@@ -35,7 +35,7 @@ const pages = [
   },
   {
     name: 'Product',
-    url: '/shop/laptop/123',
+    url: '/shop/63079c6758ddbddc04ac0d8c',
   },
   {
     name: 'Blog',

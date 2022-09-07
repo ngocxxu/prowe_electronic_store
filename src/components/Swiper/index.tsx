@@ -19,7 +19,7 @@ import SwiperCore, {
   FreeMode,
   Navigation,
   Pagination,
-  Thumbs
+  Thumbs,
 } from 'swiper';
 import { ProductItem } from '../ProductItem';
 
@@ -141,11 +141,20 @@ export const ProductSwiper = ({ imageLib }: { imageLib: string[] }) => {
         modules={[FreeMode, Navigation, Thumbs]}
         className='mySwiper2'
       >
-        {imageLib.map((img, index) => (
-          <SwiperSlide key={index}>
-            <img src={img} alt={`prod${index}`} />
-          </SwiperSlide>
-        ))}
+        {imageLib
+          .map((img) => {
+            let arrayStrImg = img.split('/');
+            let strImg = 'h_1000,w_1000';
+            let findIndex = arrayStrImg.indexOf('upload');
+
+            arrayStrImg.splice(findIndex + 1, 0, strImg);
+            return arrayStrImg.join('/');
+          })
+          .map((img, index) => (
+            <SwiperSlide key={index}>
+              <img src={img} alt={`prod${index}`} />
+            </SwiperSlide>
+          ))}
       </Swiper>
       <Swiper
         // navigation={true}

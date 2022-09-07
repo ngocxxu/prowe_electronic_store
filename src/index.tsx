@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import ScrollToTop from './components/Scroll';
 import './index.scss';
 import { store } from './redux/configStore';
 import { StoreProvider } from './redux/contexts/storeContext';
@@ -22,7 +23,9 @@ root.render(
     <StoreProvider>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
-          <App />
+          <ScrollToTop>
+            <App />
+          </ScrollToTop>
         </ThemeProvider>
       </BrowserRouter>
     </StoreProvider>
