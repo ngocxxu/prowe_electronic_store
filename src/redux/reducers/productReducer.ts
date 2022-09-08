@@ -54,9 +54,13 @@ const initialState: InitialStateProduct = {
       delete: false,
     },
     image: {
-      main: '',
+      main: 'https://res.cloudinary.com/ngocxxu/image/upload/v1662346351/prowe-images/15.1_dudh3d.jpg',
       library: [
-        '',
+        'https://res.cloudinary.com/ngocxxu/image/upload/v1662346351/prowe-images/15.1_dudh3d.jpg',
+        'https://res.cloudinary.com/ngocxxu/image/upload/v1662346351/prowe-images/15.1_dudh3d.jpg',
+        'https://res.cloudinary.com/ngocxxu/image/upload/v1662559160/prowe-images/15.2_kbmqpr.jpg',
+        'https://res.cloudinary.com/ngocxxu/image/upload/v1662559825/prowe-images/15.4_ec19de.jpg',
+        'https://res.cloudinary.com/ngocxxu/image/upload/v1662560120/prowe-images/15.5_oxrrww.jpg',
       ],
     },
   },
