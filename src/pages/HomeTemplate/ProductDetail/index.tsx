@@ -38,7 +38,7 @@ import {
   GET_ALL_PRODUCTS_SAGA,
   GET_PRODUCT_SAGA
 } from 'src/redux/consts/consts';
-import { IProductAPI } from 'src/types/GeneralTypes';
+import { IProduct } from 'src/types/GeneralTypes';
 import Insta10 from '../../../assets/img/lib/instagram10.jpg';
 import Insta9 from '../../../assets/img/lib/instagram9.jpg';
 import Prod from '../../../assets/img/product/14.1.jpg';
@@ -70,7 +70,7 @@ const Item = styled(Box)(({ theme }) => ({
   alignItems: 'center',
 }));
 
-const ProductIntro = memo(({ dataProduct }: { dataProduct: IProductAPI }) => {
+const ProductIntro = memo(({ dataProduct }: { dataProduct: IProduct }) => {
   const [value, setValue] = useState<number | null>(2);
   const [totalBill, setTotalBill] = useState<number | string | null>(1);
   const theme = useTheme();

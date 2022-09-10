@@ -1,10 +1,17 @@
 import { AlertColor } from '@mui/material';
 
+// MATERIAL UI
 export interface Props {
   window?: () => Window;
   children: React.ReactElement;
 }
 
+export interface ChipData {
+  key: number;
+  label: string;
+}
+
+// SWIPER
 export type SwiperProps = {
   arrayInsta?: {
     image: string;
@@ -12,21 +19,7 @@ export type SwiperProps = {
   }[];
 };
 
-export interface ChipData {
-  key: number;
-  label: string;
-}
-
-export type IProduct = {
-  _id: string;
-  name: string;
-  code: string;
-  price: number;
-  image: HTMLImageElement | String | File;
-  quantity: 1;
-  total: number;
-};
-
+// REDUX
 export interface OtherState {
   activeStep: number;
   isDrawer: boolean;
@@ -37,11 +30,38 @@ export interface OtherState {
   };
 }
 
+export type IHomeProps = {
+  dataAllProducts: IProduct[];
+};
+
+// USER
 export type UserState = {
   myInfo: IUser;
 };
 
-export type IProductAPI = {
+export type IUser = {
+  _id: string;
+  email: string;
+  password?: string;
+  idCart: string;
+  idFavor: string;
+  isAdmin: boolean;
+};
+
+// AUTH
+export type IAuth = {
+  accessToken: string;
+  refreshToken?: string;
+};
+
+// PRODUCT
+export interface IProductCart extends IProduct {
+  quantity: number;
+  idProduct: string;
+  subTotalProduct: number;
+};
+
+export type IProduct = {
   _id: string;
   name: string;
   description: string;
@@ -64,18 +84,11 @@ export type IProductAPI = {
   };
 };
 
-export type IUser = {
-  _id?: string;
-  email: string;
-  password?: string;
-  isAdmin?: boolean;
-};
-
-export type IAuth = {
-  accessToken: string;
-  refreshToken?: string;
-};
-
-export type IHomeProps = {
-  dataAllProducts: IProductAPI[];
-};
+// CART
+export type ICart = {
+  idCart: string,
+  totalItems: number,
+  subTotal: number,
+  lineItems: IProductCart[],
+  discount: string[],
+}

@@ -1,8 +1,8 @@
-import { IProductAPI } from 'src/types/GeneralTypes';
+import { IProduct } from 'src/types/GeneralTypes';
 import { httpClient } from './settings';
 
 export const GetAllProductHTTP = () =>
-  httpClient.get<IProductAPI[]>('/products');
+  httpClient.get<IProduct[]>('/products');
 
 export const GetProductHTTP = (id: string) =>
-  httpClient.get<IProductAPI>(`/products/${id}`);
+  httpClient.get<IProduct>(`/products/${id}`);

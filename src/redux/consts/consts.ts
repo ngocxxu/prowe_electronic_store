@@ -8,7 +8,12 @@ export const LOGIN_USER_SAGA = 'LOGIN_USER_SAGA';
 export const LOGOUT_USER_SAGA = 'LOGOUT_USER_SAGA';
 export const GET_MY_USER_SAGA = 'GET_MY_USER_SAGA';
 export const REFRESH_TOKEN_USER_SAGA = 'REFRESH_TOKEN_USER_SAGA';
+export const GET_CART_SAGA = 'GET_CART_SAGA';
+export const ADD_TO_CART_SAGA = 'ADD_TO_CART_SAGA';
+export const REMOVE_TO_CART_SAGA = 'REMOVE_TO_CART_SAGA';
+export const REMOVE_ALL_CART_SAGA = 'REMOVE_ALL_CART_SAGA';
 
+// USER
 export interface TypeRegisterUserAction {
   type: typeof REGISTER_USER_SAGA;
   payload: {
@@ -35,6 +40,7 @@ export interface TypeGetMyUserAction {
   payload: IUser;
 }
 
+// AUTH
 export interface TypeRefreshTokenUserAction {
   type: typeof REFRESH_TOKEN_USER_SAGA;
   payload: {
@@ -42,7 +48,25 @@ export interface TypeRefreshTokenUserAction {
   };
 }
 
+// PRODUCT
 export interface TypeGetProductAction {
   type: typeof GET_PRODUCT_SAGA;
   payload: string;
+}
+
+// CART
+export interface TypeGetCartAction {
+  type: typeof GET_CART_SAGA;
+  payload: string;
+}
+
+export interface TypeAddToCartAction {
+  type: typeof ADD_TO_CART_SAGA;
+  payload: {
+    idCart: string;
+    data: {
+      idProduct: string;
+      quantity: number;
+    };
+  };
 }

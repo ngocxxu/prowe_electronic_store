@@ -13,26 +13,18 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Typography
+  Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from 'src/components/Breadcrumb';
-import { IProduct } from 'src/types/GeneralTypes';
+import { RootState } from 'src/redux/configStore';
 import Prod from '../../../assets/img/product/14.1.jpg';
 
-const rows: IProduct[] = [
-  {
-    _id: '5aec18723f45afa668523081',
-    name: 'Freetel ICE 2 8GB',
-    code: 'ANDROID_3',
-    price: 924,
-    image: Prod,
-    quantity: 1,
-    total: 924,
-  },
-];
 export const Cart = () => {
+  const { dataCart } = useSelector((state: RootState) => state.cartReducer);
+
   const navigate = useNavigate();
   const [totalBill, setTotalBill] = useState<number | string | null>(1);
 
@@ -56,35 +48,37 @@ export const Cart = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row._id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component='th' scope='row'>
-                    <div className='flex items-center max-w-full'>
-                      <div className='max-w-full w-24'>
-                        <img src={Prod} alt='prod' className='w-full' />
+              {dataCart?.lineItems &&
+                dataCart.lineItems.length > 0 &&
+                dataCart.lineItems.map((row) => (
+                  <TableRow
+                    key={row._id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component='th' scope='row'>
+                      <div className='flex items-center max-w-full'>
+                        <div className='max-w-full w-24'>
+                          <img src={Prod} alt='prod' className='w-full' />
+                        </div>
+                        <p className='ml-10'>{row.name}</p>
                       </div>
-                      <p className='ml-10'>{row.name}</p>
-                    </div>
-                  </TableCell>
-                  <TableCell>${row.price}</TableCell>
-                  <TableCell>
-                    <TextField
-                      type='number'
-                      value={totalBill}
-                      onChange={(event) => setTotalBill(event.target.value)}
-                    />
-                  </TableCell>
-                  <TableCell>${row.total}</TableCell>
-                  <TableCell>
-                    <IconButton size='small'>
-                      <ClearIcon fontSize='small' />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                    <TableCell>${row.price.raw}</TableCell>
+                    <TableCell>
+                      <TextField
+                        type='number'
+                        value={totalBill}
+                        onChange={(event) => setTotalBill(event.target.value)}
+                      />
+                    </TableCell>
+                    <TableCell>${row.subTotalProduct}</TableCell>
+                    <TableCell>
+                      <IconButton size='small'>
+                        <ClearIcon fontSize='small' />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -117,7 +111,7 @@ export const Cart = () => {
             sx={{ width: '40%' }}
           >
             <Typography variant='subtitle1'>Total</Typography>
-            <Typography variant='h6'>$360.00</Typography>
+            <Typography variant='h6'>${dataCart.subTotal}</Typography>
           </Stack>
           <Button
             onClick={() => navigate('/cart/checkout')}

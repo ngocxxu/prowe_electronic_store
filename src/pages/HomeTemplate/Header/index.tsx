@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { TemporaryDrawer } from 'src/components/Drawer/index';
 import { RootState } from 'src/redux/configStore';
 import {
+  GET_CART_SAGA,
   GET_MY_USER_SAGA,
   LOGOUT_USER_SAGA
 } from 'src/redux/consts/consts';
@@ -63,6 +64,9 @@ function ElevationScroll({ children, window }: Props) {
 
 export const Header = (props: Props) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
+  const { dataCart } = useSelector(
+    (state: RootState) => state.cartReducer
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logo = require('../../../assets/img/others/logo.png');
@@ -89,7 +93,11 @@ export const Header = (props: Props) => {
     dispatch({
       type: GET_MY_USER_SAGA,
     });
-  }, [dispatch]);
+    dispatch({
+      type: GET_CART_SAGA,
+      payload: myInfo.idCart
+    })
+  }, [dispatch, myInfo.idCart]);
 
   return (
     <>
@@ -221,7 +229,7 @@ export const Header = (props: Props) => {
                     <FavoriteBorderIcon />
                   </Badge>
                 </IconButton>
-                <TemporaryDrawer direction='right' />
+                <TemporaryDrawer dataCart = {dataCart} direction='right' />
                 <Menu
                   sx={{ mt: '45px' }}
                   id='menu-appbar'

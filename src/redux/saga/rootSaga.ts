@@ -1,6 +1,7 @@
 import { all } from 'redux-saga/effects';
 import * as ProductSaga from './ProductSaga';
 import * as UserSaga from './UserSaga';
+import * as CartSaga from './CartSaga';
 
 export function* rootSaga() {
   // follow all action
@@ -12,5 +13,7 @@ export function* rootSaga() {
     UserSaga.followGetMyUserSaga(),
     UserSaga.followLogoutUserSaga(),
     UserSaga.followRefreshTokenUserSaga(),
+    CartSaga.followGetCartSaga(),
+    CartSaga.followAddToCartSaga(),
   ]);
 }

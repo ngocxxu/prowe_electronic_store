@@ -5,7 +5,7 @@ import {
   GetProductHTTP,
 } from 'src/services/ProductsService';
 import { STATUS_CODES } from 'src/services/settings';
-import { IProductAPI } from 'src/types/GeneralTypes';
+import { IProduct } from 'src/types/GeneralTypes';
 import { GET_ALL_PRODUCTS_SAGA, GET_PRODUCT_SAGA, TypeGetProductAction } from '../consts/consts';
 import {
   getAllProductsApiAction,
@@ -14,7 +14,7 @@ import {
 
 function* getAllProductsSaga() {
   try {
-    const { status, data }: AxiosResponse<IProductAPI[]> = yield call(() =>
+    const { status, data }: AxiosResponse<IProduct[]> = yield call(() =>
       GetAllProductHTTP()
     );
 
@@ -34,7 +34,7 @@ export function* followGetAllProductsSaga() {
 
 function* getProductSaga(action: TypeGetProductAction) {
   try {
-    const { status, data }: AxiosResponse<IProductAPI> = yield call(() =>
+    const { status, data }: AxiosResponse<IProduct> = yield call(() =>
       GetProductHTTP(action.payload)
     );
 

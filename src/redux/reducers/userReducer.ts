@@ -7,6 +7,9 @@ const initialState: UserState = {
     _id: '',
     email: '',
     password: '',
+    idCart: '',
+    idFavor: '',
+    isAdmin: false,
   },
 };
 

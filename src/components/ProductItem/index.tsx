@@ -4,13 +4,15 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Tooltip } from '@mui/material';
 import { memo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { GET_PRODUCT_SAGA } from 'src/redux/consts/consts';
-import { IProductAPI } from 'src/types/GeneralTypes';
+import { RootState } from 'src/redux/configStore';
+import { ADD_TO_CART_SAGA, GET_PRODUCT_SAGA } from 'src/redux/consts/consts';
+import { IProduct } from 'src/types/GeneralTypes';
 import './style.scss';
 
-export const ProductItem = memo(({ item }: { item: IProductAPI }) => {
+export const ProductItem = memo(({ item }: { item: IProduct }) => {
+  const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { is, image, name, price, _id, sale } = item;
@@ -50,7 +52,20 @@ export const ProductItem = memo(({ item }: { item: IProductAPI }) => {
               placement='top'
               arrow
             >
-              <IconButton>
+              <IconButton
+                onClick={() =>
+                  dispatch({
+                    type: ADD_TO_CART_SAGA,
+                    payload: {
+                      idCart: dataCart.idCart,
+                      data: {
+                        idProduct: _id,
+                        quantity: 1,
+                      },
+                    },
+                  })
+                }
+              >
                 <AddShoppingCartIcon />
               </IconButton>
             </Tooltip>

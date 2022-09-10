@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IProductAPI } from 'src/types/GeneralTypes';
+import { IProduct } from 'src/types/GeneralTypes';
 
 interface InitialStateProduct {
-  dataAllProducts: IProductAPI[];
-  dataProduct: IProductAPI;
+  dataAllProducts: IProduct[];
+  dataProduct: IProduct;
 }
 
 const initialState: InitialStateProduct = {
@@ -70,10 +70,10 @@ const productReducer = createSlice({
   name: 'productReducer',
   initialState,
   reducers: {
-    getAllProductsApiAction: (state, action: PayloadAction<IProductAPI[]>) => {
+    getAllProductsApiAction: (state, action: PayloadAction<IProduct[]>) => {
       state.dataAllProducts = action.payload;
     },
-    getProductApiAction: (state, action: PayloadAction<IProductAPI>) => {
+    getProductApiAction: (state, action: PayloadAction<IProduct>) => {
       state.dataProduct = action.payload;
     },
   },

@@ -5,6 +5,7 @@ import shopReducer from './reducers/shopReducer';
 import productReducer from './reducers/productReducer';
 import userReducer from './reducers/userReducer';
 import { rootSaga } from './saga/rootSaga';
+import cartReducer from './reducers/cartReducer';
 
 const middleWareSaga = createSagaMiddleware();
 const middleware = [...getDefaultMiddleware({ thunk: false }), middleWareSaga];
@@ -15,6 +16,7 @@ export const store = configureStore({
     shopReducer: shopReducer,
     productReducer: productReducer,
     userReducer: userReducer,
+    cartReducer: cartReducer,
   },
   middleware,
 });
