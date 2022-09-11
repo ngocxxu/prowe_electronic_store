@@ -8,3 +8,9 @@ export const AddToCartHTTP = (
   id: string,
   data: TypeAddToCartAction['payload']['data']
 ) => httpClient.post(`/cart/${id}`, data);
+
+export const RemoveToCartHTTP = (id: string, idProduct: string) =>
+  httpClient.delete<ICart>(`/cart/${id}/items/${idProduct}`);
+
+export const RemoveAllCartHTTP = (id: string) =>
+  httpClient.delete<ICart>(`/cart/${id}/items`);

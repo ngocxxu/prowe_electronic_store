@@ -70,3 +70,16 @@ export interface TypeAddToCartAction {
     };
   };
 }
+
+export interface TypeRemoveToCartAction {
+  type: typeof REMOVE_TO_CART_SAGA;
+  payload: {
+    idCart: string;
+    idProduct: string;
+  };
+}
+
+export interface TypeRemoveAllCartAction {
+  type: typeof REMOVE_ALL_CART_SAGA;
+  payload: string;
+}

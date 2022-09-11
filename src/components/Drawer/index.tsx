@@ -1,3 +1,5 @@
+import ClearIcon from '@mui/icons-material/Clear';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import {
@@ -8,24 +10,21 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import ClearIcon from '@mui/icons-material/Clear';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { Container } from '@mui/system';
 import { memo, useState } from 'react';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import Pd1 from '../../assets/img/product/7.1.jpg';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { REMOVE_TO_CART_SAGA } from 'src/redux/consts/consts';
 import { ICart } from 'src/types/GeneralTypes';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 
 type Anchor = 'top' | 'right';
 
-type DrawerAction = {
-  direction: 'top' | 'right';
-};
-
 export const TemporaryDrawer = memo(
   ({ direction, dataCart }: { direction: Anchor; dataCart?: ICart }) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [state, setState] = useState({
       top: false,
@@ -95,34 +94,55 @@ export const TemporaryDrawer = memo(
                     borderRadius: '50%',
                   }}
                 >
-                  {dataCart?.totalItems}
+                  {dataCart?.lineItems.length}
                 </Typography>
               </div>
               <Divider />
-              {dataCart?.lineItems &&
-                dataCart.lineItems.length > 0 &&
+              {dataCart?.lineItems && dataCart.lineItems.length > 0 ? (
                 dataCart.lineItems.map((item) => (
                   <Box key={item._id}>
                     <div className='flex justify-between items-center m-4'>
                       <div className='flex justify-center items-center'>
                         <div className='cursor-pointer'>
-                          <img width='80px' height='50px' src={Pd1} alt='pd1' />
+                          <img
+                            width='80px'
+                            height='50px'
+                            src={item.image.main}
+                            alt={item.name}
+                          />
                         </div>
                         <div className='flex-1 ml-4'>
                           <p className='cursor-pointer hover:text-orange-500'>
                             {item.name}
                           </p>
-                          <p>QTY : {item.quantity}</p>
+                          <p>QTY : {item.subQuantity}</p>
                           <p>${item.price?.raw}</p>
                         </div>
                       </div>
-                      <div className='cursor-pointer hover:text-orange-500'>
+                      <IconButton
+                        className='cursor-pointer hover:text-orange-500'
+                        onClick={() =>
+                          dispatch({
+                            type: REMOVE_TO_CART_SAGA,
+                            payload: {
+                              idCart: dataCart.idCart,
+                              idProduct: item._id,
+                            },
+                          })
+                        }
+                      >
                         <DeleteForeverOutlinedIcon />
-                      </div>
+                      </IconButton>
                     </div>
                     <Divider />
                   </Box>
-                ))}
+                ))
+              ) : (
+                <div className='p-4 flex flex-col items-center justify-center'>
+                  <p>Add more for cart!</p>
+                  <RemoveShoppingCartIcon fontSize='large' />
+                </div>
+              )}
               <div className='mt-auto'>
                 <div className='p-4 flex justify-between items-center bg-slate-100'>
                   <Typography variant='h6'>Total:</Typography>
@@ -183,7 +203,7 @@ export const TemporaryDrawer = memo(
             sx={{ color: 'black' }}
             onClick={toggleDrawer(direction, true)}
           >
-            <Badge badgeContent={dataCart?.totalItems} color='success'>
+            <Badge badgeContent={dataCart?.lineItems.length} color='success'>
               <LocalMallOutlinedIcon />
             </Badge>
           </IconButton>

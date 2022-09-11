@@ -16,15 +16,16 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from 'src/components/Breadcrumb';
 import { RootState } from 'src/redux/configStore';
-import Prod from '../../../assets/img/product/14.1.jpg';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import { REMOVE_TO_CART_SAGA } from 'src/redux/consts/consts';
 
 export const Cart = () => {
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [totalBill, setTotalBill] = useState<number | string | null>(1);
 
@@ -48,8 +49,7 @@ export const Cart = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataCart?.lineItems &&
-                dataCart.lineItems.length > 0 &&
+              {dataCart?.lineItems && dataCart.lineItems.length > 0 ? (
                 dataCart.lineItems.map((row) => (
                   <TableRow
                     key={row._id}
@@ -58,7 +58,11 @@ export const Cart = () => {
                     <TableCell component='th' scope='row'>
                       <div className='flex items-center max-w-full'>
                         <div className='max-w-full w-24'>
-                          <img src={Prod} alt='prod' className='w-full' />
+                          <img
+                            src={row.image.main}
+                            alt={row.name}
+                            className='w-full'
+                          />
                         </div>
                         <p className='ml-10'>{row.name}</p>
                       </div>
@@ -73,12 +77,31 @@ export const Cart = () => {
                     </TableCell>
                     <TableCell>${row.subTotalProduct}</TableCell>
                     <TableCell>
-                      <IconButton size='small'>
+                      <IconButton
+                        onClick={() =>
+                          dispatch({
+                            type: REMOVE_TO_CART_SAGA,
+                            payload: {
+                              idCart: dataCart.idCart,
+                              idProduct: row._id,
+                            },
+                          })
+                        }
+                        size='small'
+                      >
                         <ClearIcon fontSize='small' />
                       </IconButton>
                     </TableCell>
                   </TableRow>
-                ))}
+                ))
+              ) : (
+                <TableRow>
+                  <div className='p-4 flex flex-col items-center justify-center'>
+                    <p>Add more for cart!</p>
+                    <RemoveShoppingCartIcon />
+                  </div>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

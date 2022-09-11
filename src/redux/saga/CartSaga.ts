@@ -1,13 +1,22 @@
 import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { AddToCartHTTP, GetCartHTTP } from 'src/services/CartsService';
+import {
+  AddToCartHTTP,
+  GetCartHTTP,
+  RemoveAllCartHTTP,
+  RemoveToCartHTTP
+} from 'src/services/CartsService';
 import { STATUS_CODES } from 'src/services/settings';
 import { ICart } from 'src/types/GeneralTypes';
 import {
   ADD_TO_CART_SAGA,
   GET_CART_SAGA,
+  REMOVE_ALL_CART_SAGA,
+  REMOVE_TO_CART_SAGA,
   TypeAddToCartAction,
-  TypeGetCartAction
+  TypeGetCartAction,
+  TypeRemoveAllCartAction,
+  TypeRemoveToCartAction
 } from '../consts/consts';
 import { getCartApiAction } from '../reducers/cartReducer';
 
@@ -36,7 +45,7 @@ export function* followGetCartSaga() {
 function* addToCartSaga(action: TypeAddToCartAction) {
   try {
     if (action.payload) {
-      const { status}: AxiosResponse<ICart> = yield call(() =>
+      const { status }: AxiosResponse<ICart> = yield call(() =>
         AddToCartHTTP(action.payload.idCart, action.payload.data)
       );
 
@@ -56,4 +65,49 @@ function* addToCartSaga(action: TypeAddToCartAction) {
 
 export function* followAddToCartSaga() {
   yield takeLatest(ADD_TO_CART_SAGA, addToCartSaga);
+}
+
+function* removeToCartSaga(action: TypeRemoveToCartAction) {
+  try {
+    const { status, data }: AxiosResponse<ICart> = yield call(() =>
+      RemoveToCartHTTP(action.payload.idCart, action.payload.idProduct)
+    );
+
+    if (status === STATUS_CODES.SUCCESS) {
+      yield put({
+        type: GET_CART_SAGA,
+        payload: action.payload.idCart,
+      });
+    } else {
+      console.log('error');
+    }
+  } catch (err: unknown) {
+    console.log((err as Error).message);
+  }
+}
+
+export function* followRemoveToCartSaga() {
+  yield takeLatest(REMOVE_TO_CART_SAGA, removeToCartSaga);
+}
+
+function* removeAllCartSaga(action: TypeRemoveAllCartAction) {
+  try {
+    if (action.payload) {
+      const { status, data }: AxiosResponse<ICart> = yield call(() =>
+        RemoveAllCartHTTP(action.payload)
+      );
+
+      if (status === STATUS_CODES.SUCCESS) {
+        yield put(getCartApiAction(data));
+      } else {
+        console.log('error');
+      }
+    }
+  } catch (err: unknown) {
+    console.log((err as Error).message);
+  }
+}
+
+export function* followRemoveAllCartSaga() {
+  yield takeLatest(REMOVE_ALL_CART_SAGA, removeAllCartSaga);
 }

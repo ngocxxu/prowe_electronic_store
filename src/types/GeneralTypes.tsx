@@ -56,7 +56,7 @@ export type IAuth = {
 
 // PRODUCT
 export interface IProductCart extends IProduct {
-  quantity: number;
+  subQuantity: number;
   idProduct: string;
   subTotalProduct: number;
 };
