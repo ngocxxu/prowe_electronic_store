@@ -21,7 +21,10 @@ import { useNavigate } from 'react-router-dom';
 import Breadcrumb from 'src/components/Breadcrumb';
 import { RootState } from 'src/redux/configStore';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
-import { REMOVE_TO_CART_SAGA } from 'src/redux/consts/consts';
+import {
+  REMOVE_ALL_CART_SAGA,
+  REMOVE_TO_CART_SAGA,
+} from 'src/redux/consts/consts';
 
 export const Cart = () => {
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
@@ -45,11 +48,23 @@ export const Cart = () => {
                 <TableCell>PRICE</TableCell>
                 <TableCell>QUANTITY</TableCell>
                 <TableCell>TOTAL</TableCell>
-                <TableCell></TableCell>
+                <TableCell>
+                  <div
+                    className='text-red-600 cursor-pointer underline'
+                    onClick={() =>
+                      dispatch({
+                        type: REMOVE_ALL_CART_SAGA,
+                        payload: dataCart.idCart,
+                      })
+                    }
+                  >
+                    Clear all
+                  </div>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataCart?.lineItems && dataCart.lineItems.length > 0 ? (
+              {dataCart?.lineItems && dataCart.lineItems?.length > 0 ? (
                 dataCart.lineItems.map((row) => (
                   <TableRow
                     key={row._id}
@@ -134,7 +149,9 @@ export const Cart = () => {
             sx={{ width: '40%' }}
           >
             <Typography variant='subtitle1'>Total</Typography>
-            <Typography variant='h6'>${dataCart.subTotal}</Typography>
+            <Typography variant='h6'>
+              {dataCart.subTotal ? `$${dataCart.subTotal}` : ''}
+            </Typography>
           </Stack>
           <Button
             onClick={() => navigate('/cart/checkout')}

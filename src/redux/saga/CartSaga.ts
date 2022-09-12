@@ -4,7 +4,7 @@ import {
   AddToCartHTTP,
   GetCartHTTP,
   RemoveAllCartHTTP,
-  RemoveToCartHTTP
+  RemoveToCartHTTP,
 } from 'src/services/CartsService';
 import { STATUS_CODES } from 'src/services/settings';
 import { ICart } from 'src/types/GeneralTypes';
@@ -16,7 +16,7 @@ import {
   TypeAddToCartAction,
   TypeGetCartAction,
   TypeRemoveAllCartAction,
-  TypeRemoveToCartAction
+  TypeRemoveToCartAction,
 } from '../consts/consts';
 import { getCartApiAction } from '../reducers/cartReducer';
 
@@ -69,7 +69,7 @@ export function* followAddToCartSaga() {
 
 function* removeToCartSaga(action: TypeRemoveToCartAction) {
   try {
-    const { status, data }: AxiosResponse<ICart> = yield call(() =>
+    const { status }: AxiosResponse<ICart> = yield call(() =>
       RemoveToCartHTTP(action.payload.idCart, action.payload.idProduct)
     );
 

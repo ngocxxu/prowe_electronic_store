@@ -94,11 +94,11 @@ export const TemporaryDrawer = memo(
                     borderRadius: '50%',
                   }}
                 >
-                  {dataCart?.lineItems.length}
+                  {dataCart?.lineItems?.length}
                 </Typography>
               </div>
               <Divider />
-              {dataCart?.lineItems && dataCart.lineItems.length > 0 ? (
+              {dataCart?.lineItems && dataCart.lineItems?.length > 0 ? (
                 dataCart.lineItems.map((item) => (
                   <Box key={item._id}>
                     <div className='flex justify-between items-center m-4'>
@@ -203,7 +203,7 @@ export const TemporaryDrawer = memo(
             sx={{ color: 'black' }}
             onClick={toggleDrawer(direction, true)}
           >
-            <Badge badgeContent={dataCart?.lineItems.length} color='success'>
+            <Badge badgeContent={dataCart?.lineItems?.length} color='success'>
               <LocalMallOutlinedIcon />
             </Badge>
           </IconButton>
