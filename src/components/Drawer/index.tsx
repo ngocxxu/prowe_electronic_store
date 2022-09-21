@@ -31,6 +31,8 @@ export const TemporaryDrawer = memo(
       right: false,
     });
 
+    console.log({dataCart})
+
     const toggleDrawer = (anchor: Anchor, open: boolean) => () => {
       setState({ ...state, [anchor]: open });
     };
@@ -100,23 +102,23 @@ export const TemporaryDrawer = memo(
               <Divider />
               {dataCart?.lineItems && dataCart.lineItems?.length > 0 ? (
                 dataCart.lineItems.map((item) => (
-                  <Box key={item._id}>
+                  <Box key={item.idProduct}>
                     <div className='flex justify-between items-center m-4'>
                       <div className='flex justify-center items-center'>
                         <div className='cursor-pointer'>
                           <img
                             width='80px'
                             height='50px'
-                            src={item.image.main}
-                            alt={item.name}
+                            src={item.product.image?.main}
+                            alt={item.product.name}
                           />
                         </div>
                         <div className='flex-1 ml-4'>
                           <p className='cursor-pointer hover:text-orange-500'>
-                            {item.name}
+                            {item.product.name}
                           </p>
                           <p>QTY : {item.subQuantity}</p>
-                          <p>${item.price?.raw}</p>
+                          <p>${item.product.price?.raw}</p>
                         </div>
                       </div>
                       <IconButton
@@ -126,7 +128,7 @@ export const TemporaryDrawer = memo(
                             type: REMOVE_TO_CART_SAGA,
                             payload: {
                               idCart: dataCart.idCart,
-                              idProduct: item._id,
+                              idProduct: item.product._id,
                             },
                           })
                         }

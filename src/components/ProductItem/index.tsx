@@ -61,6 +61,7 @@ export const ProductItem = memo(({ item }: { item: IProduct }) => {
                       data: {
                         idProduct: _id,
                         quantity: 1,
+                        price: price.raw
                       },
                     },
                   })

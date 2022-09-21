@@ -67,22 +67,22 @@ export const Cart = () => {
               {dataCart?.lineItems && dataCart.lineItems?.length > 0 ? (
                 dataCart.lineItems.map((row) => (
                   <TableRow
-                    key={row._id}
+                    key={row.idProduct}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell component='th' scope='row'>
                       <div className='flex items-center max-w-full'>
                         <div className='max-w-full w-24'>
                           <img
-                            src={row.image.main}
-                            alt={row.name}
+                            src={row.product.image?.main}
+                            alt={row.product.name}
                             className='w-full'
                           />
                         </div>
-                        <p className='ml-10'>{row.name}</p>
+                        <p className='ml-10'>{row.product.name}</p>
                       </div>
                     </TableCell>
-                    <TableCell>${row.price.raw}</TableCell>
+                    <TableCell>${row.product.price?.raw}</TableCell>
                     <TableCell>
                       <TextField
                         type='number'
