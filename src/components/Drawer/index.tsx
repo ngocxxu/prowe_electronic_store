@@ -31,7 +31,7 @@ export const TemporaryDrawer = memo(
       right: false,
     });
 
-    console.log({dataCart})
+    console.log({ dataCart });
 
     const toggleDrawer = (anchor: Anchor, open: boolean) => () => {
       setState({ ...state, [anchor]: open });
@@ -149,7 +149,7 @@ export const TemporaryDrawer = memo(
                 <div className='p-4 flex justify-between items-center bg-slate-100'>
                   <Typography variant='h6'>Total:</Typography>
                   <Typography variant='h6' sx={{ color: 'orange' }}>
-                    $880.00
+                    ${dataCart?.subTotal}
                   </Typography>
                 </div>
                 <div className='flex justify-center items-center'>

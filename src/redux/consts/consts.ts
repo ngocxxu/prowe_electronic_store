@@ -10,6 +10,7 @@ export const GET_MY_USER_SAGA = 'GET_MY_USER_SAGA';
 export const REFRESH_TOKEN_USER_SAGA = 'REFRESH_TOKEN_USER_SAGA';
 export const GET_CART_SAGA = 'GET_CART_SAGA';
 export const ADD_TO_CART_SAGA = 'ADD_TO_CART_SAGA';
+export const UPDATE_TO_CART_SAGA = 'UPDATE_TO_CART_SAGA';
 export const REMOVE_TO_CART_SAGA = 'REMOVE_TO_CART_SAGA';
 export const REMOVE_ALL_CART_SAGA = 'REMOVE_ALL_CART_SAGA';
 
@@ -67,6 +68,7 @@ export interface TypeAddToCartAction {
     data: {
       idProduct: string;
       quantity: number;
+      price: number;
     };
   };
 }

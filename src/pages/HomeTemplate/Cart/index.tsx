@@ -1,4 +1,5 @@
 import ClearIcon from '@mui/icons-material/Clear';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import {
   Box,
   Button,
@@ -15,25 +16,45 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from 'src/components/Breadcrumb';
 import { RootState } from 'src/redux/configStore';
-import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import {
   REMOVE_ALL_CART_SAGA,
   REMOVE_TO_CART_SAGA,
+  UPDATE_TO_CART_SAGA,
 } from 'src/redux/consts/consts';
 
 export const Cart = () => {
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [totalBill, setTotalBill] = useState<number | string | null>(1);
+  const { handleSubmit, setFieldValue } = useFormik({
+    initialValues: {
+      itemQuantity: 1,
+      itemIdProduct: '',
+      itemPrice: 0,
+    },
+    // validationSchema: validationSchema,
+    onSubmit: (values) => {
+      dispatch({
+        type: UPDATE_TO_CART_SAGA,
+        payload: {
+          idCart: dataCart.idCart,
+          data: {
+            idProduct: values.itemIdProduct,
+            quantity: values.itemQuantity,
+            price: values.itemPrice,
+          },
+        },
+      });
+    },
+  });
 
   return (
-    <>
+    <Box component='form' onSubmit={handleSubmit}>
       <Box sx={{ marginTop: '40px', backgroundColor: '#f6f6f6' }}>
         <Container maxWidth='xl' sx={{ padding: '10px 0px 10px 0px' }}>
           <Breadcrumb />
@@ -65,50 +86,61 @@ export const Cart = () => {
             </TableHead>
             <TableBody>
               {dataCart?.lineItems && dataCart.lineItems?.length > 0 ? (
-                dataCart.lineItems.map((row) => (
-                  <TableRow
-                    key={row.idProduct}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell component='th' scope='row'>
-                      <div className='flex items-center max-w-full'>
-                        <div className='max-w-full w-24'>
-                          <img
-                            src={row.product.image?.main}
-                            alt={row.product.name}
-                            className='w-full'
-                          />
+                dataCart.lineItems.map((row) => {
+                  return (
+                    <TableRow
+                      key={row.idProduct}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell component='th' scope='row'>
+                        <div className='flex items-center max-w-full'>
+                          <div className='max-w-full w-24'>
+                            <img
+                              src={row.product.image?.main}
+                              alt={row.product.name}
+                              className='w-full'
+                            />
+                          </div>
+                          <p className='ml-10'>{row.product.name}</p>
                         </div>
-                        <p className='ml-10'>{row.product.name}</p>
-                      </div>
-                    </TableCell>
-                    <TableCell>${row.product.price?.raw}</TableCell>
-                    <TableCell>
-                      <TextField
-                        type='number'
-                        value={totalBill}
-                        onChange={(event) => setTotalBill(event.target.value)}
-                      />
-                    </TableCell>
-                    <TableCell>${row.subTotalProduct}</TableCell>
-                    <TableCell>
-                      <IconButton
-                        onClick={() =>
-                          dispatch({
-                            type: REMOVE_TO_CART_SAGA,
-                            payload: {
-                              idCart: dataCart.idCart,
-                              idProduct: row._id,
-                            },
-                          })
-                        }
-                        size='small'
-                      >
-                        <ClearIcon fontSize='small' />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))
+                      </TableCell>
+                      <TableCell>${row.product.price?.raw}</TableCell>
+                      <TableCell>
+                        <TextField
+                          onChange={(e: React.ChangeEvent<any>) => {
+                            setFieldValue('itemQuantity', e.target.value * 1);
+                            setFieldValue('itemIdProduct', row.idProduct);
+                            setFieldValue('itemPrice', row.price);
+                          }}
+                          id='itemQuantity'
+                          name='itemQuantity'
+                          type='number'
+                          defaultValue={row.subQuantity}
+                        />
+                      </TableCell>
+                      <TableCell>${row.subTotalProduct}</TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={() =>
+                            dispatch({
+                              type: REMOVE_TO_CART_SAGA,
+                              payload: {
+                                idCart: dataCart.idCart,
+                                data: {
+                                  idCart: dataCart.idCart,
+                                  idProduct: row.idProduct,
+                                },
+                              },
+                            })
+                          }
+                          size='small'
+                        >
+                          <ClearIcon fontSize='small' />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
               ) : (
                 <TableRow>
                   <div className='p-4 flex flex-col items-center justify-center'>
@@ -126,7 +158,12 @@ export const Cart = () => {
           direction='row'
           alignItems='center'
         >
-          <Button variant='contained' size='large' color='success'>
+          <Button
+            type='submit'
+            variant='contained'
+            size='large'
+            color='success'
+          >
             UPDATE CART
           </Button>
           <Button
@@ -164,6 +201,6 @@ export const Cart = () => {
           </Button>
         </Box>
       </Container>
-    </>
+    </Box>
   );
 };

@@ -5,6 +5,7 @@ import {
   GetCartHTTP,
   RemoveAllCartHTTP,
   RemoveToCartHTTP,
+  UpdateToCartHTTP,
 } from 'src/services/CartsService';
 import { STATUS_CODES } from 'src/services/settings';
 import { ICart } from 'src/types/GeneralTypes';
@@ -17,6 +18,7 @@ import {
   TypeGetCartAction,
   TypeRemoveAllCartAction,
   TypeRemoveToCartAction,
+  UPDATE_TO_CART_SAGA,
 } from '../consts/consts';
 import { getCartApiAction } from '../reducers/cartReducer';
 
@@ -65,6 +67,31 @@ function* addToCartSaga(action: TypeAddToCartAction) {
 
 export function* followAddToCartSaga() {
   yield takeLatest(ADD_TO_CART_SAGA, addToCartSaga);
+}
+
+function* updateToCartSaga(action: TypeAddToCartAction) {
+  try {
+    if (action.payload) {
+      const { status }: AxiosResponse<ICart> = yield call(() =>
+        UpdateToCartHTTP(action.payload.idCart, action.payload.data)
+      );
+
+      if (status === STATUS_CODES.SUCCESS) {
+        yield put({
+          type: GET_CART_SAGA,
+          payload: action.payload.idCart,
+        });
+      } else {
+        console.log('error');
+      }
+    }
+  } catch (err: unknown) {
+    console.log((err as Error).message);
+  }
+}
+
+export function* followUpdateToCartSaga() {
+  yield takeLatest(UPDATE_TO_CART_SAGA, updateToCartSaga);
 }
 
 function* removeToCartSaga(action: TypeRemoveToCartAction) {

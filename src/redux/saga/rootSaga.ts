@@ -15,6 +15,7 @@ export function* rootSaga() {
     UserSaga.followRefreshTokenUserSaga(),
     CartSaga.followGetCartSaga(),
     CartSaga.followAddToCartSaga(),
+    CartSaga.followUpdateToCartSaga(),
     CartSaga.followRemoveToCartSaga(),
     CartSaga.followRemoveAllCartSaga(),
   ]);
