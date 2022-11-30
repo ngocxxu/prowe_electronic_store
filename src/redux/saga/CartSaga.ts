@@ -120,12 +120,15 @@ export function* followRemoveToCartSaga() {
 function* removeAllCartSaga(action: TypeRemoveAllCartAction) {
   try {
     if (action.payload) {
-      const { status, data }: AxiosResponse<ICart> = yield call(() =>
+      const { status }: AxiosResponse<ICart> = yield call(() =>
         RemoveAllCartHTTP(action.payload)
       );
 
       if (status === STATUS_CODES.SUCCESS) {
-        yield put(getCartApiAction(data));
+        yield put({
+          type: GET_CART_SAGA,
+          payload: action.payload,
+        });
       } else {
         console.log('error');
       }

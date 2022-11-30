@@ -56,11 +56,11 @@ export type IAuth = {
 
 // PRODUCT
 export interface IProductCart extends IProduct {
-  product: IProduct,
+  product: IProduct;
   subQuantity: number;
-  idProduct: string;
   subTotalProduct: number;
-};
+  isDeleted: boolean;
+}
 
 export type IProduct = {
   _id: string;
@@ -87,9 +87,9 @@ export type IProduct = {
 
 // CART
 export type ICart = {
-  idCart: string,
-  totalItems: number,
-  subTotal: number,
-  lineItems: IProductCart[],
-  discount: string[],
-}
+  idCart: string;
+  totalItems: number;
+  subTotal: number;
+  lineItems: IProductCart[];
+  discount: string[];
+};

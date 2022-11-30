@@ -53,19 +53,20 @@ export const ProductItem = memo(({ item }: { item: IProduct }) => {
               arrow
             >
               <IconButton
-                onClick={() =>
-                  dispatch({
+                onClick={() => {
+                  console.log(dataCart.idCart)
+                  return dispatch({
                     type: ADD_TO_CART_SAGA,
                     payload: {
                       idCart: dataCart.idCart,
                       data: {
                         idProduct: _id,
                         quantity: 1,
-                        price: price.raw
+                        price: price.raw,
                       },
                     },
-                  })
-                }
+                  });
+                }}
               >
                 <AddShoppingCartIcon />
               </IconButton>

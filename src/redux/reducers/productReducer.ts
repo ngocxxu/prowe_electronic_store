@@ -6,6 +6,35 @@ interface InitialStateProduct {
   dataProduct: IProduct;
 }
 
+export const dataProduct = {
+  _id: '',
+  name: '',
+  description: '',
+  price: {
+    raw: 650,
+  },
+  categories: ['Mobiles', 'Tablets'],
+  inventory: 30,
+  sale: 0,
+  is: {
+    hot: false,
+    new: false,
+    sale: false,
+    available: false,
+    delete: false,
+  },
+  image: {
+    main: 'https://res.cloudinary.com/ngocxxu/image/upload/v1662346351/prowe-images/15.1_dudh3d.jpg',
+    library: [
+      'https://res.cloudinary.com/ngocxxu/image/upload/v1662346351/prowe-images/15.1_dudh3d.jpg',
+      'https://res.cloudinary.com/ngocxxu/image/upload/v1662346351/prowe-images/15.1_dudh3d.jpg',
+      'https://res.cloudinary.com/ngocxxu/image/upload/v1662559160/prowe-images/15.2_kbmqpr.jpg',
+      'https://res.cloudinary.com/ngocxxu/image/upload/v1662559825/prowe-images/15.4_ec19de.jpg',
+      'https://res.cloudinary.com/ngocxxu/image/upload/v1662560120/prowe-images/15.5_oxrrww.jpg',
+    ],
+  },
+};
+
 const initialState: InitialStateProduct = {
   dataAllProducts: [
     {
@@ -36,34 +65,7 @@ const initialState: InitialStateProduct = {
       },
     },
   ],
-  dataProduct: {
-    _id: '',
-    name: '',
-    description: '',
-    price: {
-      raw: 650,
-    },
-    categories: ['Mobiles', 'Tablets'],
-    inventory: 30,
-    sale: 0,
-    is: {
-      hot: false,
-      new: false,
-      sale: false,
-      available: false,
-      delete: false,
-    },
-    image: {
-      main: 'https://res.cloudinary.com/ngocxxu/image/upload/v1662346351/prowe-images/15.1_dudh3d.jpg',
-      library: [
-        'https://res.cloudinary.com/ngocxxu/image/upload/v1662346351/prowe-images/15.1_dudh3d.jpg',
-        'https://res.cloudinary.com/ngocxxu/image/upload/v1662346351/prowe-images/15.1_dudh3d.jpg',
-        'https://res.cloudinary.com/ngocxxu/image/upload/v1662559160/prowe-images/15.2_kbmqpr.jpg',
-        'https://res.cloudinary.com/ngocxxu/image/upload/v1662559825/prowe-images/15.4_ec19de.jpg',
-        'https://res.cloudinary.com/ngocxxu/image/upload/v1662560120/prowe-images/15.5_oxrrww.jpg',
-      ],
-    },
-  },
+  dataProduct: dataProduct,
 };
 
 const productReducer = createSlice({

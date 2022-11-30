@@ -89,7 +89,7 @@ export const Cart = () => {
                 dataCart.lineItems.map((row) => {
                   return (
                     <TableRow
-                      key={row.idProduct}
+                      key={row.product._id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell component='th' scope='row'>
@@ -107,11 +107,18 @@ export const Cart = () => {
                       <TableCell>${row.product.price?.raw}</TableCell>
                       <TableCell>
                         <TextField
+                          onKeyPress={(e) => {
+                            if (e.code === 'Minus') {
+                              e.preventDefault();
+                            }
+                          }}
+                          inputProps={{ min: '1', step: '1' }}
                           onChange={(e: React.ChangeEvent<any>) => {
                             setFieldValue('itemQuantity', e.target.value * 1);
-                            setFieldValue('itemIdProduct', row.idProduct);
+                            setFieldValue('itemIdProduct', row.product._id);
                             setFieldValue('itemPrice', row.price);
-                          }}
+                            handleSubmit();
+                         }}
                           id='itemQuantity'
                           name='itemQuantity'
                           type='number'
@@ -126,10 +133,7 @@ export const Cart = () => {
                               type: REMOVE_TO_CART_SAGA,
                               payload: {
                                 idCart: dataCart.idCart,
-                                data: {
-                                  idCart: dataCart.idCart,
-                                  idProduct: row.idProduct,
-                                },
+                                idProduct: row.product._id,
                               },
                             })
                           }
@@ -158,14 +162,14 @@ export const Cart = () => {
           direction='row'
           alignItems='center'
         >
-          <Button
+          {/* <Button
             type='submit'
             variant='contained'
             size='large'
             color='success'
           >
             UPDATE CART
-          </Button>
+          </Button> */}
           <Button
             onClick={() => navigate('/shop')}
             size='large'
@@ -187,7 +191,7 @@ export const Cart = () => {
           >
             <Typography variant='subtitle1'>Total</Typography>
             <Typography variant='h6'>
-              {dataCart.subTotal ? `$${dataCart.subTotal}` : ''}
+              {dataCart?.subTotal ? `$${dataCart?.subTotal}` : ''}
             </Typography>
           </Stack>
           <Button

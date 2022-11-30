@@ -102,15 +102,15 @@ export const TemporaryDrawer = memo(
               <Divider />
               {dataCart?.lineItems && dataCart.lineItems?.length > 0 ? (
                 dataCart.lineItems.map((item) => (
-                  <Box key={item.idProduct}>
+                  <Box key={item.product._id}>
                     <div className='flex justify-between items-center m-4'>
                       <div className='flex justify-center items-center'>
                         <div className='cursor-pointer'>
                           <img
                             width='80px'
                             height='50px'
-                            src={item.product.image?.main}
-                            alt={item.product.name}
+                            src={item.product?.image?.main}
+                            alt={item.product?.name}
                           />
                         </div>
                         <div className='flex-1 ml-4'>
