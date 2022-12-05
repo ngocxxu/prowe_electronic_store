@@ -1,11 +1,15 @@
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonOutlineIcon from '@mui/icons-material/Person';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import { Avatar, Badge, Chip } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,14 +20,19 @@ import { cloneElement, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { TemporaryDrawer } from 'src/components/Drawer/index';
+import FeatureModal from 'src/components/Modal';
 import { RootState } from 'src/redux/configStore';
 import {
+  ADD_TO_CART_SAGA,
   GET_CART_SAGA,
   GET_MY_USER_SAGA,
-  LOGOUT_USER_SAGA
+  LOGOUT_USER_SAGA,
 } from 'src/redux/consts/consts';
+import { toggleOpenModal } from 'src/redux/reducers/otherReducer';
 import { REFRESHTOKEN } from 'src/services/settings';
 import { Props } from 'src/types/GeneralTypes';
+import Stack from '@mui/material/Stack';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const pages = [
   {
@@ -64,9 +73,7 @@ function ElevationScroll({ children, window }: Props) {
 
 export const Header = (props: Props) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
-  const { dataCart } = useSelector(
-    (state: RootState) => state.cartReducer
-  );
+  const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logo = require('../../../assets/img/others/logo.png');
@@ -95,8 +102,8 @@ export const Header = (props: Props) => {
     });
     dispatch({
       type: GET_CART_SAGA,
-      payload: myInfo.idCart
-    })
+      payload: myInfo.idCart,
+    });
   }, [dispatch, myInfo.idCart]);
 
   return (
@@ -221,6 +228,7 @@ export const Header = (props: Props) => {
                   </>
                 )}
                 <IconButton
+                  onClick={() => dispatch(toggleOpenModal(true))}
                   sx={{
                     color: 'black',
                   }}
@@ -229,7 +237,95 @@ export const Header = (props: Props) => {
                     <FavoriteBorderIcon />
                   </Badge>
                 </IconButton>
-                <TemporaryDrawer dataCart = {dataCart} direction='right' />
+
+                {/* Modal for favorite items */}
+                <FeatureModal>
+                  <>
+                    <Typography
+                      id='modal-modal-title'
+                      variant='h6'
+                      component='h2'
+                    >
+                      <FavoriteIcon /> Wishlist (1)
+                    </Typography>
+                    <Divider />
+                    {dataCart?.lineItems && dataCart.lineItems?.length > 0 ? (
+                      <>
+                        {dataCart.lineItems.map((item) => (
+                          <Box key={item.product._id}>
+                            <div className='flex justify-between items-center m-4'>
+                              <div className='flex justify-center items-center'>
+                                <div className='cursor-pointer'>
+                                  <img
+                                    width='80px'
+                                    height='50px'
+                                    src={item.product?.image?.main}
+                                    alt={item.product?.name}
+                                  />
+                                </div>
+                                <div className='flex-1 ml-4'>
+                                  <p className='cursor-pointer hover:text-orange-500'>
+                                    {item.product.name}
+                                  </p>
+                                  <p>${item.product.price?.raw}</p>
+                                </div>
+                              </div>
+                              <Stack
+                                direction='column'
+                                justifyContent='center'
+                                alignItems='flex-end'
+                              >
+                                <IconButton>
+                                  <ClearIcon fontSize='small' />
+                                </IconButton>
+                                <p className='text-gray-400 text-right'>
+                                  In stock
+                                </p>
+                                <Button
+                                  onClick={() =>
+                                    dispatch({
+                                      type: ADD_TO_CART_SAGA,
+                                      payload: {
+                                        idCart: dataCart.idCart,
+                                        data: {
+                                          idProduct: item.product._id,
+                                          quantity: 1,
+                                        },
+                                      },
+                                    })
+                                  }
+                                  variant='contained'
+                                  size='small'
+                                  color='error'
+                                >
+                                  Add to cart
+                                </Button>
+                              </Stack>
+                            </div>
+                            <Divider />
+                          </Box>
+                        ))}
+                        <Button
+                          sx={{ mt: 2 }}
+                          onClick={() => navigate('/shop')}
+                          size='large'
+                          variant='outlined'
+                          color='inherit'
+                          endIcon={<ArrowForwardIcon />}
+                        >
+                          CONTINUE SHOPPING
+                        </Button>
+                      </>
+                    ) : (
+                      <div className='p-4 flex flex-col items-center justify-center'>
+                        <p>Add more for cart!</p>
+                        <RemoveShoppingCartIcon fontSize='large' />
+                      </div>
+                    )}
+                  </>
+                </FeatureModal>
+
+                <TemporaryDrawer dataCart={dataCart} direction='right' />
                 <Menu
                   sx={{ mt: '45px' }}
                   id='menu-appbar'

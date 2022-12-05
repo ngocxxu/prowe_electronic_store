@@ -23,6 +23,7 @@ export type SwiperProps = {
 export interface OtherState {
   activeStep: number;
   isDrawer: boolean;
+  isOpenModal: boolean;
   notify: {
     isNotification: boolean;
     severity?: AlertColor;

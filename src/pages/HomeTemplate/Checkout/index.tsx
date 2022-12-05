@@ -12,7 +12,7 @@ import {
   RadioGroup,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from '@mui/material';
 import { memo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
