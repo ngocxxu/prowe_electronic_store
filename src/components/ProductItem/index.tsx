@@ -7,12 +7,17 @@ import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'src/redux/configStore';
-import { ADD_TO_CART_SAGA, GET_PRODUCT_SAGA } from 'src/redux/consts/consts';
+import {
+  ADD_TO_CART_SAGA,
+  ADD_TO_FAVOR_SAGA,
+  GET_PRODUCT_SAGA,
+} from 'src/redux/consts/consts';
 import { IProduct } from 'src/types/GeneralTypes';
 import './style.scss';
 
 export const ProductItem = memo(({ item }: { item: IProduct }) => {
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
+  const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { is, image, name, price, _id, sale } = item;
@@ -88,9 +93,26 @@ export const ProductItem = memo(({ item }: { item: IProduct }) => {
               </IconButton>
             </Tooltip>
             <Tooltip
-              // onClick={() => dispatch(toggleOpenModal(true))}
+              onClick={() =>
+                dispatch({
+                  type: ADD_TO_FAVOR_SAGA,
+                  payload: {
+                    idFavor: dataFavor.idFavor,
+                    data: {
+                      idProduct: _id,
+                    },
+                  },
+                })
+              }
               sx={{
-                backgroundColor: 'white',
+                backgroundColor: `${
+                  dataFavor.favorItems.some((item) => {
+                    console.log(item._id, _id);
+                    return item._id === _id;
+                  })
+                    ? '#f9773a'
+                    : 'white'
+                }`,
                 padding: '12px',
                 '&:hover': {
                   backgroundColor: '#f9773a',

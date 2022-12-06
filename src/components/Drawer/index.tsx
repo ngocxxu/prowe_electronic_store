@@ -31,8 +31,6 @@ export const TemporaryDrawer = memo(
       right: false,
     });
 
-    console.log({ dataCart });
-
     const toggleDrawer = (anchor: Anchor, open: boolean) => () => {
       setState({ ...state, [anchor]: open });
     };

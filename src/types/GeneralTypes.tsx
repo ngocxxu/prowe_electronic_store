@@ -94,3 +94,9 @@ export type ICart = {
   lineItems: IProductCart[];
   discount: string[];
 };
+
+// FAVOR
+export type IFavor = {
+  idFavor: string;
+  favorItems: IProductCart[];
+};

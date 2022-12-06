@@ -13,6 +13,10 @@ export const ADD_TO_CART_SAGA = 'ADD_TO_CART_SAGA';
 export const UPDATE_TO_CART_SAGA = 'UPDATE_TO_CART_SAGA';
 export const REMOVE_TO_CART_SAGA = 'REMOVE_TO_CART_SAGA';
 export const REMOVE_ALL_CART_SAGA = 'REMOVE_ALL_CART_SAGA';
+export const GET_FAVOR_SAGA = 'GET_FAVOR_SAGA';
+export const ADD_TO_FAVOR_SAGA = 'ADD_TO_FAVOR_SAGA';
+export const REMOVE_TO_FAVOR_SAGA = 'REMOVE_TO_FAVOR_SAGA';
+export const REMOVE_ALL_FAVOR_SAGA = 'REMOVE_ALL_FAVOR_SAGA';
 
 // USER
 export interface TypeRegisterUserAction {
@@ -83,5 +87,34 @@ export interface TypeRemoveToCartAction {
 
 export interface TypeRemoveAllCartAction {
   type: typeof REMOVE_ALL_CART_SAGA;
+  payload: string;
+}
+
+// FAVOR
+export interface TypeGetFavorAction {
+  type: typeof GET_FAVOR_SAGA;
+  payload: string;
+}
+
+export interface TypeAddToFavorAction {
+  type: typeof ADD_TO_FAVOR_SAGA;
+  payload: {
+    idFavor: string;
+    data: {
+      idProduct: string;
+    };
+  };
+}
+
+export interface TypeRemoveToFavorAction {
+  type: typeof REMOVE_TO_FAVOR_SAGA;
+  payload: {
+    idFavor: string;
+    idProduct: string;
+  };
+}
+
+export interface TypeRemoveAllFavorAction {
+  type: typeof REMOVE_ALL_FAVOR_SAGA;
   payload: string;
 }

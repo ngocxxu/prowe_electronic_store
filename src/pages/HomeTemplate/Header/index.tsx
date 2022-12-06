@@ -25,8 +25,11 @@ import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_CART_SAGA,
   GET_CART_SAGA,
+  GET_FAVOR_SAGA,
   GET_MY_USER_SAGA,
   LOGOUT_USER_SAGA,
+  REMOVE_ALL_FAVOR_SAGA,
+  REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
 import { toggleOpenModal } from 'src/redux/reducers/otherReducer';
 import { REFRESHTOKEN } from 'src/services/settings';
@@ -74,6 +77,7 @@ function ElevationScroll({ children, window }: Props) {
 export const Header = (props: Props) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
+  const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logo = require('../../../assets/img/others/logo.png');
@@ -104,7 +108,11 @@ export const Header = (props: Props) => {
       type: GET_CART_SAGA,
       payload: myInfo.idCart,
     });
-  }, [dispatch, myInfo.idCart]);
+    dispatch({
+      type: GET_FAVOR_SAGA,
+      payload: myInfo.idFavor,
+    });
+  }, [dispatch, myInfo.idCart, myInfo.idFavor]);
 
   return (
     <>
@@ -233,7 +241,10 @@ export const Header = (props: Props) => {
                     color: 'black',
                   }}
                 >
-                  <Badge badgeContent={4} color='secondary'>
+                  <Badge
+                    badgeContent={dataFavor.favorItems?.length}
+                    color='secondary'
+                  >
                     <FavoriteBorderIcon />
                   </Badge>
                 </IconButton>
@@ -241,17 +252,36 @@ export const Header = (props: Props) => {
                 {/* Modal for favorite items */}
                 <FeatureModal>
                   <>
-                    <Typography
-                      id='modal-modal-title'
-                      variant='h6'
-                      component='h2'
+                    <Stack
+                      direction='row'
+                      justifyContent='space-between'
+                      alignItems='center'
                     >
-                      <FavoriteIcon /> Wishlist (1)
-                    </Typography>
+                      <Typography
+                        id='modal-modal-title'
+                        variant='h6'
+                        component='h2'
+                      >
+                        <FavoriteIcon /> Wishlist (
+                        {dataFavor.favorItems?.length})
+                      </Typography>
+                      <div
+                        className='text-red-600 cursor-pointer underline text-sm'
+                        onClick={() =>
+                          dispatch({
+                            type: REMOVE_ALL_FAVOR_SAGA,
+                            payload: dataFavor.idFavor,
+                          })
+                        }
+                      >
+                        Clear all
+                      </div>
+                    </Stack>
                     <Divider />
-                    {dataCart?.lineItems && dataCart.lineItems?.length > 0 ? (
+                    {dataFavor?.favorItems &&
+                    dataFavor.favorItems?.length > 0 ? (
                       <>
-                        {dataCart.lineItems.map((item) => (
+                        {dataFavor.favorItems.map((item) => (
                           <Box key={item.product._id}>
                             <div className='flex justify-between items-center m-4'>
                               <div className='flex justify-center items-center'>
@@ -275,7 +305,17 @@ export const Header = (props: Props) => {
                                 justifyContent='center'
                                 alignItems='flex-end'
                               >
-                                <IconButton>
+                                <IconButton
+                                  onClick={() =>
+                                    dispatch({
+                                      type: REMOVE_TO_FAVOR_SAGA,
+                                      payload: {
+                                        idFavor: dataFavor.idFavor,
+                                        idProduct: item.product._id,
+                                      },
+                                    })
+                                  }
+                                >
                                   <ClearIcon fontSize='small' />
                                 </IconButton>
                                 <p className='text-gray-400 text-right'>
