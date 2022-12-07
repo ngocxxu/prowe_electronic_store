@@ -648,15 +648,15 @@ export const ProductDetail = () => {
     (state: RootState) => state.productReducer
   );
 
-  useEffect(() => {
-    dispatch({
-      type: GET_ALL_PRODUCTS_SAGA,
-    });
-    dispatch({
-      type: GET_PRODUCT_SAGA,
-      payload: pathname.split('/').pop(),
-    });
-  }, [dispatch, pathname]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: GET_ALL_PRODUCTS_SAGA,
+  //   });
+  //   dispatch({
+  //     type: GET_PRODUCT_SAGA,
+  //     payload: pathname.split('/').pop(),
+  //   });
+  // }, [dispatch, pathname]);
 
   return (
     <>

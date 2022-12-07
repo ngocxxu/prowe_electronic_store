@@ -3,7 +3,7 @@ import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Tooltip } from '@mui/material';
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'src/redux/configStore';
@@ -11,6 +11,7 @@ import {
   ADD_TO_CART_SAGA,
   ADD_TO_FAVOR_SAGA,
   GET_PRODUCT_SAGA,
+  REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
 import { IProduct } from 'src/types/GeneralTypes';
 import './style.scss';
@@ -18,6 +19,7 @@ import './style.scss';
 export const ProductItem = memo(({ item }: { item: IProduct }) => {
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
+  const [toggleFavor, setToggleFavor] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { is, image, name, price, _id, sale } = item;
@@ -93,25 +95,36 @@ export const ProductItem = memo(({ item }: { item: IProduct }) => {
               </IconButton>
             </Tooltip>
             <Tooltip
-              onClick={() =>
-                dispatch({
-                  type: ADD_TO_FAVOR_SAGA,
-                  payload: {
-                    idFavor: dataFavor.idFavor,
-                    data: {
-                      idProduct: _id,
-                    },
-                  },
-                })
-              }
+              onClick={() => {
+                setToggleFavor(!toggleFavor);
+                !toggleFavor
+                  ? dispatch({
+                      type: ADD_TO_FAVOR_SAGA,
+                      payload: {
+                        idFavor: dataFavor.idFavor,
+                        data: {
+                          idProduct: _id,
+                        },
+                      },
+                    })
+                  : dispatch({
+                      type: REMOVE_TO_FAVOR_SAGA,
+                      payload: {
+                        idFavor: dataFavor.idFavor,
+                        idProduct: _id,
+                      },
+                    });
+              }}
               sx={{
                 backgroundColor: `${
-                  dataFavor.favorItems.some((item) => {
-                    console.log(item._id, _id);
-                    return item._id === _id;
-                  })
+                  dataFavor.favorItems.some((item) => item.product._id === _id)
                     ? '#f9773a'
                     : 'white'
+                }`,
+                color: `${
+                  dataFavor.favorItems.some((item) => item.product._id === _id)
+                    ? 'white'
+                    : 'rgba(0, 0, 0, 0.54)'
                 }`,
                 padding: '12px',
                 '&:hover': {
