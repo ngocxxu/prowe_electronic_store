@@ -26,19 +26,21 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from '@mui/material';
 import React, { memo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Breadcrumb from 'src/components/Breadcrumb';
 import { ProductSwiper, RelatedProductSwiper } from 'src/components/Swiper';
 import { RootState } from 'src/redux/configStore';
 import {
+  ADD_TO_CART_SAGA,
+  ADD_TO_FAVOR_SAGA,
   GET_ALL_PRODUCTS_SAGA,
-  GET_PRODUCT_SAGA
+  GET_PRODUCT_SAGA,
+  REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
-import { IProduct } from 'src/types/GeneralTypes';
 import Insta10 from '../../../assets/img/lib/instagram10.jpg';
 import Insta9 from '../../../assets/img/lib/instagram9.jpg';
 import Prod from '../../../assets/img/product/14.1.jpg';
@@ -70,11 +72,18 @@ const Item = styled(Box)(({ theme }) => ({
   alignItems: 'center',
 }));
 
-const ProductIntro = memo(({ dataProduct }: { dataProduct: IProduct }) => {
+const ProductIntro = memo(() => {
   const [value, setValue] = useState<number | null>(2);
-  const [totalBill, setTotalBill] = useState<number | string | null>(1);
+  const [toggleFavor, setToggleFavor] = useState(false);
+  const [quantity, setQuantity] = useState<number | string>(1);
   const theme = useTheme();
+  const dispatch = useDispatch();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const { dataCart } = useSelector((state: RootState) => state.cartReducer);
+  const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
+  const { dataProduct } = useSelector(
+    (state: RootState) => state.productReducer
+  );
   const {
     inventory,
     is,
@@ -123,8 +132,37 @@ const ProductIntro = memo(({ dataProduct }: { dataProduct: IProduct }) => {
             </Stack>
           </Box>
           <Tooltip
+            onClick={() => {
+              setToggleFavor(!toggleFavor);
+              !toggleFavor
+                ? dispatch({
+                    type: ADD_TO_FAVOR_SAGA,
+                    payload: {
+                      idFavor: dataFavor.idFavor,
+                      data: {
+                        idProduct: _id,
+                      },
+                    },
+                  })
+                : dispatch({
+                    type: REMOVE_TO_FAVOR_SAGA,
+                    payload: {
+                      idFavor: dataFavor.idFavor,
+                      idProduct: _id,
+                    },
+                  });
+            }}
             sx={{
-              backgroundColor: 'white',
+              backgroundColor: `${
+                dataFavor.favorItems.some((item) => item.product._id === _id)
+                  ? '#f9773a'
+                  : 'white'
+              }`,
+              color: `${
+                dataFavor.favorItems.some((item) => item.product._id === _id)
+                  ? 'white'
+                  : 'rgba(0, 0, 0, 0.54)'
+              }`,
               border: '1px solid #f4f4f4',
               '&:hover': {
                 backgroundColor: '#f9773a',
@@ -191,10 +229,16 @@ const ProductIntro = memo(({ dataProduct }: { dataProduct: IProduct }) => {
           sx={{ margin: '30px 0' }}
         >
           <TextField
+            onKeyPress={(e) => {
+              if (e.code === 'Minus') {
+                e.preventDefault();
+              }
+            }}
+            inputProps={{ min: '1', step: '1' }}
             type='number'
             label='Amount'
-            value={totalBill}
-            onChange={(event) => setTotalBill(event.target.value)}
+            value={quantity}
+            onChange={(event) => setQuantity(event.target.value)}
           />
           <Typography sx={{ margin: '20px 0' }} variant='body1'>
             <span className='text-red-600'>{inventory} item(s)</span> available
@@ -207,6 +251,19 @@ const ProductIntro = memo(({ dataProduct }: { dataProduct: IProduct }) => {
           sx={{ margin: '30px 0' }}
         >
           <Button
+            onClick={() =>
+              dispatch({
+                type: ADD_TO_CART_SAGA,
+                payload: {
+                  idCart: dataCart.idCart,
+                  data: {
+                    idProduct: _id,
+                    quantity,
+                    price: price.raw,
+                  },
+                },
+              })
+            }
             startIcon={<AddShoppingCartIcon />}
             sx={{ width: '100%' }}
             color='warning'
@@ -643,20 +700,17 @@ const RelatedProducts = () => {
 
 export const ProductDetail = () => {
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
-  const { dataProduct } = useSelector(
-    (state: RootState) => state.productReducer
-  );
+  const { id } = useParams();
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: GET_ALL_PRODUCTS_SAGA,
-  //   });
-  //   dispatch({
-  //     type: GET_PRODUCT_SAGA,
-  //     payload: pathname.split('/').pop(),
-  //   });
-  // }, [dispatch, pathname]);
+  useEffect(() => {
+    dispatch({
+      type: GET_ALL_PRODUCTS_SAGA,
+    });
+    dispatch({
+      type: GET_PRODUCT_SAGA,
+      payload: id,
+    });
+  }, [dispatch, id]);
 
   return (
     <>
@@ -664,7 +718,7 @@ export const ProductDetail = () => {
         <Box sx={{ paddingBottom: '30px' }}>
           <Breadcrumb />
         </Box>
-        <ProductIntro dataProduct={dataProduct} />
+        <ProductIntro />
         <ProductServices />
       </Container>
       <ProductTabs />

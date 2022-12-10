@@ -105,6 +105,10 @@ export const TemporaryDrawer = memo(
                       <div className='flex justify-center items-center'>
                         <div className='cursor-pointer'>
                           <img
+                            className='cursor-pointer'
+                            onClick={() => {
+                              navigate(`/shop/${item.product._id}`);
+                            }}
                             width='80px'
                             height='50px'
                             src={item.product?.image?.main}
@@ -112,8 +116,15 @@ export const TemporaryDrawer = memo(
                           />
                         </div>
                         <div className='flex-1 ml-4'>
-                          <p className='cursor-pointer hover:text-orange-500'>
-                            {item.product.name}
+                          <p
+                            onClick={() => {
+                              navigate(`/shop/${item.product._id}`);
+                            }}
+                            className='cursor-pointer hover:text-orange-500'
+                          >
+                            <span className='hover:text-orange-500 transition ease-out cursor-pointer'>
+                              {item.product.name}
+                            </span>
                           </p>
                           <p>QTY : {item.subQuantity}</p>
                           <p>${item.product.price?.raw}</p>

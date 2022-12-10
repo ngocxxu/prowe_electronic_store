@@ -10,7 +10,6 @@ import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_CART_SAGA,
   ADD_TO_FAVOR_SAGA,
-  GET_PRODUCT_SAGA,
   REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
 import { IProduct } from 'src/types/GeneralTypes';
@@ -33,12 +32,8 @@ export const ProductItem = memo(({ item }: { item: IProduct }) => {
           </figure>
         )}
         <img
-          className='w-full'
+          className='w-full cursor-pointer'
           onClick={() => {
-            dispatch({
-              type: GET_PRODUCT_SAGA,
-              payload: _id,
-            });
             navigate(`/shop/${_id}`);
           }}
           src={image.main}
@@ -164,10 +159,6 @@ export const ProductItem = memo(({ item }: { item: IProduct }) => {
         <div
           className='font-semibold mb-2 mt-3'
           onClick={() => {
-            dispatch({
-              type: GET_PRODUCT_SAGA,
-              payload: _id,
-            });
             navigate(`/shop/${_id}`);
           }}
         >

@@ -96,12 +96,24 @@ export const Cart = () => {
                         <div className='flex items-center max-w-full'>
                           <div className='max-w-full w-24'>
                             <img
+                              onClick={() => {
+                                navigate(`/shop/${row.product._id}`);
+                              }}
                               src={row.product.image?.main}
                               alt={row.product.name}
-                              className='w-full'
+                              className='w-full cursor-pointer'
                             />
                           </div>
-                          <p className='ml-10'>{row.product.name}</p>
+                          <p
+                            onClick={() => {
+                              navigate(`/shop/${row.product._id}`);
+                            }}
+                            className='ml-10'
+                          >
+                            <span className='hover:text-orange-500 transition ease-out cursor-pointer'>
+                              {row.product.name}
+                            </span>
+                          </p>
                         </div>
                       </TableCell>
                       <TableCell>${row.product.price?.raw}</TableCell>
@@ -118,7 +130,7 @@ export const Cart = () => {
                             setFieldValue('itemIdProduct', row.product._id);
                             setFieldValue('itemPrice', row.price);
                             handleSubmit();
-                         }}
+                          }}
                           id='itemQuantity'
                           name='itemQuantity'
                           type='number'
@@ -162,14 +174,6 @@ export const Cart = () => {
           direction='row'
           alignItems='center'
         >
-          {/* <Button
-            type='submit'
-            variant='contained'
-            size='large'
-            color='success'
-          >
-            UPDATE CART
-          </Button> */}
           <Button
             onClick={() => navigate('/shop')}
             size='large'
