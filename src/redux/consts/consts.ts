@@ -2,6 +2,7 @@ import { IUser } from 'src/types/GeneralTypes';
 
 export const SORT_PRODUCT = 'SORT_PRODUCT';
 export const GET_ALL_PRODUCTS_SAGA = 'GET_ALL_PRODUCTS_SAGA';
+export const GET_ALL_PRODUCTS_QUERY_SAGA = 'GET_ALL_PRODUCTS_QUERY_SAGA';
 export const GET_PRODUCT_SAGA = 'GET_PRODUCT_SAGA';
 export const REGISTER_USER_SAGA = 'REGISTER_USER_SAGA';
 export const LOGIN_USER_SAGA = 'LOGIN_USER_SAGA';
@@ -57,6 +58,11 @@ export interface TypeRefreshTokenUserAction {
 export interface TypeGetProductAction {
   type: typeof GET_PRODUCT_SAGA;
   payload: string;
+}
+
+export interface TypeGetAllProductsQueryAction {
+  type: typeof GET_ALL_PRODUCTS_QUERY_SAGA;
+  payload: { sort: string };
 }
 
 // CART

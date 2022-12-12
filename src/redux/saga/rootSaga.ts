@@ -8,6 +8,7 @@ export function* rootSaga() {
   // follow all action
   yield all([
     ProductSaga.followGetAllProductsSaga(),
+    ProductSaga.followGetAllProductsByQuerySaga(),
     ProductSaga.followGetProductSaga(),
     UserSaga.followRegisterUserSaga(),
     UserSaga.followLoginUserSaga(),

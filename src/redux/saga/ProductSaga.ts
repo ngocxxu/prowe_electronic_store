@@ -1,12 +1,19 @@
 import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import {
+  GetAllProductByQueryHTTP,
   GetAllProductHTTP,
   GetProductHTTP,
 } from 'src/services/ProductsService';
 import { STATUS_CODES } from 'src/services/settings';
 import { IProduct } from 'src/types/GeneralTypes';
-import { GET_ALL_PRODUCTS_SAGA, GET_PRODUCT_SAGA, TypeGetProductAction } from '../consts/consts';
+import {
+  GET_ALL_PRODUCTS_QUERY_SAGA,
+  GET_ALL_PRODUCTS_SAGA,
+  GET_PRODUCT_SAGA,
+  TypeGetAllProductsQueryAction,
+  TypeGetProductAction,
+} from '../consts/consts';
 import {
   getAllProductsApiAction,
   getProductApiAction,
@@ -30,6 +37,26 @@ function* getAllProductsSaga() {
 
 export function* followGetAllProductsSaga() {
   yield takeLatest(GET_ALL_PRODUCTS_SAGA, getAllProductsSaga);
+}
+
+function* getAllProductsByQuerySaga(action: TypeGetAllProductsQueryAction) {
+  try {
+    const { status, data }: AxiosResponse<IProduct[]> = yield call(() =>
+      GetAllProductByQueryHTTP(action.payload)
+    );
+
+    if (status === STATUS_CODES.SUCCESS) {
+      yield put(getAllProductsApiAction(data));
+    } else {
+      console.log('error');
+    }
+  } catch (err: unknown) {
+    console.log((err as Error).message);
+  }
+}
+
+export function* followGetAllProductsByQuerySaga() {
+  yield takeLatest(GET_ALL_PRODUCTS_QUERY_SAGA, getAllProductsByQuerySaga);
 }
 
 function* getProductSaga(action: TypeGetProductAction) {

@@ -27,7 +27,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Breadcrumb from 'src/components/Breadcrumb';
 import { ProductItem } from 'src/components/ProductItem';
 import { RootState } from 'src/redux/configStore';
-import { GET_ALL_PRODUCTS_SAGA } from 'src/redux/consts/consts';
+import {
+  GET_ALL_PRODUCTS_QUERY_SAGA,
+  GET_ALL_PRODUCTS_SAGA,
+} from 'src/redux/consts/consts';
 import { ChipData } from 'src/types/GeneralTypes';
 import Ba1 from '../../../assets/img/background/collection.jpg';
 import LogoBrand from '../../../assets/img/others/logo-brand.jpg';
@@ -41,22 +44,27 @@ const Item = styled(Box)(({ theme }) => ({
 }));
 
 const SortingBox = () => {
-  const [age, setAge] = useState('');
+  const dispatch = useDispatch();
+  const [sortItem, setSortItem] = useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
+    setSortItem(event.target.value);
+    dispatch({
+      type: GET_ALL_PRODUCTS_QUERY_SAGA,
+      payload: { sort: event.target.value },
+    });
   };
 
   return (
     <FormControl variant='standard' sx={{ m: 1, minWidth: 130 }}>
-      <Select value={age} onChange={handleChange} displayEmpty>
+      <Select value={sortItem} onChange={handleChange} displayEmpty>
         <MenuItem value=''>Default sorting</MenuItem>
-        <MenuItem value='best-selling'>Best Selling</MenuItem>
-        <MenuItem value='alphabetically'>Alphabetically, A-Z</MenuItem>
-        <MenuItem value='price-high-low'>Price, high to low</MenuItem>
-        <MenuItem value='price-low-high'>Price, low to high</MenuItem>
-        <MenuItem value='date-old-new'>Date, old to new</MenuItem>
-        <MenuItem value='date-new-old'>Date, new to old</MenuItem>
+        <MenuItem value='bestSell'>Best Selling</MenuItem>
+        <MenuItem value='alphabet'>Alphabetically, A-Z</MenuItem>
+        <MenuItem value='priceHighLow'>Price, high to low</MenuItem>
+        <MenuItem value='priceLowHigh'>Price, low to high</MenuItem>
+        <MenuItem value='dateOldNew'>Date, old to new</MenuItem>
+        <MenuItem value='dateNewOld'>Date, new to old</MenuItem>
       </Select>
     </FormControl>
   );
