@@ -36,7 +36,7 @@ import Ba1 from '../../../assets/img/background/collection.jpg';
 import LogoBrand from '../../../assets/img/others/logo-brand.jpg';
 import './style.scss';
 
-const Item = styled(Box)(({ theme }) => ({
+const Item = styled(Box)(() => ({
   backgroundPosition: 'center',
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
@@ -71,6 +71,7 @@ const SortingBox = () => {
 };
 
 const DrawerMenu = () => {
+  const dispatch = useDispatch()
   const [value, setValue] = useState<number[]>([20, 60]);
   const [chipData, setChipData] = useState<readonly ChipData[]>([
     { key: 0, label: 'Angular' },
@@ -93,10 +94,6 @@ const DrawerMenu = () => {
     },
   ];
 
-  function valuetext(value: number) {
-    return `${value}°C`;
-  }
-
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
   };
@@ -105,6 +102,13 @@ const DrawerMenu = () => {
     setChipData((chips) =>
       chips.filter((chip) => chip.key !== chipToDelete.key)
     );
+  };
+
+  const handleSearchFilter = () => {
+    dispatch({
+      type: GET_ALL_PRODUCTS_QUERY_SAGA,
+      payload: { priceRange: value },
+    });
   };
 
   return (
@@ -153,7 +157,6 @@ const DrawerMenu = () => {
       </Divider>
       <Box sx={{ width: 300, margin: '10px auto' }}>
         <Slider
-          getAriaValueText={valuetext}
           step={10}
           valueLabelDisplay='auto'
           marks={marks}
@@ -163,9 +166,7 @@ const DrawerMenu = () => {
           sx={{ color: '#f97316' }}
         />
       </Box>
-      <Divider sx={{ fontWeight: 500, letterSpacing: '2px' }} textAlign='left'>
-        SIZE
-      </Divider>
+      <Divider />
       <Stack
         sx={{
           marginTop: '15px',
@@ -176,11 +177,16 @@ const DrawerMenu = () => {
         alignItems='center'
         spacing={2}
       >
-        <Button color='warning' variant='outlined' size='small'>
-          {`< 6 inch`}
+        <Button
+          onClick={() => handleSearchFilter()}
+          color='warning'
+          variant='contained'
+          size='small'
+        >
+          Search
         </Button>
-        <Button color='warning' variant='contained' size='small'>
-          {`> 6 inch`}
+        <Button color='warning' variant='outlined' size='small'>
+          Unfilter
         </Button>
       </Stack>
       <Divider sx={{ fontWeight: 500, letterSpacing: '2px' }} textAlign='left'>

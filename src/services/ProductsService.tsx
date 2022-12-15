@@ -5,10 +5,26 @@ import { httpClient } from './settings';
 export const GetAllProductHTTP = () => httpClient.get<IProduct[]>('/products');
 
 export const GetAllProductByQueryHTTP = (
-  sortQuery: TypeGetAllProductsQueryAction['payload']
+  query: TypeGetAllProductsQueryAction['payload']
 ) => {
-  const searchParams = new URLSearchParams(sortQuery);
-  httpClient.get<IProduct[]>(`/products?${searchParams}`);
+  let searchParams = '';
+  let stringParams;
+  for (const [key, value] of Object.entries(query)) {
+    if (Array.isArray(value)) {
+      let params = new URLSearchParams();
+
+      value.forEach((element) => {
+        params.append(`${[key]}`, element);
+      });
+
+      stringParams = params.toString();
+    } else {
+      stringParams = new URLSearchParams({ [key]: value });
+    }
+    searchParams += stringParams;
+  }
+
+  return httpClient.get<IProduct[]>(`/products?${searchParams}`);
 };
 
 export const GetProductHTTP = (id: string) =>

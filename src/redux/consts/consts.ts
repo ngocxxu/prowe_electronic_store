@@ -62,7 +62,7 @@ export interface TypeGetProductAction {
 
 export interface TypeGetAllProductsQueryAction {
   type: typeof GET_ALL_PRODUCTS_QUERY_SAGA;
-  payload: { sort: string };
+  payload: { sort?: string; priceRange?: []; name?: string };
 }
 
 // CART
