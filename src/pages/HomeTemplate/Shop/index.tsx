@@ -1,6 +1,5 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-import Pagination from '@mui/material/Pagination';
 import {
   Accordion,
   AccordionDetails,
@@ -21,8 +20,9 @@ import {
   styled,
   Typography,
 } from '@mui/material';
+import Pagination from '@mui/material/Pagination';
 import { Container } from '@mui/system';
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Breadcrumb from 'src/components/Breadcrumb';
 import { ProductItem } from 'src/components/ProductItem';
@@ -32,6 +32,7 @@ import {
   GET_ALL_PRODUCTS_SAGA,
 } from 'src/redux/consts/consts';
 import { ChipData } from 'src/types/GeneralTypes';
+import { MAX_PRICE, MIN_PRICE } from 'src/utils';
 import Ba1 from '../../../assets/img/background/collection.jpg';
 import LogoBrand from '../../../assets/img/others/logo-brand.jpg';
 import './style.scss';
@@ -71,8 +72,8 @@ const SortingBox = () => {
 };
 
 const DrawerMenu = () => {
-  const dispatch = useDispatch()
-  const [value, setValue] = useState<number[]>([20, 60]);
+  const dispatch = useDispatch();
+  const [value, setValue] = useState<number[]>([MIN_PRICE, MAX_PRICE]);
   const [chipData, setChipData] = useState<readonly ChipData[]>([
     { key: 0, label: 'Angular' },
     { key: 1, label: 'jQuery' },
@@ -85,12 +86,12 @@ const DrawerMenu = () => {
 
   const marks = [
     {
-      value: 0,
-      label: `$${value[0]}`,
+      value: MIN_PRICE,
+      label: `${MIN_PRICE}$`,
     },
     {
-      value: 100,
-      label: `$${value[1]}`,
+      value: MAX_PRICE,
+      label: `${MAX_PRICE}$`,
     },
   ];
 
@@ -108,6 +109,14 @@ const DrawerMenu = () => {
     dispatch({
       type: GET_ALL_PRODUCTS_QUERY_SAGA,
       payload: { priceRange: value },
+    });
+  };
+
+  const handleUnFilter = () => {
+    setValue([MIN_PRICE, MAX_PRICE]);
+    dispatch({
+      type: GET_ALL_PRODUCTS_QUERY_SAGA,
+      payload: { priceRange: [MIN_PRICE, MAX_PRICE] },
     });
   };
 
@@ -157,13 +166,15 @@ const DrawerMenu = () => {
       </Divider>
       <Box sx={{ width: 300, margin: '10px auto' }}>
         <Slider
-          step={10}
+          step={200}
           valueLabelDisplay='auto'
           marks={marks}
           getAriaLabel={() => 'Temperature range'}
           value={value}
           onChange={handleChange}
           sx={{ color: '#f97316' }}
+          min={MIN_PRICE}
+          max={MAX_PRICE}
         />
       </Box>
       <Divider />
@@ -185,7 +196,12 @@ const DrawerMenu = () => {
         >
           Search
         </Button>
-        <Button color='warning' variant='outlined' size='small'>
+        <Button
+          onClick={() => handleUnFilter()}
+          color='warning'
+          variant='outlined'
+          size='small'
+        >
           Unfilter
         </Button>
       </Stack>
