@@ -31,11 +31,15 @@ import {
   REMOVE_ALL_FAVOR_SAGA,
   REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
-import { toggleOpenModal } from 'src/redux/reducers/otherReducer';
+import {
+  toggleOpenModal,
+  toggleOpenQuickViewModal,
+} from 'src/redux/reducers/otherReducer';
 import { REFRESHTOKEN } from 'src/services/settings';
 import { Props } from 'src/types/GeneralTypes';
 import Stack from '@mui/material/Stack';
 import ClearIcon from '@mui/icons-material/Clear';
+import QuickView from '../QuickView';
 
 const pages = [
   {
@@ -78,6 +82,9 @@ export const Header = (props: Props) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
+  const { isOpenModal, isOpenQuickViewModal } = useSelector(
+    (state: RootState) => state.otherReducer
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logo = require('../../../assets/img/others/logo.png');
@@ -250,7 +257,10 @@ export const Header = (props: Props) => {
                 </IconButton>
 
                 {/* Modal for favorite items */}
-                <FeatureModal>
+                <FeatureModal
+                  onClose={() => dispatch(toggleOpenModal(false))}
+                  open={isOpenModal}
+                >
                   <>
                     <Stack
                       direction='row'
@@ -363,6 +373,15 @@ export const Header = (props: Props) => {
                       </div>
                     )}
                   </>
+                </FeatureModal>
+
+                {/* Modal for quick view */}
+                <FeatureModal
+                  width={800}
+                  onClose={() => dispatch(toggleOpenQuickViewModal(false))}
+                  open={isOpenQuickViewModal}
+                >
+                  <QuickView />
                 </FeatureModal>
 
                 <TemporaryDrawer dataCart={dataCart} direction='right' />

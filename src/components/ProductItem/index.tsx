@@ -10,8 +10,10 @@ import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_CART_SAGA,
   ADD_TO_FAVOR_SAGA,
+  GET_PRODUCT_SAGA,
   REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
+import { toggleOpenQuickViewModal } from 'src/redux/reducers/otherReducer';
 import { IProduct } from 'src/types/GeneralTypes';
 import './style.scss';
 
@@ -85,7 +87,15 @@ export const ProductItem = memo(({ item }: { item: IProduct }) => {
               placement='top'
               arrow
             >
-              <IconButton>
+              <IconButton
+                onClick={() => {
+                  dispatch(toggleOpenQuickViewModal(true));
+                  dispatch({
+                    type: GET_PRODUCT_SAGA,
+                    payload: _id,
+                  });
+                }}
+              >
                 <SearchIcon />
               </IconButton>
             </Tooltip>

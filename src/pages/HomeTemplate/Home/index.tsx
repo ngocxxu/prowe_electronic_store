@@ -141,9 +141,6 @@ const DynamicTracking = () => {
 };
 
 const BestSeller = memo(({ dataAllProducts }: IHomeProps) => {
-  // const { dataAllProducts } = useSelector(
-  //   (state: RootState) => state.productReducer
-  // );
   const dispatch = useDispatch();
 
   useEffect(() => {

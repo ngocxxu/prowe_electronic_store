@@ -24,6 +24,11 @@ export interface OtherState {
   activeStep: number;
   isDrawer: boolean;
   isOpenModal: boolean;
+  isOpenQuickViewModal: boolean;
+  stateToggleDrawer: {
+    anchor: string;
+    open: boolean;
+  };
   notify: {
     isNotification: boolean;
     severity?: AlertColor;

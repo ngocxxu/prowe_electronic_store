@@ -20,7 +20,7 @@ import { REMOVE_TO_CART_SAGA } from 'src/redux/consts/consts';
 import { ICart } from 'src/types/GeneralTypes';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 
-type Anchor = 'top' | 'right';
+export type Anchor = 'top' | 'right';
 
 export const TemporaryDrawer = memo(
   ({ direction, dataCart }: { direction: Anchor; dataCart?: ICart }) => {
