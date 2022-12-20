@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ProductSwiper } from 'src/components/Swiper';
 import { RootState } from 'src/redux/configStore';
 import { ADD_TO_CART_SAGA } from 'src/redux/consts/consts';
-import { toggleDrawer, toggleOpenQuickViewModal } from 'src/redux/reducers/otherReducer';
+import { toggleOpenQuickViewModal } from 'src/redux/reducers/otherReducer';
 
 const QuickView = () => {
   const { dataProduct } = useSelector(
@@ -71,7 +71,6 @@ const QuickView = () => {
                 },
               });
               dispatch(toggleOpenQuickViewModal(false));
-              // dispatch(toggleDrawer('right', false));
             }}
             sx={{ width: '100%' }}
             color='warning'
