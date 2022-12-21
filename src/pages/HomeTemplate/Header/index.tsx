@@ -224,7 +224,7 @@ export const Header = (props: Props) => {
                       onClick={handleOpenUserMenu}
                       avatar={
                         <Avatar
-                          alt='Natacha'
+                          alt={myInfo.email}
                           src={`https://avatars.dicebear.com/api/bottts/${myInfo._id}.svg`}
                         />
                       }

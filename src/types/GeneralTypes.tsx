@@ -105,3 +105,12 @@ export type IFavor = {
   idFavor: string;
   favorItems: IProductCart[];
 };
+
+// COMMENT
+export type IComment = {
+  userId: IUser;
+  content: string;
+  rate: number;
+  createdAt: string | Date;
+  updatedAt: string | Date;
+};

@@ -7,6 +7,7 @@ import userReducer from './reducers/userReducer';
 import { rootSaga } from './saga/rootSaga';
 import cartReducer from './reducers/cartReducer';
 import favorReducer from './reducers/favorReducer';
+import commentReducer from './reducers/commentReducer';
 
 const middleWareSaga = createSagaMiddleware();
 const middleware = [...getDefaultMiddleware({ thunk: false }), middleWareSaga];
@@ -19,6 +20,7 @@ export const store = configureStore({
     userReducer: userReducer,
     cartReducer: cartReducer,
     favorReducer: favorReducer,
+    commentReducer: commentReducer,
   },
   middleware,
 });

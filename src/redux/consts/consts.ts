@@ -18,6 +18,10 @@ export const GET_FAVOR_SAGA = 'GET_FAVOR_SAGA';
 export const ADD_TO_FAVOR_SAGA = 'ADD_TO_FAVOR_SAGA';
 export const REMOVE_TO_FAVOR_SAGA = 'REMOVE_TO_FAVOR_SAGA';
 export const REMOVE_ALL_FAVOR_SAGA = 'REMOVE_ALL_FAVOR_SAGA';
+export const GET_COMMENT_SAGA = 'GET_COMMENT_SAGA';
+export const ADD_TO_COMMENT_SAGA = 'ADD_TO_COMMENT_SAGA';
+export const REMOVE_TO_COMMENT_SAGA = 'REMOVE_TO_COMMENT_SAGA';
+export const REMOVE_ALL_COMMENT_SAGA = 'REMOVE_ALL_COMMENT_SAGA';
 
 // USER
 export interface TypeRegisterUserAction {
@@ -123,4 +127,28 @@ export interface TypeRemoveToFavorAction {
 export interface TypeRemoveAllFavorAction {
   type: typeof REMOVE_ALL_FAVOR_SAGA;
   payload: string;
+}
+
+// COMMENT
+export interface TypeGetCommentAction {
+  type: typeof GET_COMMENT_SAGA;
+  payload: string;
+}
+
+export interface TypeAddToCommentAction {
+  type: typeof ADD_TO_COMMENT_SAGA;
+  payload: {
+    id: string;
+    idProduct: string;
+    content: string;
+    rate: number;
+  };
+}
+
+export interface TypeRemoveToCommentAction {
+  type: typeof REMOVE_TO_COMMENT_SAGA;
+  payload: {
+    idComment: string;
+    idProduct: string;
+  };
 }
