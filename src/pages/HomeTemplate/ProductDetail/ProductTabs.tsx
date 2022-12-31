@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import dayjs from 'dayjs';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { RootState } from 'src/redux/configStore';
@@ -117,7 +117,6 @@ const ListComment = ({ dataComment }: { dataComment: IComment[] }) => {
 };
 
 export const ProductTabs = () => {
-  const formRef = useRef<HTMLFormElement>(null)
   const { id } = useParams();
   const dispatch = useDispatch();
   const [value, setValue] = useState('1');
@@ -142,8 +141,8 @@ export const ProductTabs = () => {
         rate: reviewValue,
       },
     });
-
-    console.dir(formRef.current)
+    setText('');
+    // console.dir(formRef.current);
   };
 
   useEffect(() => {
@@ -391,7 +390,6 @@ export const ProductTabs = () => {
               sx={{ marginTop: '15px' }}
             >
               <Box
-                ref={formRef}
                 sx={{ width: '100%' }}
                 component='form'
                 onSubmit={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -403,8 +401,10 @@ export const ProductTabs = () => {
                   required
                   value={text}
                   onChange={(event) => setText(event.target.value)}
-                  error={text === ''}
-                  helperText={text === '' ? 'Please input your review!' : ' '}
+                  // error={text?.trim() === ''}
+                  // helperText={
+                  //   text?.trim() === '' ? 'Please input your review!' : ' '
+                  // }
                   fullWidth
                   id='outlined-multiline-static'
                   label='Your Review'
@@ -413,7 +413,7 @@ export const ProductTabs = () => {
                 />
                 <Button
                   type='submit'
-                  sx={{ width: '100%' }}
+                  sx={{ width: '100%', mt: 2 }}
                   size='large'
                   color='warning'
                   variant='contained'
