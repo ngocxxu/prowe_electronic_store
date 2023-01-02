@@ -78,6 +78,7 @@ export type IProduct = {
   categories: string[];
   inventory: number;
   sale: number;
+  avgReviews: number;
   is: {
     hot: boolean;
     new: boolean;

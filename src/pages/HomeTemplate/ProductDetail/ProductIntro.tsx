@@ -25,12 +25,14 @@ import {
 } from 'src/redux/consts/consts';
 
 export const ProductIntro = () => {
-  const [value, setValue] = useState<number | null>(2);
   const [toggleFavor, setToggleFavor] = useState(false);
   const [quantity, setQuantity] = useState<number | string>(1);
   const theme = useTheme();
   const dispatch = useDispatch();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+  const { dataComment } = useSelector(
+    (state: RootState) => state.commentReducer
+  );
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
   const { dataProduct } = useSelector(
@@ -38,12 +40,11 @@ export const ProductIntro = () => {
   );
   const {
     inventory,
-    is,
     image,
     name,
     price,
     _id,
-    sale,
+    avgReviews,
     categories,
     description,
   } = dataProduct;
@@ -132,8 +133,14 @@ export const ProductIntro = () => {
           </Tooltip>
         </Stack>
         <Stack direction='row' alignItems='center' sx={{ margin: '20px 0' }}>
-          <Rating name='read-only' value={value} readOnly size='small' />
-          <Typography variant='caption'>&nbsp; No reviews</Typography>
+          <Rating name='read-only' value={avgReviews} readOnly size='small' />
+          {dataComment.length > 0 ? (
+            <Typography variant='caption'>
+              &nbsp; {dataComment.length} reviews
+            </Typography>
+          ) : (
+            <Typography variant='caption'>&nbsp; No reviews</Typography>
+          )}
         </Stack>
         <Divider />
         <Typography sx={{ color: '#969696', margin: '20px 0' }} variant='body1'>

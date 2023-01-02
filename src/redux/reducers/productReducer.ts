@@ -16,6 +16,7 @@ export const dataProduct = {
   categories: ['Mobiles', 'Tablets'],
   inventory: 30,
   sale: 0,
+  avgReviews: 0,
   is: {
     hot: false,
     new: false,
@@ -47,6 +48,7 @@ const initialState: InitialStateProduct = {
       categories: ['', ''],
       inventory: 30,
       sale: 0,
+      avgReviews: 0,
       is: {
         hot: false,
         new: false,

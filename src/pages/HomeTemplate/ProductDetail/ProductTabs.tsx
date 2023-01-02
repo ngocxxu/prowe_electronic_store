@@ -19,7 +19,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { RootState } from 'src/redux/configStore';
-import { ADD_TO_COMMENT_SAGA, GET_COMMENT_SAGA } from 'src/redux/consts/consts';
+import {
+  ADD_TO_COMMENT_SAGA,
+  GET_COMMENT_SAGA,
+  GET_PRODUCT_SAGA,
+} from 'src/redux/consts/consts';
 import { IComment } from 'src/types/GeneralTypes';
 import Insta10 from '../../../assets/img/lib/instagram10.jpg';
 import Insta9 from '../../../assets/img/lib/instagram9.jpg';
@@ -141,8 +145,11 @@ export const ProductTabs = () => {
         rate: reviewValue,
       },
     });
+    dispatch({
+      type: GET_PRODUCT_SAGA,
+      payload: id,
+    });
     setText('');
-    // console.dir(formRef.current);
   };
 
   useEffect(() => {
