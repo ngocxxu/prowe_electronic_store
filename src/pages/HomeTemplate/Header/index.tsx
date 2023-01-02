@@ -1,4 +1,5 @@
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ClearIcon from '@mui/icons-material/Clear';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -13,6 +14,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
@@ -24,8 +26,6 @@ import FeatureModal from 'src/components/Modal';
 import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_CART_SAGA,
-  GET_CART_SAGA,
-  GET_FAVOR_SAGA,
   GET_MY_USER_SAGA,
   LOGOUT_USER_SAGA,
   REMOVE_ALL_FAVOR_SAGA,
@@ -37,8 +37,6 @@ import {
 } from 'src/redux/reducers/otherReducer';
 import { REFRESHTOKEN } from 'src/services/settings';
 import { Props } from 'src/types/GeneralTypes';
-import Stack from '@mui/material/Stack';
-import ClearIcon from '@mui/icons-material/Clear';
 import QuickView from '../QuickView';
 
 const pages = [
@@ -111,15 +109,7 @@ export const Header = (props: Props) => {
     dispatch({
       type: GET_MY_USER_SAGA,
     });
-    dispatch({
-      type: GET_CART_SAGA,
-      payload: myInfo.idCart,
-    });
-    dispatch({
-      type: GET_FAVOR_SAGA,
-      payload: myInfo.idFavor,
-    });
-  }, [dispatch, myInfo.idCart, myInfo.idFavor]);
+  }, [dispatch]);
 
   return (
     <>

@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'src/redux/configStore';
 import { updateActiveStep } from 'src/redux/reducers/otherReducer';
-import { CheckoutForm, CheckoutShipping } from '..';
+import { CheckoutForm } from '../CheckoutForm';
+import { CheckoutShipping } from '../CheckoutShipping';
 
 const steps = ['Information', 'Shipping', 'Payment'];
 

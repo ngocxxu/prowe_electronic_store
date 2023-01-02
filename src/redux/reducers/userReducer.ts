@@ -14,7 +14,7 @@ const initialState: UserState = {
 };
 
 const userReducer = createSlice({
-  name: 'otherReducer/updateActiveStepAction', //ten reducer/actioname
+  name: 'userReducer/user', //ten reducer/actioname
   initialState, //giá trị mặc định của reducer (stateDefault)
   reducers: {
     getMyInfo: (state, action) => {

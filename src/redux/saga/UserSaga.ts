@@ -10,6 +10,8 @@ import {
 } from 'src/services/UserService';
 import { IAuth, IUser } from 'src/types/GeneralTypes';
 import {
+  GET_CART_SAGA,
+  GET_FAVOR_SAGA,
   GET_MY_USER_SAGA,
   LOGIN_USER_SAGA,
   LOGOUT_USER_SAGA,
@@ -113,6 +115,14 @@ function* getMyUserSaga() {
 
     if (status === STATUS_CODES.SUCCESS) {
       yield put(getMyInfo(data));
+      yield put({
+        type: GET_CART_SAGA,
+        payload: data.idCart,
+      });
+      yield put({
+        type: GET_FAVOR_SAGA,
+        payload: data.idFavor,
+      });
     } else {
       console.log('error');
     }
