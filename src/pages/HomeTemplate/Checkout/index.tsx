@@ -6,11 +6,10 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { useEffect, Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/redux/configStore';
 import { GET_MY_USER_SAGA } from 'src/redux/consts/consts';
-import Pd1 from '../../../assets/img/product/7.1.jpg';
 import HorizontalLinearStepper from './Stepper';
 
 export const Checkout = () => {
@@ -41,24 +40,29 @@ export const Checkout = () => {
           md={5}
         >
           {lineItems.length > 0 &&
-            lineItems.map((item, index) => {
-              const { _id, subQuantity, price, image, name } = item;
+            lineItems.map((item) => {
+              const { subQuantity, product } = item;
               return (
-                <Fragment key={_id}>
+                <Fragment key={product._id}>
                   <Box>
                     <div className='flex justify-between items-center mb-4'>
                       <div className='flex justify-center items-center'>
-                        <Badge badgeContent={4} color='primary'>
+                        <Badge badgeContent={subQuantity} color='primary'>
                           <div className='max-w-full w-20 border rounded border-[#b8aa83]'>
-                            <img alt='prod' src={Pd1} className='w-full' />
+                            <img
+                              alt='prod'
+                              src={product.image?.main}
+                              className='w-full'
+                            />
                           </div>
                         </Badge>
                         <div className='ml-4'>
-                          <Typography variant='subtitle1'>{name}</Typography>
-                          <Typography variant='caption'>white</Typography>
+                          <Typography variant='subtitle1'>
+                            {product.name}
+                          </Typography>
                         </div>
                       </div>
-                      <div>${price?.raw}</div>
+                      <div>${product.price?.raw}</div>
                     </div>
                   </Box>
                   <Divider sx={{ mt: 2, mb: 2 }} />
@@ -87,7 +91,7 @@ export const Checkout = () => {
               <Typography variant='overline' display='block'>
                 USD &nbsp;
               </Typography>
-              <Typography variant='h5'>$396.00</Typography>
+              <Typography variant='h5'>${subTotal}</Typography>
             </div>
           </div>
         </Grid>

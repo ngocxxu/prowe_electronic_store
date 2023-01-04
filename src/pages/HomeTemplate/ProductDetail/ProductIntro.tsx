@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { ProductSwiper } from 'src/components/Swiper';
 import { RootState } from 'src/redux/configStore';
 import {
@@ -25,6 +26,7 @@ import {
 } from 'src/redux/consts/consts';
 
 export const ProductIntro = () => {
+  const navigate = useNavigate();
   const [toggleFavor, setToggleFavor] = useState(false);
   const [quantity, setQuantity] = useState<number | string>(1);
   const theme = useTheme();
@@ -232,6 +234,20 @@ export const ProductIntro = () => {
             ADD TO CART
           </Button>
           <Button
+            onClick={() => {
+              dispatch({
+                type: ADD_TO_CART_SAGA,
+                payload: {
+                  idCart: dataCart.idCart,
+                  data: {
+                    idProduct: _id,
+                    quantity,
+                    price: price.raw,
+                  },
+                },
+              });
+              navigate('/cart/checkout');
+            }}
             sx={{ backgroundColor: 'black', width: '100%' }}
             color='warning'
             variant='contained'
