@@ -5,7 +5,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'src/redux/configStore';
@@ -19,27 +19,49 @@ export default function HorizontalLinearStepper() {
   const { activeStep } = useSelector((state: RootState) => state.otherReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { handleSubmit, handleChange } = useFormik({
+    initialValues: {
+      country: '',
+      name: '',
+      address: '',
+      apartment: '',
+      city: '',
+      zip: '',
+    },
+    // validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log({ values });
+      handleNext();
+      // dispatch({
+      //   type: LOGIN_USER_SAGA,
+      //   payload: {
+      //     data: values,
+      //   },
+      // });
+    },
+  });
+
   // const [activeStep, setActiveStep] = useState(0);
-  const [skipped, setSkipped] = useState(new Set<number>());
+  // const [skipped, setSkipped] = useState(new Set<number>());
 
-  const isStepOptional = (step: number) => {
-    return step === 1;
-  };
+  // const isStepOptional = (step: number) => {
+  //   return step === 1;
+  // };
 
-  const isStepSkipped = (step: number) => {
-    return skipped.has(step);
-  };
+  // const isStepSkipped = (step: number) => {
+  //   return skipped.has(step);
+  // };
 
   const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
+    // let newSkipped = skipped;
+    // if (isStepSkipped(activeStep)) {
+    //   newSkipped = new Set(newSkipped.values());
+    //   newSkipped.delete(activeStep);
+    // }
 
     dispatch(updateActiveStep(activeStep + 1));
     // setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    // setSkipped(newSkipped);
   };
 
   const handleBack = () => {
@@ -47,21 +69,21 @@ export default function HorizontalLinearStepper() {
     // setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
+  // const handleSkip = () => {
+  //   if (!isStepOptional(activeStep)) {
+  //     // You probably want to guard against something like this,
+  //     // it should never occur unless someone's actively trying to break something.
+  //     throw new Error("You can't skip a step that isn't optional.");
+  //   }
 
-    dispatch(updateActiveStep(activeStep + 1));
-    // setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
+  //   dispatch(updateActiveStep(activeStep + 1));
+  //   // setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  //   setSkipped((prevSkipped) => {
+  //     const newSkipped = new Set(prevSkipped.values());
+  //     newSkipped.add(activeStep);
+  //     return newSkipped;
+  //   });
+  // };
 
   const handleReset = () => {
     dispatch(updateActiveStep(0));
@@ -81,9 +103,9 @@ export default function HorizontalLinearStepper() {
           //     <Typography variant='caption'>Optional</Typography>
           //   );
           // }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
+          // if (isStepSkipped(index)) {
+          //   stepProps.completed = false;
+          // }
           return (
             <Step key={label} {...stepProps}>
               <StepLabel>{label}</StepLabel>
@@ -102,13 +124,14 @@ export default function HorizontalLinearStepper() {
           </Box>
         </>
       ) : (
-        <>
+        <Box onSubmit={handleSubmit} component='form' autoComplete='off'>
           {/* Information */}
-          {activeStep === 0 && <CheckoutForm />}
+          {activeStep === 0 && <CheckoutForm handleChange={handleChange} />}
           {/* Shipping */}
           {activeStep === 1 && <CheckoutShipping />}
           {/* Payment */}
           {activeStep === 2 && <CheckoutShipping />}
+
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             {activeStep === 0 ? (
               <Button
@@ -134,11 +157,14 @@ export default function HorizontalLinearStepper() {
                 Skip
               </Button>
             )} */}
-            <Button onClick={handleNext}>
+            <Button
+              type={activeStep === 0 ? 'submit' : 'button'}
+              // onClick={FhandleNext}
+            >
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
-        </>
+        </Box>
       )}
     </Box>
   );

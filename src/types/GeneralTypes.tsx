@@ -115,3 +115,8 @@ export type IComment = {
   createdAt: string | Date;
   updatedAt: string | Date;
 };
+
+// CHECKOUT FORM
+export type TCheckoutForm = {
+  handleChange: (e: React.ChangeEvent<any>) => void;
+};
