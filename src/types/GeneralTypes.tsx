@@ -119,4 +119,25 @@ export type IComment = {
 // CHECKOUT FORM
 export type TCheckoutForm = {
   handleChange: (e: React.ChangeEvent<any>) => void;
+  values: TCheckoutFormValues;
+};
+
+// CHECKOUT SHIPPING
+export type TCheckoutShipping = {
+  handleChange: (e: React.ChangeEvent<any>) => void;
+  values: TCheckoutFormValues;
+};
+
+export type TCheckoutFormValues = {
+  country: string;
+  name: string;
+  address: string;
+  apartment: string;
+  city: string;
+  zip: string;
+  shippingMethod: string;
+  cardNumber: number | string;
+  expYear: number | string;
+  expMonth: number | string;
+  CVCAndCVV: number | string;
 };

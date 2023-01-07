@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/redux/configStore';
 import { TCheckoutForm } from 'src/types/GeneralTypes';
 
-const currencies = [
+const countries = [
   {
     value: 'vn',
     label: 'Viet Nam',
@@ -22,12 +22,11 @@ const currencies = [
   },
 ];
 
-export const CheckoutForm = ({ handleChange }: TCheckoutForm) => {
+export const CheckoutForm = ({ handleChange, values }: TCheckoutForm) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
 
   return (
     <>
-      {/* <Box component='form' autoComplete='off'> */}
       <Typography sx={{ mt: 3 }} variant='h6'>
         Contact Information
       </Typography>
@@ -41,11 +40,9 @@ export const CheckoutForm = ({ handleChange }: TCheckoutForm) => {
         name='country'
         select
         label='Country / Region'
-        // value={currency}
         onChange={handleChange}
-        // helperText='Please select your currency'
       >
-        {currencies.map((option) => (
+        {countries.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}
           </MenuItem>
@@ -60,6 +57,7 @@ export const CheckoutForm = ({ handleChange }: TCheckoutForm) => {
         }}
       >
         <TextField
+          value={values.name}
           onChange={handleChange}
           id='name'
           name='name'
@@ -135,7 +133,6 @@ export const CheckoutForm = ({ handleChange }: TCheckoutForm) => {
           label='ZIP code'
         />
       </Box>
-      {/* </Box> */}
     </>
   );
 };

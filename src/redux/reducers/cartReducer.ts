@@ -1,9 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICart } from 'src/types/GeneralTypes';
+import { ICart, TCheckoutFormValues } from 'src/types/GeneralTypes';
 
 interface InitialStateProduct {
   dataCart: ICart;
+  dataFormCheckout: TCheckoutFormValues;
 }
+
+export const DataFormCheckout = {
+  country: '',
+  name: '',
+  address: '',
+  apartment: '',
+  city: '',
+  zip: '',
+  shippingMethod: '',
+  cardNumber: '',
+  expYear: '',
+  expMonth: '',
+  CVCAndCVV: '',
+};
 
 const initialState: InitialStateProduct = {
   dataCart: {
@@ -11,8 +26,9 @@ const initialState: InitialStateProduct = {
     totalItems: 0,
     subTotal: 0,
     lineItems: [],
-    discount: [], 
+    discount: [],
   },
+  dataFormCheckout: DataFormCheckout,
 };
 
 const cartReducer = createSlice({
@@ -22,9 +38,16 @@ const cartReducer = createSlice({
     getCartApiAction: (state, action: PayloadAction<ICart>) => {
       state.dataCart = action.payload;
     },
+    getDataFormCheckoutApiAction: (
+      state,
+      action: PayloadAction<TCheckoutFormValues>
+    ) => {
+      state.dataFormCheckout = action.payload;
+    },
   },
 });
 
-export const { getCartApiAction } = cartReducer.actions;
+export const { getCartApiAction, getDataFormCheckoutApiAction } =
+  cartReducer.actions;
 
 export default cartReducer.reducer;

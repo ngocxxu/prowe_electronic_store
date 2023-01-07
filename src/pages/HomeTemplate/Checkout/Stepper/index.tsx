@@ -9,6 +9,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'src/redux/configStore';
+import { getDataFormCheckoutApiAction } from 'src/redux/reducers/cartReducer';
 import { updateActiveStep } from 'src/redux/reducers/otherReducer';
 import { CheckoutForm } from '../CheckoutForm';
 import { CheckoutShipping } from '../CheckoutShipping';
@@ -17,27 +18,42 @@ const steps = ['Information', 'Shipping', 'Payment'];
 
 export default function HorizontalLinearStepper() {
   const { activeStep } = useSelector((state: RootState) => state.otherReducer);
+  const {
+    dataFormCheckout: {
+      country,
+      name,
+      address,
+      apartment,
+      city,
+      zip,
+      shippingMethod,
+      cardNumber,
+      expYear,
+      expMonth,
+      CVCAndCVV,
+    },
+  } = useSelector((state: RootState) => state.cartReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { handleSubmit, handleChange } = useFormik({
+  const { handleSubmit, handleChange, values, resetForm } = useFormik({
     initialValues: {
-      country: '',
-      name: '',
-      address: '',
-      apartment: '',
-      city: '',
-      zip: '',
+      country: country ?? '',
+      name: name ?? '',
+      address: address ?? '',
+      apartment: apartment ?? '',
+      city: city ?? '',
+      zip: zip ?? '',
+      shippingMethod: shippingMethod ?? 'standard',
+      cardNumber: cardNumber ?? '',
+      expYear: expYear ?? '',
+      expMonth: expMonth ?? '',
+      CVCAndCVV: CVCAndCVV ?? '',
     },
     // validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log({ values });
       handleNext();
-      // dispatch({
-      //   type: LOGIN_USER_SAGA,
-      //   payload: {
-      //     data: values,
-      //   },
-      // });
+      dispatch(getDataFormCheckoutApiAction(values));
     },
   });
 
@@ -86,6 +102,8 @@ export default function HorizontalLinearStepper() {
   // };
 
   const handleReset = () => {
+    resetForm();
+    dispatch(getDataFormCheckoutApiAction(values));
     dispatch(updateActiveStep(0));
     // setActiveStep(0);
   };
@@ -126,11 +144,17 @@ export default function HorizontalLinearStepper() {
       ) : (
         <Box onSubmit={handleSubmit} component='form' autoComplete='off'>
           {/* Information */}
-          {activeStep === 0 && <CheckoutForm handleChange={handleChange} />}
+          {activeStep === 0 && (
+            <CheckoutForm handleChange={handleChange} values={values} />
+          )}
           {/* Shipping */}
-          {activeStep === 1 && <CheckoutShipping />}
+          {activeStep === 1 && (
+            <CheckoutShipping handleChange={handleChange} values={values} />
+          )}
           {/* Payment */}
-          {activeStep === 2 && <CheckoutShipping />}
+          {activeStep === 2 && (
+            <CheckoutShipping handleChange={handleChange} values={values} />
+          )}
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             {activeStep === 0 ? (
@@ -158,8 +182,8 @@ export default function HorizontalLinearStepper() {
               </Button>
             )} */}
             <Button
-              type={activeStep === 0 ? 'submit' : 'button'}
-              // onClick={FhandleNext}
+              type='submit'
+              // onClick={handleNext}
             >
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
