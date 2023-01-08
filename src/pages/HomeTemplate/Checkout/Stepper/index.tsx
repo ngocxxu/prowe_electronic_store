@@ -9,6 +9,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'src/redux/configStore';
+import { REMOVE_ALL_CART_SAGA } from 'src/redux/consts/consts';
 import { getDataFormCheckoutApiAction } from 'src/redux/reducers/cartReducer';
 import { updateActiveStep } from 'src/redux/reducers/otherReducer';
 import { CheckoutForm } from '../CheckoutForm';
@@ -17,6 +18,7 @@ import { CheckoutShipping } from '../CheckoutShipping';
 const steps = ['Information', 'Shipping', 'Payment'];
 
 export default function HorizontalLinearStepper() {
+  const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const { activeStep } = useSelector((state: RootState) => state.otherReducer);
   const {
     dataFormCheckout: {
@@ -51,7 +53,15 @@ export default function HorizontalLinearStepper() {
     },
     // validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log({ values });
+      if (activeStep === steps.length - 1) {
+        resetForm();
+        dispatch(getDataFormCheckoutApiAction(values));
+        dispatch(updateActiveStep(0));
+        dispatch({
+          type: REMOVE_ALL_CART_SAGA,
+          payload: dataCart.idCart,
+        });
+      }
       handleNext();
       dispatch(getDataFormCheckoutApiAction(values));
     },
@@ -101,11 +111,11 @@ export default function HorizontalLinearStepper() {
   //   });
   // };
 
-  const handleReset = () => {
+  const handleNavigate = () => {
     resetForm();
     dispatch(getDataFormCheckoutApiAction(values));
     dispatch(updateActiveStep(0));
-    // setActiveStep(0);
+    navigate('/');
   };
 
   return (
@@ -134,11 +144,12 @@ export default function HorizontalLinearStepper() {
       {activeStep === steps.length ? (
         <>
           <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
+            All steps completed - you&apos;re will received the email billing
+            information soon.
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
+            <Button onClick={handleNavigate}>Return To Homepage</Button>
           </Box>
         </>
       ) : (

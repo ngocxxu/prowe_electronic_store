@@ -35,6 +35,7 @@ export const CheckoutForm = ({ handleChange, values }: TCheckoutForm) => {
         Shipping Address
       </Typography>
       <TextField
+        value={values.country}
         fullWidth
         id='country'
         name='country'
@@ -74,6 +75,7 @@ export const CheckoutForm = ({ handleChange, values }: TCheckoutForm) => {
           /> */}
       </Box>
       <TextField
+        value={values.address}
         onChange={handleChange}
         id='address'
         name='address'
@@ -83,6 +85,7 @@ export const CheckoutForm = ({ handleChange, values }: TCheckoutForm) => {
         label='Address'
       />
       <TextField
+        value={values.apartment}
         onChange={handleChange}
         id='apartment'
         name='apartment'
@@ -91,6 +94,7 @@ export const CheckoutForm = ({ handleChange, values }: TCheckoutForm) => {
         label='Apartment, suite, etc. (optional)'
       />
       <TextField
+        value={values.city}
         onChange={handleChange}
         id='city'
         name='city'
@@ -106,7 +110,8 @@ export const CheckoutForm = ({ handleChange, values }: TCheckoutForm) => {
           justifyContent: 'space-between',
         }}
       >
-        {/* <TextField   onChange={handleChange}
+        {/* <TextField
+        value={values.name}   onChange={handleChange}
           id='city'
           name='city'
             fullWidth
@@ -125,6 +130,7 @@ export const CheckoutForm = ({ handleChange, values }: TCheckoutForm) => {
             ))}
           </TextField> */}
         <TextField
+          value={values.zip}
           onChange={handleChange}
           id='zip'
           name='zip'
