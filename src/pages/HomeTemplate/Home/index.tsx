@@ -125,7 +125,7 @@ const DynamicTracking = () => {
         <img className='max-w-full w-full' src={Tracking1} alt='tracking1' />
       </div>
       <div className='text-center flex-1 my-6 md:my-0'>
-        <h1 className='font-medium text-5xl'>Dynamic Tracking</h1>
+        <h1 className='font-medium text-5xl'>Dynamic Tracking 123456789</h1>
         <p className='p-7'>
           Artisanal rugs, wallpaper, classic vases, and lighting
           accessories—well-made and carefully considered—whether made by Heath
