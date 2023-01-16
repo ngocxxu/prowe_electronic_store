@@ -15,6 +15,29 @@ import LoginExpired from './pages/UserTemplate/Login/LoginExpired';
 import Register from './pages/UserTemplate/Register';
 import RegisterSuccess from './pages/UserTemplate/Register/RegisterSuccess';
 
+// Import the functions you need from the SDKs you need
+import { getAnalytics } from 'firebase/analytics';
+import { initializeApp } from 'firebase/app';
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: 'prowe-electronic-store.firebaseapp.com',
+  projectId: 'prowe-electronic-store',
+  storageBucket: 'prowe-electronic-store.appspot.com',
+  messagingSenderId: '428459684051',
+  appId: '1:428459684051:web:66d65823e69002ff9f6426',
+  measurementId: 'G-0YWNSTRVYT',
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 function App() {
   const routes = [
     {
