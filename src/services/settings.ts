@@ -12,14 +12,11 @@ export const STATUS_CODES = {
 
 export const ACCESSTOKEN = 'accessToken';
 export const REFRESHTOKEN = 'refreshToken';
-
-export const DOMAIN = 'http://localhost:4030/api';
-
-// // const checAPIKey = process.env.REACT_APP_CHEC_PUBLIC_KEY;
+export const API_URL = process.env.REACT_APP_API_URL;
 
 //setup axios interceptor
 export const httpClient = axios.create({
-  baseURL: DOMAIN, //Domain khi request api sẽ được ghép vào với link
+  baseURL: API_URL, //Domain khi request api sẽ được ghép vào với link
   timeout: 30000, //Thời gian tối đa chờ response trả về
   headers: {
     'Content-Type': 'application/json',
