@@ -25,7 +25,7 @@ import { initializeApp } from 'firebase/app';
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
+  apiKey: 'AIzaSyCnOxKXeUW5bbZpXrf1_sOvsLtMba1_DmQ',
   authDomain: 'prowe-electronic-store.firebaseapp.com',
   projectId: 'prowe-electronic-store',
   storageBucket: 'prowe-electronic-store.appspot.com',
