@@ -17,7 +17,7 @@ import {
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_COMMENT_SAGA,
@@ -123,6 +123,7 @@ const ListComment = ({ dataComment }: { dataComment: IComment[] }) => {
 export const ProductTabs = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [value, setValue] = useState('1');
   const [reviewValue, setReviewValue] = useState<number | null>(5);
   const [text, setText] = useState<string | null>();
@@ -369,25 +370,31 @@ export const ProductTabs = () => {
             <Divider />
 
             <Stack direction='row' spacing={2} alignItems='center'>
-              <Typography
-                sx={{
-                  fontWeight: '500',
-                  marginTop: '30px',
-                }}
-                variant='subtitle1'
-              >
-                Your Rating:
-              </Typography>
-              <Box sx={{ marginTop: 'auto' }}>
-                <Rating
-                  sx={{ paddingTop: '33px' }}
-                  name='simple-controlled'
-                  value={reviewValue}
-                  onChange={(event, newValue) => {
-                    setReviewValue(newValue);
-                  }}
-                />
-              </Box>
+              {myInfo.email ? (
+                <>
+                  <Typography
+                    sx={{
+                      fontWeight: '500',
+                      marginTop: '30px',
+                    }}
+                    variant='subtitle1'
+                  >
+                    Your Rating:
+                  </Typography>
+                  <Box sx={{ marginTop: 'auto' }}>
+                    <Rating
+                      sx={{ paddingTop: '33px' }}
+                      name='simple-controlled'
+                      value={reviewValue}
+                      onChange={(event, newValue) => {
+                        setReviewValue(newValue);
+                      }}
+                    />
+                  </Box>
+                </>
+              ) : (
+                <></>
+              )}
             </Stack>
             <Stack
               direction='row'
@@ -404,29 +411,43 @@ export const ProductTabs = () => {
                   e.preventDefault();
                 }}
               >
-                <TextField
-                  required
-                  value={text}
-                  onChange={(event) => setText(event.target.value)}
-                  // error={text?.trim() === ''}
-                  // helperText={
-                  //   text?.trim() === '' ? 'Please input your review!' : ' '
-                  // }
-                  fullWidth
-                  id='outlined-multiline-static'
-                  label='Your Review'
-                  multiline
-                  rows={4}
-                />
-                <Button
-                  type='submit'
-                  sx={{ width: '100%', mt: 2 }}
-                  size='large'
-                  color='warning'
-                  variant='contained'
-                >
-                  Submit
-                </Button>
+                {myInfo.email ? (
+                  <>
+                    <TextField
+                      required
+                      value={text}
+                      onChange={(event) => setText(event.target.value)}
+                      // error={text?.trim() === ''}
+                      // helperText={
+                      //   text?.trim() === '' ? 'Please input your review!' : ' '
+                      // }
+                      fullWidth
+                      id='outlined-multiline-static'
+                      label='Your Review'
+                      multiline
+                      rows={4}
+                    />
+                    <Button
+                      type='submit'
+                      sx={{ width: '100%', mt: 2 }}
+                      size='large'
+                      color='warning'
+                      variant='contained'
+                    >
+                      Submit
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    onClick={() => navigate('/login')}
+                    sx={{ width: '100%', mt: 2 }}
+                    size='large'
+                    color='warning'
+                    variant='contained'
+                  >
+                    Sign in to review
+                  </Button>
+                )}
               </Box>
             </Stack>
           </Container>

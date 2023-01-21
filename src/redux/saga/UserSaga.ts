@@ -72,8 +72,9 @@ export function* followRegisterUserSaga() {
 
 function* loginUserSaga(action: TypeLoginUserAction) {
   try {
+    const { userData, location, navigate } = action.payload;
     const { status, data }: AxiosResponse<IAuth> = yield call(() =>
-      LoginUserHTTP(action.payload.data)
+      LoginUserHTTP(userData)
     );
 
     if (status === STATUS_CODES.SUCCESS) {
@@ -88,7 +89,7 @@ function* loginUserSaga(action: TypeLoginUserAction) {
         })
       );
 
-      window.location.replace('/');
+      location.key === 'default' ? navigate('/') : navigate(-1);
     } else {
       console.log('error');
     }

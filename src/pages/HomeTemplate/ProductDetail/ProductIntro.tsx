@@ -35,6 +35,7 @@ export const ProductIntro = () => {
   const { dataComment } = useSelector(
     (state: RootState) => state.commentReducer
   );
+  const { myInfo } = useSelector((state: RootState) => state.userReducer);
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
   const { dataProduct } = useSelector(
@@ -89,23 +90,27 @@ export const ProductIntro = () => {
           <Tooltip
             onClick={() => {
               setToggleFavor(!toggleFavor);
-              !toggleFavor
-                ? dispatch({
-                    type: ADD_TO_FAVOR_SAGA,
-                    payload: {
-                      idFavor: dataFavor.idFavor,
-                      data: {
+              if (myInfo.email) {
+                !toggleFavor
+                  ? dispatch({
+                      type: ADD_TO_FAVOR_SAGA,
+                      payload: {
+                        idFavor: dataFavor.idFavor,
+                        data: {
+                          idProduct: _id,
+                        },
+                      },
+                    })
+                  : dispatch({
+                      type: REMOVE_TO_FAVOR_SAGA,
+                      payload: {
+                        idFavor: dataFavor.idFavor,
                         idProduct: _id,
                       },
-                    },
-                  })
-                : dispatch({
-                    type: REMOVE_TO_FAVOR_SAGA,
-                    payload: {
-                      idFavor: dataFavor.idFavor,
-                      idProduct: _id,
-                    },
-                  });
+                    });
+              } else {
+                navigate('/login');
+              }
             }}
             sx={{
               backgroundColor: `${
@@ -212,19 +217,20 @@ export const ProductIntro = () => {
           sx={{ margin: '30px 0' }}
         >
           <Button
-            onClick={() =>
-              dispatch({
-                type: ADD_TO_CART_SAGA,
-                payload: {
-                  idCart: dataCart.idCart,
-                  data: {
-                    idProduct: _id,
-                    quantity,
-                    price: price.raw,
-                  },
-                },
-              })
-            }
+            onClick={() => {
+              myInfo.email
+                ? dispatch({
+                    type: ADD_TO_CART_SAGA,
+                    payload: {
+                      idCart: dataCart.idCart,
+                      data: {
+                        idProduct: _id,
+                        quantity,
+                      },
+                    },
+                  })
+                : navigate('/login');
+            }}
             startIcon={<AddShoppingCartIcon />}
             sx={{ width: '100%' }}
             color='warning'
@@ -235,18 +241,21 @@ export const ProductIntro = () => {
           </Button>
           <Button
             onClick={() => {
-              dispatch({
-                type: ADD_TO_CART_SAGA,
-                payload: {
-                  idCart: dataCart.idCart,
-                  data: {
-                    idProduct: _id,
-                    quantity,
-                    price: price.raw,
+              if (myInfo.email) {
+                dispatch({
+                  type: ADD_TO_CART_SAGA,
+                  payload: {
+                    idCart: dataCart.idCart,
+                    data: {
+                      idProduct: _id,
+                      quantity,
+                    },
                   },
-                },
-              });
-              navigate('/cart/checkout');
+                });
+                navigate('/cart/checkout');
+              } else {
+                navigate('/login');
+              }
             }}
             sx={{ backgroundColor: 'black', width: '100%' }}
             color='warning'

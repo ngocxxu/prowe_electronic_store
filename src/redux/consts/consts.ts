@@ -1,3 +1,4 @@
+import { Location, NavigateFunction } from 'react-router-dom';
 import { IUser } from 'src/types/GeneralTypes';
 
 export const SORT_PRODUCT = 'SORT_PRODUCT';
@@ -34,7 +35,9 @@ export interface TypeRegisterUserAction {
 export interface TypeLoginUserAction {
   type: typeof LOGIN_USER_SAGA;
   payload: {
-    data: IUser;
+    userData: IUser;
+    location: Location;
+    navigate: NavigateFunction
   };
 }
 

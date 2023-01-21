@@ -1,7 +1,7 @@
 import { AlertColor } from '@mui/material';
 
 // MATERIAL UI
-export interface Props {
+export interface HeaderProps {
   window?: () => Window;
   children: React.ReactElement;
 }

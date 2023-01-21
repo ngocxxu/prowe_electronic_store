@@ -14,7 +14,7 @@ import {
 import { useFormik } from 'formik';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Notification } from 'src/components/Notification';
 import { LOGIN_USER_SAGA } from 'src/redux/consts/consts';
 import * as yup from 'yup';
@@ -31,6 +31,7 @@ const validationSchema = yup.object({
 });
 
 const Login = () => {
+  const location = useLocation()
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [show, setShow] = useState({
@@ -46,7 +47,9 @@ const Login = () => {
       dispatch({
         type: LOGIN_USER_SAGA,
         payload: {
-          data: values,
+          userData: values,
+          location,
+          navigate
         },
       });
     },

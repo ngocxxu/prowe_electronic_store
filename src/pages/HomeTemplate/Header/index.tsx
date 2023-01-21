@@ -36,7 +36,7 @@ import {
   toggleOpenQuickViewModal,
 } from 'src/redux/reducers/otherReducer';
 import { REFRESHTOKEN } from 'src/services/settings';
-import { Props } from 'src/types/GeneralTypes';
+import { HeaderProps } from 'src/types/GeneralTypes';
 import QuickView from '../QuickView';
 
 const pages = [
@@ -64,7 +64,7 @@ const pages = [
 
 const settings = ['Profile', 'Logout'];
 
-function ElevationScroll({ children, window }: Props) {
+function ElevationScroll({ children, window }: HeaderProps) {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
@@ -76,7 +76,7 @@ function ElevationScroll({ children, window }: Props) {
   });
 }
 
-export const Header = (props: Props) => {
+export const Header = (props: HeaderProps) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const { dataFavor } = useSelector((state: RootState) => state.favorReducer);

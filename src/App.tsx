@@ -18,6 +18,7 @@ import RegisterSuccess from './pages/UserTemplate/Register/RegisterSuccess';
 // Import the functions you need from the SDKs you need
 import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
+import PrivateRoutes from './routes/PrivateRoutes';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -45,14 +46,21 @@ function App() {
       children: [
         { path: '/', element: <Home /> },
         { path: '/home', element: <Home /> },
-        { path: '/cart', element: <Cart /> },
         { path: '/shop', element: <Shop /> },
         { path: '/shop/:id', element: <ProductDetail /> },
         { path: '/blog', element: <Blog /> },
         { path: '/contact', element: <Contact /> },
+
+        {
+          element: <PrivateRoutes />,
+          children: [{ path: '/cart', element: <Cart /> }],
+        },
       ],
     },
-    { path: '/cart/checkout', element: <Checkout /> },
+    {
+      element: <PrivateRoutes />,
+      children: [{ path: '/cart/checkout', element: <Checkout /> }],
+    },
     {
       element: <UserTemplate />,
       children: [

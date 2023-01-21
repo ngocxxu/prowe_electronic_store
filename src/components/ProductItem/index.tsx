@@ -18,6 +18,7 @@ import { IProduct } from 'src/types/GeneralTypes';
 import './style.scss';
 
 export const ProductItem = memo(({ item }: { item: IProduct }) => {
+  const { myInfo } = useSelector((state: RootState) => state.userReducer);
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
   const [toggleFavor, setToggleFavor] = useState(false);
@@ -57,19 +58,21 @@ export const ProductItem = memo(({ item }: { item: IProduct }) => {
               arrow
             >
               <IconButton
-                onClick={() =>
-                  dispatch({
-                    type: ADD_TO_CART_SAGA,
-                    payload: {
-                      idCart: dataCart.idCart,
-                      data: {
-                        idProduct: _id,
-                        quantity: 1,
-                        price: price.raw,
-                      },
-                    },
-                  })
-                }
+                onClick={() => {
+                  myInfo.email
+                    ? dispatch({
+                        type: ADD_TO_CART_SAGA,
+                        payload: {
+                          idCart: dataCart.idCart,
+                          data: {
+                            idProduct: _id,
+                            quantity: 1,
+                            price: price.raw,
+                          },
+                        },
+                      })
+                    : navigate('/login');
+                }}
               >
                 <AddShoppingCartIcon />
               </IconButton>
@@ -102,23 +105,27 @@ export const ProductItem = memo(({ item }: { item: IProduct }) => {
             <Tooltip
               onClick={() => {
                 setToggleFavor(!toggleFavor);
-                !toggleFavor
-                  ? dispatch({
-                      type: ADD_TO_FAVOR_SAGA,
-                      payload: {
-                        idFavor: dataFavor.idFavor,
-                        data: {
+                if (myInfo.email) {
+                  !toggleFavor
+                    ? dispatch({
+                        type: ADD_TO_FAVOR_SAGA,
+                        payload: {
+                          idFavor: dataFavor.idFavor,
+                          data: {
+                            idProduct: _id,
+                          },
+                        },
+                      })
+                    : dispatch({
+                        type: REMOVE_TO_FAVOR_SAGA,
+                        payload: {
+                          idFavor: dataFavor.idFavor,
                           idProduct: _id,
                         },
-                      },
-                    })
-                  : dispatch({
-                      type: REMOVE_TO_FAVOR_SAGA,
-                      payload: {
-                        idFavor: dataFavor.idFavor,
-                        idProduct: _id,
-                      },
-                    });
+                      });
+                } else {
+                  navigate('/login');
+                }
               }}
               sx={{
                 backgroundColor: `${
