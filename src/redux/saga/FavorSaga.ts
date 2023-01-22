@@ -74,6 +74,7 @@ export function* followAddToFavorSaga() {
 
 function* removeToFavorSaga(action: TypeRemoveToFavorAction) {
   try {
+    yield put(toggleLoadingFavourButton(true));
     const { status }: AxiosResponse<IFavor> = yield call(() =>
       RemoveToFavorHTTP(action.payload.idFavor, action.payload.idProduct)
     );
@@ -83,6 +84,7 @@ function* removeToFavorSaga(action: TypeRemoveToFavorAction) {
         type: GET_FAVOR_SAGA,
         payload: action.payload.idFavor,
       });
+      yield put(toggleLoadingFavourButton(false));
     } else {
       console.log('error');
     }
