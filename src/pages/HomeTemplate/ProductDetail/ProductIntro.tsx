@@ -1,13 +1,14 @@
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { LoadingButton } from '@mui/lab';
 import {
   Box,
   Button,
   Divider,
   Grid,
-  IconButton,
   Rating,
   Stack,
+  styled,
   TextField,
   Tooltip,
   Typography,
@@ -25,6 +26,17 @@ import {
   REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
 
+const CustomizedLoadingButton = styled(LoadingButton)`
+  min-width: 0px;
+  border-radius: 100%;
+  padding: 8px;
+
+  & .MuiButton-startIcon {
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+`;
+
 export const ProductIntro = () => {
   const navigate = useNavigate();
   const [toggleFavor, setToggleFavor] = useState(false);
@@ -36,8 +48,12 @@ export const ProductIntro = () => {
     (state: RootState) => state.commentReducer
   );
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
-  const { dataCart } = useSelector((state: RootState) => state.cartReducer);
-  const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
+  const { dataCart, isLoadingButton } = useSelector(
+    (state: RootState) => state.cartReducer
+  );
+  const { dataFavor, isLoadingFavourButton } = useSelector(
+    (state: RootState) => state.favorReducer
+  );
   const { dataProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
@@ -126,9 +142,11 @@ export const ProductIntro = () => {
             placement='top'
             arrow
           >
-            <IconButton>
-              <FavoriteBorderIcon />
-            </IconButton>
+            <CustomizedLoadingButton
+              loading={isLoadingFavourButton}
+              loadingPosition='center'
+              startIcon={<FavoriteBorderIcon />}
+            />
           </Tooltip>
         </Stack>
         <Stack direction='row' alignItems='center' sx={{ margin: '20px 0' }}>
@@ -208,20 +226,23 @@ export const ProductIntro = () => {
           alignItems='center'
           sx={{ margin: '30px 0' }}
         >
-          <Button
+          <LoadingButton
+            loading={isLoadingButton}
             onClick={() => {
-              myInfo.email
-                ? dispatch({
-                    type: ADD_TO_CART_SAGA,
-                    payload: {
-                      idCart: dataCart.idCart,
-                      data: {
-                        idProduct: _id,
-                        quantity,
-                      },
+              if (myInfo.email) {
+                dispatch({
+                  type: ADD_TO_CART_SAGA,
+                  payload: {
+                    idCart: dataCart.idCart,
+                    data: {
+                      idProduct: _id,
+                      quantity,
                     },
-                  })
-                : navigate('/login');
+                  },
+                });
+              } else {
+                navigate('/login');
+              }
             }}
             startIcon={<AddShoppingCartIcon />}
             sx={{ width: '100%' }}
@@ -229,8 +250,8 @@ export const ProductIntro = () => {
             variant='contained'
             size='large'
           >
-            ADD TO CART
-          </Button>
+            <span>ADD TO CART</span>
+          </LoadingButton>
           <Button
             onClick={() => {
               if (myInfo.email) {

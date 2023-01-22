@@ -20,7 +20,7 @@ import {
   TypeRemoveToCartAction,
   UPDATE_TO_CART_SAGA,
 } from '../consts/consts';
-import { getCartApiAction } from '../reducers/cartReducer';
+import { getCartApiAction, toggleLoadingButton } from '../reducers/cartReducer';
 
 function* getCartSaga(action: TypeGetCartAction) {
   try {
@@ -47,6 +47,7 @@ export function* followGetCartSaga() {
 function* addToCartSaga(action: TypeAddToCartAction) {
   try {
     if (action.payload) {
+      yield put(toggleLoadingButton(true));
       const { status }: AxiosResponse<ICart> = yield call(() =>
         AddToCartHTTP(action.payload.idCart, action.payload.data)
       );
@@ -56,6 +57,7 @@ function* addToCartSaga(action: TypeAddToCartAction) {
           type: GET_CART_SAGA,
           payload: action.payload.idCart,
         });
+        yield put(toggleLoadingButton(false));
       } else {
         console.log('error');
       }

@@ -18,7 +18,10 @@ import {
   TypeRemoveAllFavorAction,
   TypeRemoveToFavorAction,
 } from '../consts/consts';
-import { getFavorApiAction } from '../reducers/favorReducer';
+import {
+  getFavorApiAction,
+  toggleLoadingFavourButton,
+} from '../reducers/favorReducer';
 
 function* getFavorSaga(action: TypeGetFavorAction) {
   try {
@@ -45,6 +48,7 @@ export function* followGetFavorSaga() {
 function* addToFavorSaga(action: TypeAddToFavorAction) {
   try {
     if (action.payload) {
+      yield put(toggleLoadingFavourButton(true));
       const { status }: AxiosResponse<IFavor> = yield call(() =>
         AddToFavorHTTP(action.payload.idFavor, action.payload.data)
       );
@@ -54,6 +58,7 @@ function* addToFavorSaga(action: TypeAddToFavorAction) {
           type: GET_FAVOR_SAGA,
           payload: action.payload.idFavor,
         });
+        yield put(toggleLoadingFavourButton(false));
       } else {
         console.log('error');
       }

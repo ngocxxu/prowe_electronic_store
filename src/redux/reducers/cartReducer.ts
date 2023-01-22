@@ -4,6 +4,7 @@ import { ICart, TCheckoutFormValues } from 'src/types/GeneralTypes';
 interface InitialStateProduct {
   dataCart: ICart;
   dataFormCheckout: TCheckoutFormValues;
+  isLoadingButton: boolean;
 }
 
 export const DataFormCheckout = {
@@ -29,6 +30,7 @@ const initialState: InitialStateProduct = {
     discount: [],
   },
   dataFormCheckout: DataFormCheckout,
+  isLoadingButton: false,
 };
 
 const cartReducer = createSlice({
@@ -44,10 +46,16 @@ const cartReducer = createSlice({
     ) => {
       state.dataFormCheckout = action.payload;
     },
+    toggleLoadingButton: (state, action) => {
+      state.isLoadingButton = action.payload;
+    },
   },
 });
 
-export const { getCartApiAction, getDataFormCheckoutApiAction } =
-  cartReducer.actions;
+export const {
+  getCartApiAction,
+  getDataFormCheckoutApiAction,
+  toggleLoadingButton,
+} = cartReducer.actions;
 
 export default cartReducer.reducer;

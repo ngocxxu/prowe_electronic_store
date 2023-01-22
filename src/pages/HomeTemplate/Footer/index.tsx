@@ -10,6 +10,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import GoogleIcon from '@mui/icons-material/Google';
+import dayjs from 'dayjs';
 
 const Item = styled(Box)(({ theme }) => ({
   cursor: 'pointer',
@@ -120,7 +121,7 @@ export const Footer = () => {
       <Divider />
       <div className='md:flex justify-between items-center my-4 md:mt-4 mt-6'>
         <p className='md:text-left text-center md:mb-0 mb-4'>
-          © Copyright 2022 | Prowe By Ngoc Quach. Powered by Zupishop.
+          © Copyright {dayjs().year()} | Prowe By Ngoc Quach. Powered by Zupishop.
         </p>
         <div className='max-w-full'>
           <img className='w-full' src={atm} alt='atm' />
