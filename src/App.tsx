@@ -1,7 +1,6 @@
 import { useRoutes } from 'react-router-dom';
 import './App.scss';
 import { ErrorTemplate } from './pages/ErrorTemplate';
-import { HomeTemplate } from './pages/HomeTemplate';
 import { Blog } from './pages/HomeTemplate/Blog';
 import { Cart } from './pages/HomeTemplate/Cart';
 import { Checkout } from './pages/HomeTemplate/Checkout';
@@ -18,6 +17,8 @@ import RegisterSuccess from './pages/UserTemplate/Register/RegisterSuccess';
 // Import the functions you need from the SDKs you need
 import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
+import { lazy, Suspense } from 'react';
+import { LoadingPage } from './components/Loading';
 import PrivateRoutes from './routes/PrivateRoutes';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -39,10 +40,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
+const HomeTemplateLazy = lazy(() => import('./pages/HomeTemplate'));
+
 function App() {
   const routes = [
     {
-      element: <HomeTemplate />,
+      element: (
+        <Suspense fallback={<LoadingPage />}>
+          <HomeTemplateLazy />
+        </Suspense>
+      ),
       children: [
         { path: '/', element: <Home /> },
         { path: '/home', element: <Home /> },
