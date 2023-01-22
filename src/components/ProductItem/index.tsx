@@ -18,25 +18,6 @@ import { toggleOpenQuickViewModal } from 'src/redux/reducers/otherReducer';
 import { IProduct } from 'src/types/GeneralTypes';
 import './style.scss';
 
-const CustomizedLoadingButton = styled(LoadingButton)`
-  min-width: 0px;
-  border-radius: 50%;
-
-  & .MuiButton-startIcon {
-    margin-right: 0px;
-    margin-left: 0px;
-    padding: 2px;
-
-    & .MuiSvgIcon-root {
-      fill: #83868c;
-    }
-  }
-
-  &:hover .MuiSvgIcon-root {
-    fill: #fff;
-  }
-`;
-
 const CustomizedLoadingButton2 = styled(LoadingButton)`
   min-width: 0px;
   border-radius: 50%;
@@ -52,7 +33,6 @@ const CustomizedLoadingButton2 = styled(LoadingButton)`
   }
 `;
 
-
 const ProductItem = memo(({ item }: { item: IProduct }) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
   const { dataCart, isLoadingButton } = useSelector(
@@ -65,6 +45,25 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { is, image, name, price, _id, sale } = item;
+
+  const CustomizedLoadingButton = styled(LoadingButton)`
+    min-width: 0px;
+    border-radius: 50%;
+
+    & .MuiButton-startIcon {
+      margin-right: 0px;
+      margin-left: 0px;
+      padding: 2px;
+
+      & .MuiSvgIcon-root {
+        fill: ${`${isLoadingButton ? '' : '#83868c'}`};
+      }
+    }
+
+    &:hover .MuiSvgIcon-root {
+      fill: #fff;
+    }
+  `;
 
   return (
     <div className='mb-10 container-product-item'>

@@ -126,7 +126,7 @@ export const ProductDetail = () => {
 
   return (
     <>
-      {dataProduct.image.main.length > 0 ? (
+      {dataProduct.name.length > 0 ? (
         <>
           <Container maxWidth='xl' sx={{ paddingTop: '40px' }}>
             <Box sx={{ paddingBottom: '30px' }}>

@@ -22,6 +22,7 @@ import { cloneElement, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { TemporaryDrawer } from 'src/components/Drawer/index';
+import { LoadingPage2 } from 'src/components/Loading';
 import FeatureModal from 'src/components/Modal';
 import { RootState } from 'src/redux/configStore';
 import {
@@ -82,6 +83,9 @@ export const Header = (props: HeaderProps) => {
   const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
   const { isOpenModal, isOpenQuickViewModal } = useSelector(
     (state: RootState) => state.otherReducer
+  );
+  const { dataProduct } = useSelector(
+    (state: RootState) => state.productReducer
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -371,7 +375,11 @@ export const Header = (props: HeaderProps) => {
                   onClose={() => dispatch(toggleOpenQuickViewModal(false))}
                   open={isOpenQuickViewModal}
                 >
-                  <QuickView />
+                  {dataProduct.name.length > 0 ? (
+                    <QuickView />
+                  ) : (
+                    <LoadingPage2 />
+                  )}
                 </FeatureModal>
 
                 <TemporaryDrawer dataCart={dataCart} direction='right' />
