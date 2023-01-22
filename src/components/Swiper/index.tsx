@@ -21,7 +21,7 @@ import SwiperCore, {
   Pagination,
   Thumbs,
 } from 'swiper';
-import { ProductItem } from '../ProductItem';
+import ProductItem from '../ProductItem';
 
 export const InstaSwiper = ({ arrayInsta }: SwiperProps) => {
   return (
@@ -128,7 +128,10 @@ export const RelatedProductSwiper = () => {
   );
 };
 
-export const ProductSwiper = ({ imageLib }: { imageLib: string[] }) => {
+export const ProductSwiper = () => {
+  const {
+    dataProduct: { image },
+  } = useSelector((state: RootState) => state.productReducer);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore>();
 
   return (
@@ -141,7 +144,7 @@ export const ProductSwiper = ({ imageLib }: { imageLib: string[] }) => {
         modules={[FreeMode, Navigation, Thumbs]}
         className='mySwiper2'
       >
-        {imageLib
+        {image.library
           .map((img) => {
             let arrayStrImg = img.split('/');
             let strImg = 'h_1000,w_1000';
@@ -167,7 +170,7 @@ export const ProductSwiper = ({ imageLib }: { imageLib: string[] }) => {
         modules={[FreeMode, Navigation, Thumbs]}
         className='mySwiper'
       >
-        {imageLib.map((img, index) => (
+        {image.library.map((img, index) => (
           <SwiperSlide key={index}>
             <img src={img} alt={`prod${index}`} />
           </SwiperSlide>

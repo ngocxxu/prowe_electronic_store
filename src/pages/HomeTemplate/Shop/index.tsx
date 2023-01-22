@@ -25,7 +25,8 @@ import { Container } from '@mui/system';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Breadcrumb from 'src/components/Breadcrumb';
-import { ProductItem } from 'src/components/ProductItem';
+import { LoadingPage2 } from 'src/components/Loading';
+import ProductItem from 'src/components/ProductItem';
 import { RootState } from 'src/redux/configStore';
 import {
   GET_ALL_PRODUCTS_QUERY_SAGA,
@@ -336,15 +337,17 @@ export const Shop = () => {
             </Grid>
           )}
           <Grid container spacing={2} item md={toggleFilter ? 9 : 12}>
-            {dataAllProducts &&
-              dataAllProducts.length > 0 &&
+            {dataAllProducts && dataAllProducts.length > 0 ? (
               dataAllProducts
                 .slice(dataTable.minValue, dataTable.maxValue)
                 .map((item) => (
                   <Grid key={item._id} item md={toggleFilter ? 4 : 3}>
                     <ProductItem item={item} />
                   </Grid>
-                ))}
+                ))
+            ) : (
+              <LoadingPage2 />
+            )}
             <Grid
               container
               direction='row'

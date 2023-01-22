@@ -21,12 +21,12 @@ const QuickView = () => {
   const dispatch = useDispatch();
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const [quantity, setQuantity] = useState<number | string>(1);
-  const { image, name, price, _id, description } = dataProduct;
+  const { name, price, _id, description } = dataProduct;
 
   return (
     <Grid container spacing={!isSmall ? 10 : 5}>
       <Grid item xs={12} md={7}>
-        <ProductSwiper imageLib={image.library} />
+        <ProductSwiper />
       </Grid>
       <Grid item xs={12} md={5}>
         <Typography variant='h5' sx={{ fontWeight: '500' }}>

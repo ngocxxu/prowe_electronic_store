@@ -17,7 +17,8 @@ import {
   ShopWhiteButton,
 } from 'src/components/Button';
 import { Carousel } from 'src/components/Carousel';
-import { ProductItem } from 'src/components/ProductItem';
+import { LoadingPage2 } from 'src/components/Loading';
+import ProductItem from 'src/components/ProductItem';
 import { InstaSwiper } from 'src/components/Swiper';
 import { RootState } from 'src/redux/configStore';
 import { GET_ALL_PRODUCTS_SAGA } from 'src/redux/consts/consts';
@@ -156,14 +157,17 @@ const BestSeller = memo(({ dataAllProducts }: IHomeProps) => {
         <p className='mt-4 mb-8'>Best Seller Product This Week!</p>
       </div>
       <Grid container spacing={2}>
-        {dataAllProducts.length > 0 &&
+        {dataAllProducts.length > 0 ? (
           dataAllProducts
             .filter((item) => item.is.hot)
             .map((item) => (
               <Grid key={item._id} item xs={6} sm={4} md={3}>
                 <ProductItem item={item} />
               </Grid>
-            ))}
+            ))
+        ) : (
+          <LoadingPage2 />
+        )}
       </Grid>
     </div>
   );
@@ -276,14 +280,17 @@ const NewArrivals = memo(({ dataAllProducts }: IHomeProps) => {
         </Grid>
         <Grid item container xs={12} md={8}>
           <div className='mt-8 md:mt-0 md:flex justify-center items-center gap-4'>
-            {dataAllProducts.length > 0 &&
+            {dataAllProducts.length > 0 ? (
               dataAllProducts
                 .filter((item) => item.is.new)
                 .map((item) => (
                   <React.Fragment key={item._id}>
                     <ProductItem item={item} />
                   </React.Fragment>
-                ))}
+                ))
+            ) : (
+              <LoadingPage2 />
+            )}
           </div>
           {/* <Grid xs={12} md={4}>
         </Grid>

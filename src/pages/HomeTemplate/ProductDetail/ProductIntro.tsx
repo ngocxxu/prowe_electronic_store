@@ -41,21 +41,13 @@ export const ProductIntro = () => {
   const { dataProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
-  const {
-    inventory,
-    image,
-    name,
-    price,
-    _id,
-    avgReviews,
-    categories,
-    description,
-  } = dataProduct;
+  const { inventory, name, price, _id, avgReviews, categories, description } =
+    dataProduct;
 
   return (
     <Grid container spacing={!isSmall ? 10 : 5}>
       <Grid item xs={12} md={7}>
-        <ProductSwiper imageLib={image.library} />
+        <ProductSwiper />
       </Grid>
       <Grid item xs={12} md={5}>
         <Stack

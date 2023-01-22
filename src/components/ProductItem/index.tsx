@@ -17,7 +17,7 @@ import { toggleOpenQuickViewModal } from 'src/redux/reducers/otherReducer';
 import { IProduct } from 'src/types/GeneralTypes';
 import './style.scss';
 
-export const ProductItem = memo(({ item }: { item: IProduct }) => {
+const ProductItem = memo(({ item }: { item: IProduct }) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
   const { dataCart } = useSelector((state: RootState) => state.cartReducer);
   const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
@@ -188,3 +188,5 @@ export const ProductItem = memo(({ item }: { item: IProduct }) => {
     </div>
   );
 });
+
+export default ProductItem

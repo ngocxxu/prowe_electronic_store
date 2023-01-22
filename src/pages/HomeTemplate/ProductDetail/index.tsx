@@ -14,10 +14,12 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Breadcrumb from 'src/components/Breadcrumb';
+import { LoadingPage2 } from 'src/components/Loading';
 import { RelatedProductSwiper } from 'src/components/Swiper';
+import { RootState } from 'src/redux/configStore';
 import {
   GET_ALL_PRODUCTS_SAGA,
   GET_COMMENT_SAGA,
@@ -84,6 +86,10 @@ const ProductServices = () => {
 };
 
 const RelatedProducts = () => {
+  const { dataAllProducts } = useSelector(
+    (state: RootState) => state.productReducer
+  );
+
   return (
     <Container maxWidth='xl' sx={{ padding: '50px 0' }}>
       <Typography
@@ -92,12 +98,15 @@ const RelatedProducts = () => {
       >
         RELATED PRODUCTS
       </Typography>
-      <RelatedProductSwiper />
+      {dataAllProducts.length > 0 ? <RelatedProductSwiper /> : <LoadingPage2 />}
     </Container>
   );
 };
 
 export const ProductDetail = () => {
+  const { dataProduct } = useSelector(
+    (state: RootState) => state.productReducer
+  );
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -117,35 +126,42 @@ export const ProductDetail = () => {
 
   return (
     <>
-      <Container maxWidth='xl' sx={{ paddingTop: '40px' }}>
-        <Box sx={{ paddingBottom: '30px' }}>
-          <Breadcrumb />
-        </Box>
-        <ProductIntro />
-        <ProductServices />
-      </Container>
-      <ProductTabs />
-      <Stack
-        direction='row'
-        justifyContent='center'
-        alignItems='center'
-        sx={{
-          borderTop: '1px solid #e1e1e1',
-          borderBottom: '1px solid #e1e1e1',
-          padding: '15px 0',
-        }}
-        spacing={3}
-      >
-        <IconButton color='error'>
-          <GoogleIcon />
-        </IconButton>
-        <IconButton color='primary'>
-          <TwitterIcon />
-        </IconButton>
-        <IconButton aria-label='InstagramIcon' color='secondary'>
-          <InstagramIcon />
-        </IconButton>
-      </Stack>
+      {dataProduct.image.main.length > 0 ? (
+        <>
+          <Container maxWidth='xl' sx={{ paddingTop: '40px' }}>
+            <Box sx={{ paddingBottom: '30px' }}>
+              <Breadcrumb />
+            </Box>
+            <ProductIntro />
+            <ProductServices />
+          </Container>
+          <ProductTabs />
+          <Stack
+            direction='row'
+            justifyContent='center'
+            alignItems='center'
+            sx={{
+              borderTop: '1px solid #e1e1e1',
+              borderBottom: '1px solid #e1e1e1',
+              padding: '15px 0',
+            }}
+            spacing={3}
+          >
+            <IconButton color='error'>
+              <GoogleIcon />
+            </IconButton>
+            <IconButton color='primary'>
+              <TwitterIcon />
+            </IconButton>
+            <IconButton aria-label='InstagramIcon' color='secondary'>
+              <InstagramIcon />
+            </IconButton>
+          </Stack>
+        </>
+      ) : (
+        <LoadingPage2 />
+      )}
+
       <RelatedProducts />
     </>
   );
