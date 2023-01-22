@@ -2,7 +2,8 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SearchIcon from '@mui/icons-material/Search';
-import { IconButton, Tooltip } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { IconButton, styled, Tooltip } from '@mui/material';
 import { memo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -17,10 +18,49 @@ import { toggleOpenQuickViewModal } from 'src/redux/reducers/otherReducer';
 import { IProduct } from 'src/types/GeneralTypes';
 import './style.scss';
 
+const CustomizedLoadingButton = styled(LoadingButton)`
+  min-width: 0px;
+  border-radius: 50%;
+
+  & .MuiButton-startIcon {
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 2px;
+
+    & .MuiSvgIcon-root {
+      fill: #83868c;
+    }
+  }
+
+  &:hover .MuiSvgIcon-root {
+    fill: #fff;
+  }
+`;
+
+const CustomizedLoadingButton2 = styled(LoadingButton)`
+  min-width: 0px;
+  border-radius: 50%;
+
+  & .MuiButton-startIcon {
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 2px;
+  }
+
+  &:hover .MuiSvgIcon-root {
+    fill: #fff;
+  }
+`;
+
+
 const ProductItem = memo(({ item }: { item: IProduct }) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
-  const { dataCart } = useSelector((state: RootState) => state.cartReducer);
-  const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
+  const { dataCart, isLoadingButton } = useSelector(
+    (state: RootState) => state.cartReducer
+  );
+  const { dataFavor, isLoadingFavourButton } = useSelector(
+    (state: RootState) => state.favorReducer
+  );
   const [toggleFavor, setToggleFavor] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -57,7 +97,10 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
               placement='top'
               arrow
             >
-              <IconButton
+              <CustomizedLoadingButton
+                loading={isLoadingButton}
+                loadingPosition='center'
+                startIcon={<AddShoppingCartIcon />}
                 onClick={() => {
                   myInfo.email
                     ? dispatch({
@@ -73,9 +116,7 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
                       })
                     : navigate('/login');
                 }}
-              >
-                <AddShoppingCartIcon />
-              </IconButton>
+              />
             </Tooltip>
             <Tooltip
               sx={{
@@ -148,9 +189,11 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
               placement='top'
               arrow
             >
-              <IconButton>
-                <FavoriteBorderIcon />
-              </IconButton>
+              <CustomizedLoadingButton2
+                loading={isLoadingFavourButton}
+                loadingPosition='center'
+                startIcon={<FavoriteBorderIcon />}
+              />
             </Tooltip>
             <Tooltip
               sx={{
@@ -189,4 +232,4 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
   );
 });
 
-export default ProductItem
+export default ProductItem;

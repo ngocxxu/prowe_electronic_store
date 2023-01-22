@@ -1,5 +1,5 @@
+import { LoadingButton } from '@mui/lab';
 import { useMediaQuery, useTheme } from '@mui/material';
-import Button from '@mui/material/Button/Button';
 import Divider from '@mui/material/Divider/Divider';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack/Stack';
@@ -19,7 +19,9 @@ const QuickView = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
   const dispatch = useDispatch();
-  const { dataCart } = useSelector((state: RootState) => state.cartReducer);
+  const { dataCart, isLoadingButton } = useSelector(
+    (state: RootState) => state.cartReducer
+  );
   const [quantity, setQuantity] = useState<number | string>(1);
   const { name, price, _id, description } = dataProduct;
 
@@ -57,7 +59,8 @@ const QuickView = () => {
             value={quantity}
             onChange={(event) => setQuantity(event.target.value)}
           />
-          <Button
+          <LoadingButton
+            loading={isLoadingButton}
             onClick={() => {
               dispatch({
                 type: ADD_TO_CART_SAGA,
@@ -77,8 +80,8 @@ const QuickView = () => {
             variant='contained'
             size='large'
           >
-            ADD TO CART
-          </Button>
+            <span>ADD TO CART</span>
+          </LoadingButton>
         </Stack>
       </Grid>
     </Grid>
