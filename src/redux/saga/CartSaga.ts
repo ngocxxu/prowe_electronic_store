@@ -104,7 +104,6 @@ export function* followUpdateToCartSaga() {
 function* removeToCartSaga(action: TypeRemoveToCartAction) {
   try {
     if (action.payload) {
-      yield put(setProductId(action.payload.idProduct));
       const { status }: AxiosResponse<ICart> = yield call(() =>
         RemoveToCartHTTP(action.payload.idCart, action.payload.idProduct)
       );
@@ -132,7 +131,6 @@ function* removeAllCartSaga(action: TypeRemoveAllCartAction) {
   try {
     if (action.payload) {
       yield put(toggleClearAllCart(true));
-      yield put(setProductId(action.payload));
       const { status }: AxiosResponse<ICart> = yield call(() =>
         RemoveAllCartHTTP(action.payload)
       );

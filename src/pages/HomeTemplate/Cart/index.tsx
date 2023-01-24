@@ -26,6 +26,7 @@ import {
   REMOVE_TO_CART_SAGA,
   UPDATE_TO_CART_SAGA,
 } from 'src/redux/consts/consts';
+import { setProductId } from 'src/redux/reducers/cartReducer';
 
 export const Cart = () => {
   const { dataCart, productId, isClearAllCart } = useSelector(
@@ -154,6 +155,7 @@ export const Cart = () => {
                       <TableCell>
                         <IconButton
                           onClick={() => {
+                            dispatch(setProductId(row.product._id));
                             dispatch({
                               type: REMOVE_TO_CART_SAGA,
                               payload: {

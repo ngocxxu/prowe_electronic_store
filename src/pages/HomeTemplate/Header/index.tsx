@@ -33,6 +33,7 @@ import {
   REMOVE_ALL_FAVOR_SAGA,
   REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
+import { setFavourId } from 'src/redux/reducers/favorReducer';
 import {
   toggleOpenModal,
   toggleOpenQuickViewModal,
@@ -115,10 +116,11 @@ export const Header = (props: HeaderProps) => {
   };
 
   useEffect(() => {
+    console.log(favourId);
     dispatch({
       type: GET_MY_USER_SAGA,
     });
-  }, [dispatch]);
+  }, [dispatch, favourId]);
 
   return (
     <>
@@ -325,15 +327,16 @@ export const Header = (props: HeaderProps) => {
                                 alignItems='flex-end'
                               >
                                 <IconButton
-                                  onClick={() =>
+                                  onClick={() => {
+                                    dispatch(setFavourId(item.product._id));
                                     dispatch({
                                       type: REMOVE_TO_FAVOR_SAGA,
                                       payload: {
                                         idFavor: dataFavor.idFavor,
                                         idProduct: item.product._id,
                                       },
-                                    })
-                                  }
+                                    });
+                                  }}
                                 >
                                   <ClearIcon fontSize='small' />
                                 </IconButton>

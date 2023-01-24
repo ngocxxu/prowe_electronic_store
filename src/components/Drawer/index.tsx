@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'src/redux/configStore';
 import { REMOVE_TO_CART_SAGA } from 'src/redux/consts/consts';
+import { setProductId } from 'src/redux/reducers/cartReducer';
 import { ICart } from 'src/types/GeneralTypes';
 
 export type Anchor = 'top' | 'right';
@@ -136,6 +137,7 @@ export const TemporaryDrawer = memo(
                         disabled={productId === item.product._id}
                         className='cursor-pointer hover:text-orange-500'
                         onClick={() => {
+                          dispatch(setProductId(item.product._id));
                           dispatch({
                             type: REMOVE_TO_CART_SAGA,
                             payload: {
