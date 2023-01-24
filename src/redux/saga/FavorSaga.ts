@@ -76,21 +76,23 @@ export function* followAddToFavorSaga() {
 
 function* removeToFavorSaga(action: TypeRemoveToFavorAction) {
   try {
-    yield put(setFavourId(action.payload));
-    yield put(toggleLoadingFavourButton(true));
-    const { status }: AxiosResponse<IFavor> = yield call(() =>
-      RemoveToFavorHTTP(action.payload.idFavor, action.payload.idProduct)
-    );
+    if (action.payload) {
+      yield put(setFavourId(action.payload.idProduct));
+      yield put(toggleLoadingFavourButton(true));
+      const { status }: AxiosResponse<IFavor> = yield call(() =>
+        RemoveToFavorHTTP(action.payload.idFavor, action.payload.idProduct)
+      );
 
-    if (status === STATUS_CODES.SUCCESS) {
-      yield put(setFavourId(''));
-      yield put({
-        type: GET_FAVOR_SAGA,
-        payload: action.payload.idFavor,
-      });
-      yield put(toggleLoadingFavourButton(false));
-    } else {
-      console.log('error');
+      if (status === STATUS_CODES.SUCCESS) {
+        yield put(setFavourId(''));
+        yield put({
+          type: GET_FAVOR_SAGA,
+          payload: action.payload.idFavor,
+        });
+        yield put(toggleLoadingFavourButton(false));
+      } else {
+        console.log('error');
+      }
     }
   } catch (err: unknown) {
     console.log((err as Error).message);

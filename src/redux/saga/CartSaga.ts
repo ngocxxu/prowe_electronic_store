@@ -103,16 +103,19 @@ export function* followUpdateToCartSaga() {
 
 function* removeToCartSaga(action: TypeRemoveToCartAction) {
   try {
-    const { status }: AxiosResponse<ICart> = yield call(() =>
-      RemoveToCartHTTP(action.payload.idCart, action.payload.idProduct)
-    );
+    if (action.payload) {
+      yield put(setProductId(action.payload.idProduct));
+      const { status }: AxiosResponse<ICart> = yield call(() =>
+        RemoveToCartHTTP(action.payload.idCart, action.payload.idProduct)
+      );
 
-    if (status === STATUS_CODES.SUCCESS) {
-      yield put(setProductId(''));
-      yield put({
-        type: GET_CART_SAGA,
-        payload: action.payload.idCart,
-      });
+      if (status === STATUS_CODES.SUCCESS) {
+        yield put(setProductId(''));
+        yield put({
+          type: GET_CART_SAGA,
+          payload: action.payload.idCart,
+        });
+      }
     } else {
       console.log('error');
     }
