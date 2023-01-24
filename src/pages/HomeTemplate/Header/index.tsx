@@ -5,6 +5,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonOutlineIcon from '@mui/icons-material/Person';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import { LoadingButton } from '@mui/lab';
 import { Avatar, Badge, Chip } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -79,8 +80,12 @@ function ElevationScroll({ children, window }: HeaderProps) {
 
 export const Header = (props: HeaderProps) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
-  const { dataCart } = useSelector((state: RootState) => state.cartReducer);
-  const { dataFavor } = useSelector((state: RootState) => state.favorReducer);
+  const { dataCart, isLoadingButton } = useSelector(
+    (state: RootState) => state.cartReducer
+  );
+  const { dataFavor, favourId, isClearAllFavour } = useSelector(
+    (state: RootState) => state.favorReducer
+  );
   const { isOpenModal, isOpenQuickViewModal } = useSelector(
     (state: RootState) => state.otherReducer
   );
@@ -284,9 +289,19 @@ export const Header = (props: HeaderProps) => {
                     <Divider />
                     {dataFavor?.favorItems &&
                     dataFavor.favorItems?.length > 0 ? (
-                      <>
+                      <div className='relative'>
+                        {isClearAllFavour && (
+                          <div className='absolute w-full h-full bg-gray-100 opacity-40 top-0 left-0 z-10'>
+                            &nbsp;
+                          </div>
+                        )}
                         {dataFavor.favorItems.map((item) => (
-                          <Box key={item.product._id}>
+                          <Box className='relative' key={item.product._id}>
+                            {favourId === item.product._id && (
+                              <div className='absolute w-full h-full bg-gray-100 opacity-40 top-0 left-0 z-10'>
+                                &nbsp;
+                              </div>
+                            )}
                             <div className='flex justify-between items-center m-4'>
                               <div className='flex justify-center items-center'>
                                 <div className='cursor-pointer'>
@@ -325,7 +340,8 @@ export const Header = (props: HeaderProps) => {
                                 <p className='text-gray-400 text-right'>
                                   In stock
                                 </p>
-                                <Button
+                                <LoadingButton
+                                  loading={isLoadingButton}
                                   onClick={() =>
                                     dispatch({
                                       type: ADD_TO_CART_SAGA,
@@ -343,7 +359,7 @@ export const Header = (props: HeaderProps) => {
                                   color='error'
                                 >
                                   Add to cart
-                                </Button>
+                                </LoadingButton>
                               </Stack>
                             </div>
                             <Divider />
@@ -359,7 +375,7 @@ export const Header = (props: HeaderProps) => {
                         >
                           CONTINUE SHOPPING
                         </Button>
-                      </>
+                      </div>
                     ) : (
                       <div className='p-4 flex flex-col items-center justify-center'>
                         <p>Add more for cart!</p>

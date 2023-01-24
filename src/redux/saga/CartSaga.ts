@@ -20,7 +20,12 @@ import {
   TypeRemoveToCartAction,
   UPDATE_TO_CART_SAGA,
 } from '../consts/consts';
-import { getCartApiAction, toggleLoadingButton } from '../reducers/cartReducer';
+import {
+  getCartApiAction,
+  setProductId,
+  toggleClearAllCart,
+  toggleLoadingButton,
+} from '../reducers/cartReducer';
 
 function* getCartSaga(action: TypeGetCartAction) {
   try {
@@ -103,6 +108,7 @@ function* removeToCartSaga(action: TypeRemoveToCartAction) {
     );
 
     if (status === STATUS_CODES.SUCCESS) {
+      yield put(setProductId(''));
       yield put({
         type: GET_CART_SAGA,
         payload: action.payload.idCart,
@@ -122,11 +128,14 @@ export function* followRemoveToCartSaga() {
 function* removeAllCartSaga(action: TypeRemoveAllCartAction) {
   try {
     if (action.payload) {
+      yield put(toggleClearAllCart(true));
+      yield put(setProductId(action.payload));
       const { status }: AxiosResponse<ICart> = yield call(() =>
         RemoveAllCartHTTP(action.payload)
       );
 
       if (status === STATUS_CODES.SUCCESS) {
+        yield put(toggleClearAllCart(true));
         yield put({
           type: GET_CART_SAGA,
           payload: action.payload,

@@ -4,6 +4,8 @@ import { IFavor } from 'src/types/GeneralTypes';
 interface InitialStateProduct {
   dataFavor: IFavor;
   isLoadingFavourButton: boolean;
+  favourId: string;
+  isClearAllFavour: boolean;
 }
 
 const initialState: InitialStateProduct = {
@@ -12,6 +14,8 @@ const initialState: InitialStateProduct = {
     favorItems: [],
   },
   isLoadingFavourButton: false,
+  favourId: '',
+  isClearAllFavour: false,
 };
 
 const favorReducer = createSlice({
@@ -24,10 +28,20 @@ const favorReducer = createSlice({
     toggleLoadingFavourButton: (state, action) => {
       state.isLoadingFavourButton = action.payload;
     },
+    setFavourId: (state, action) => {
+      state.favourId = action.payload;
+    },
+    toggleClearAllFavour: (state, action) => {
+      state.isClearAllFavour = action.payload;
+    },
   },
 });
 
-export const { getFavorApiAction, toggleLoadingFavourButton } =
-  favorReducer.actions;
+export const {
+  getFavorApiAction,
+  toggleLoadingFavourButton,
+  setFavourId,
+  toggleClearAllFavour,
+} = favorReducer.actions;
 
 export default favorReducer.reducer;

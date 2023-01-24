@@ -28,7 +28,9 @@ import {
 } from 'src/redux/consts/consts';
 
 export const Cart = () => {
-  const { dataCart } = useSelector((state: RootState) => state.cartReducer);
+  const { dataCart, productId, isClearAllCart } = useSelector(
+    (state: RootState) => state.cartReducer
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { handleSubmit, setFieldValue } = useFormik({
@@ -84,15 +86,26 @@ export const Cart = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody className='relative'>
+              {isClearAllCart && (
+                <div className='absolute w-full h-full bg-gray-100 opacity-40 top-0 left-0 z-10'>
+                  &nbsp;
+                </div>
+              )}
               {dataCart?.lineItems && dataCart.lineItems?.length > 0 ? (
                 dataCart.lineItems.map((row) => {
                   return (
                     <TableRow
+                      className='relative'
                       key={row.product._id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell component='th' scope='row'>
+                        {productId === row.product._id && (
+                          <div className='absolute w-full h-full bg-gray-100 opacity-40 top-0 left-0 z-10'>
+                            &nbsp;
+                          </div>
+                        )}
                         <div className='flex items-center max-w-full'>
                           <div className='max-w-full w-24'>
                             <img
@@ -140,15 +153,15 @@ export const Cart = () => {
                       <TableCell>${row.subTotalProduct}</TableCell>
                       <TableCell>
                         <IconButton
-                          onClick={() =>
+                          onClick={() => {
                             dispatch({
                               type: REMOVE_TO_CART_SAGA,
                               payload: {
                                 idCart: dataCart.idCart,
                                 idProduct: row.product._id,
                               },
-                            })
-                          }
+                            });
+                          }}
                           size='small'
                         >
                           <ClearIcon fontSize='small' />

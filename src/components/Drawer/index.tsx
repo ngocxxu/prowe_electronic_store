@@ -1,6 +1,7 @@
 import ClearIcon from '@mui/icons-material/Clear';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Badge,
@@ -14,11 +15,11 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { Container } from '@mui/system';
 import { memo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from 'src/redux/configStore';
 import { REMOVE_TO_CART_SAGA } from 'src/redux/consts/consts';
 import { ICart } from 'src/types/GeneralTypes';
-import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 
 export type Anchor = 'top' | 'right';
 
@@ -30,6 +31,7 @@ export const TemporaryDrawer = memo(
       top: false,
       right: false,
     });
+    const { productId } = useSelector((state: RootState) => state.cartReducer);
 
     const toggleDrawer = (anchor: Anchor, open: boolean) => () => {
       setState({ ...state, [anchor]: open });
@@ -131,16 +133,17 @@ export const TemporaryDrawer = memo(
                         </div>
                       </div>
                       <IconButton
+                        disabled={productId === item.product._id}
                         className='cursor-pointer hover:text-orange-500'
-                        onClick={() =>
+                        onClick={() => {
                           dispatch({
                             type: REMOVE_TO_CART_SAGA,
                             payload: {
                               idCart: dataCart.idCart,
                               idProduct: item.product._id,
                             },
-                          })
-                        }
+                          });
+                        }}
                       >
                         <DeleteForeverOutlinedIcon />
                       </IconButton>

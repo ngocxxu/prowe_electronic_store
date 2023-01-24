@@ -20,6 +20,8 @@ import {
 } from '../consts/consts';
 import {
   getFavorApiAction,
+  setFavourId,
+  toggleClearAllFavour,
   toggleLoadingFavourButton,
 } from '../reducers/favorReducer';
 
@@ -74,12 +76,14 @@ export function* followAddToFavorSaga() {
 
 function* removeToFavorSaga(action: TypeRemoveToFavorAction) {
   try {
+    yield put(setFavourId(action.payload));
     yield put(toggleLoadingFavourButton(true));
     const { status }: AxiosResponse<IFavor> = yield call(() =>
       RemoveToFavorHTTP(action.payload.idFavor, action.payload.idProduct)
     );
 
     if (status === STATUS_CODES.SUCCESS) {
+      yield put(setFavourId(''));
       yield put({
         type: GET_FAVOR_SAGA,
         payload: action.payload.idFavor,
@@ -100,11 +104,13 @@ export function* followRemoveToFavorSaga() {
 function* removeAllFavorSaga(action: TypeRemoveAllFavorAction) {
   try {
     if (action.payload) {
+      yield put(toggleClearAllFavour(true));
       const { status }: AxiosResponse<IFavor> = yield call(() =>
         RemoveAllFavorHTTP(action.payload)
       );
 
       if (status === STATUS_CODES.SUCCESS) {
+        yield put(toggleClearAllFavour(false));
         yield put({
           type: GET_FAVOR_SAGA,
           payload: action.payload,
