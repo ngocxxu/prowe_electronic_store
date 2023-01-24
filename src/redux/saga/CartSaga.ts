@@ -88,6 +88,7 @@ function* updateToCartSaga(action: TypeAddToCartAction) {
           type: GET_CART_SAGA,
           payload: action.payload.idCart,
         });
+        yield put(setProductId(''));
       } else {
         console.log('error');
       }
@@ -109,11 +110,11 @@ function* removeToCartSaga(action: TypeRemoveToCartAction) {
       );
 
       if (status === STATUS_CODES.SUCCESS) {
-        yield put(setProductId(''));
         yield put({
           type: GET_CART_SAGA,
           payload: action.payload.idCart,
         });
+        yield put(setProductId(''));
       }
     } else {
       console.log('error');
@@ -136,11 +137,11 @@ function* removeAllCartSaga(action: TypeRemoveAllCartAction) {
       );
 
       if (status === STATUS_CODES.SUCCESS) {
-        yield put(toggleClearAllCart(true));
         yield put({
           type: GET_CART_SAGA,
           payload: action.payload,
         });
+        yield put(toggleClearAllCart(false));
       } else {
         console.log('error');
       }

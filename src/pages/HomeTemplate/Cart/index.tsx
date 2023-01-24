@@ -42,6 +42,7 @@ export const Cart = () => {
     },
     // validationSchema: validationSchema,
     onSubmit: (values) => {
+      dispatch(setProductId(values.itemIdProduct));
       dispatch({
         type: UPDATE_TO_CART_SAGA,
         payload: {
@@ -89,89 +90,87 @@ export const Cart = () => {
             </TableHead>
             <TableBody className='relative'>
               {isClearAllCart && (
-                <div className='absolute w-full h-full bg-gray-100 opacity-40 top-0 left-0 z-10'>
+                <TableRow className='absolute w-full h-full bg-gray-100 opacity-40 top-0 left-0 z-10'>
                   &nbsp;
-                </div>
+                </TableRow>
               )}
               {dataCart?.lineItems && dataCart.lineItems?.length > 0 ? (
-                dataCart.lineItems.map((row) => {
-                  return (
-                    <TableRow
-                      className='relative'
-                      key={row.product._id}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell component='th' scope='row'>
-                        {productId === row.product._id && (
-                          <div className='absolute w-full h-full bg-gray-100 opacity-40 top-0 left-0 z-10'>
-                            &nbsp;
-                          </div>
-                        )}
-                        <div className='flex items-center max-w-full'>
-                          <div className='max-w-full w-24'>
-                            <img
-                              onClick={() => {
-                                navigate(`/shop/${row.product._id}`);
-                              }}
-                              src={row.product.image?.main}
-                              alt={row.product.name}
-                              className='w-full cursor-pointer'
-                            />
-                          </div>
-                          <p
+                dataCart.lineItems.map((row) => (
+                  <TableRow
+                    className='relative'
+                    key={row.product._id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell component='th' scope='row'>
+                      {productId === row.product._id && (
+                        <div className='absolute w-full h-full bg-gray-100 opacity-40 top-0 left-0 z-10'>
+                          &nbsp;
+                        </div>
+                      )}
+                      <div className='flex items-center max-w-full'>
+                        <div className='max-w-full w-24'>
+                          <img
                             onClick={() => {
                               navigate(`/shop/${row.product._id}`);
                             }}
-                            className='ml-10'
-                          >
-                            <span className='hover:text-orange-500 transition ease-out cursor-pointer'>
-                              {row.product.name}
-                            </span>
-                          </p>
+                            src={row.product.image?.main}
+                            alt={row.product.name}
+                            className='w-full cursor-pointer'
+                          />
                         </div>
-                      </TableCell>
-                      <TableCell>${row.product.price?.raw}</TableCell>
-                      <TableCell>
-                        <TextField
-                          onKeyPress={(e) => {
-                            if (e.code === 'Minus') {
-                              e.preventDefault();
-                            }
-                          }}
-                          inputProps={{ min: '1', step: '1' }}
-                          onChange={(e: React.ChangeEvent<any>) => {
-                            setFieldValue('itemQuantity', e.target.value * 1);
-                            setFieldValue('itemIdProduct', row.product._id);
-                            setFieldValue('itemPrice', row.price);
-                            handleSubmit();
-                          }}
-                          id='itemQuantity'
-                          name='itemQuantity'
-                          type='number'
-                          defaultValue={row.subQuantity}
-                        />
-                      </TableCell>
-                      <TableCell>${row.subTotalProduct}</TableCell>
-                      <TableCell>
-                        <IconButton
+                        <p
                           onClick={() => {
-                            dispatch(setProductId(row.product._id));
-                            dispatch({
-                              type: REMOVE_TO_CART_SAGA,
-                              payload: {
-                                idCart: dataCart.idCart,
-                                idProduct: row.product._id,
-                              },
-                            });
+                            navigate(`/shop/${row.product._id}`);
                           }}
-                          size='small'
+                          className='ml-10'
                         >
-                          <ClearIcon fontSize='small' />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
+                          <span className='hover:text-orange-500 transition ease-out cursor-pointer'>
+                            {row.product.name}
+                          </span>
+                        </p>
+                      </div>
+                    </TableCell>
+                    <TableCell>${row.product.price?.raw}</TableCell>
+                    <TableCell>
+                      <TextField
+                        onKeyPress={(e) => {
+                          if (e.code === 'Minus') {
+                            e.preventDefault();
+                          }
+                        }}
+                        inputProps={{ min: '1', step: '1' }}
+                        onChange={(e: React.ChangeEvent<any>) => {
+                          setFieldValue('itemQuantity', e.target.value * 1);
+                          setFieldValue('itemIdProduct', row.product._id);
+                          setFieldValue('itemPrice', row.price);
+                          handleSubmit();
+                        }}
+                        id='itemQuantity'
+                        name='itemQuantity'
+                        type='number'
+                        defaultValue={row.subQuantity}
+                      />
+                    </TableCell>
+                    <TableCell>${row.subTotalProduct}</TableCell>
+                    <TableCell>
+                      <IconButton
+                        onClick={() => {
+                          dispatch(setProductId(row.product._id));
+                          dispatch({
+                            type: REMOVE_TO_CART_SAGA,
+                            payload: {
+                              idCart: dataCart.idCart,
+                              idProduct: row.product._id,
+                            },
+                          });
+                        }}
+                        size='small'
+                      >
+                        <ClearIcon fontSize='small' />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
               ) : (
                 <TableRow>
                   <div className='p-4 flex flex-col items-center justify-center'>

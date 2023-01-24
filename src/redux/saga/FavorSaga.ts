@@ -83,11 +83,11 @@ function* removeToFavorSaga(action: TypeRemoveToFavorAction) {
       );
 
       if (status === STATUS_CODES.SUCCESS) {
-        yield put(setFavourId(''));
         yield put({
           type: GET_FAVOR_SAGA,
           payload: action.payload.idFavor,
         });
+        yield put(setFavourId(''));
         yield put(toggleLoadingFavourButton(false));
       } else {
         console.log('error');
@@ -111,11 +111,11 @@ function* removeAllFavorSaga(action: TypeRemoveAllFavorAction) {
       );
 
       if (status === STATUS_CODES.SUCCESS) {
-        yield put(toggleClearAllFavour(false));
         yield put({
           type: GET_FAVOR_SAGA,
           payload: action.payload,
         });
+        yield put(toggleClearAllFavour(false));
       } else {
         console.log('error');
       }

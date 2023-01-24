@@ -57,11 +57,12 @@ function App() {
         { path: '/shop/:id', element: <ProductDetail /> },
         { path: '/blog', element: <Blog /> },
         { path: '/contact', element: <Contact /> },
+        { path: '/cart', element: <Cart /> },
 
-        {
-          element: <PrivateRoutes />,
-          children: [{ path: '/cart', element: <Cart /> }],
-        },
+        // {
+        //   element: <PrivateRoutes />,
+        //   children: [{ path: '/cart', element: <Cart /> }],
+        // },
       ],
     },
     {
