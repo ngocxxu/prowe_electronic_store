@@ -197,31 +197,33 @@ export const Cart = () => {
             CONTINUE SHOPPING
           </Button>
         </Stack>
-        <Box sx={{ border: '1px solid #dee2e6', padding: '40px 20px' }}>
-          <Typography variant='button'>CART TOTALS</Typography>
-          <Divider sx={{ margin: '20px 0' }} />
-          <Stack
-            spacing={3}
-            direction='row'
-            alignItems='center'
-            justifyContent='space-between'
-            sx={{ width: '40%' }}
-          >
-            <Typography variant='subtitle1'>Total</Typography>
-            <Typography variant='h6'>
-              {dataCart?.subTotal ? `$${dataCart?.subTotal}` : ''}
-            </Typography>
-          </Stack>
-          <Button
-            onClick={() => navigate('/cart/checkout')}
-            sx={{ marginTop: '20px' }}
-            size='large'
-            variant='contained'
-            color='warning'
-          >
-            PROCEED TO CHECKOUT
-          </Button>
-        </Box>
+        {dataCart.lineItems?.length > 0 && (
+          <Box sx={{ border: '1px solid #dee2e6', padding: '40px 20px' }}>
+            <Typography variant='button'>CART TOTALS</Typography>
+            <Divider sx={{ margin: '20px 0' }} />
+            <Stack
+              spacing={3}
+              direction='row'
+              alignItems='center'
+              justifyContent='space-between'
+              sx={{ width: '40%' }}
+            >
+              <Typography variant='subtitle1'>Total</Typography>
+              <Typography variant='h6'>
+                {dataCart?.subTotal ? `$${dataCart?.subTotal}` : ''}
+              </Typography>
+            </Stack>
+            <Button
+              onClick={() => navigate('/cart/checkout')}
+              sx={{ marginTop: '20px' }}
+              size='large'
+              variant='contained'
+              color='warning'
+            >
+              PROCEED TO CHECKOUT
+            </Button>
+          </Box>
+        )}
       </Container>
     </Box>
   );

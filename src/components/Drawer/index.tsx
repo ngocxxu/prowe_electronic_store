@@ -187,23 +187,25 @@ export const TemporaryDrawer = memo(
                   >
                     View Cart
                   </Button>
-                  <Button
-                    onClick={() => navigate('/cart/checkout')}
-                    sx={{
-                      pt: 3,
-                      pb: 3,
-                      borderRadius: 0,
-                      flex: 1,
-                      backgroundColor: '#000',
-                      '&:hover': {
-                        backgroundColor: 'orange',
-                      },
-                    }}
-                    variant='contained'
-                    size='large'
-                  >
-                    Check Out
-                  </Button>
+                  {dataCart && dataCart.lineItems?.length > 0 && (
+                    <Button
+                      onClick={() => navigate('/cart/checkout')}
+                      sx={{
+                        pt: 3,
+                        pb: 3,
+                        borderRadius: 0,
+                        flex: 1,
+                        backgroundColor: '#000',
+                        '&:hover': {
+                          backgroundColor: 'orange',
+                        },
+                      }}
+                      variant='contained'
+                      size='large'
+                    >
+                      Check Out
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
