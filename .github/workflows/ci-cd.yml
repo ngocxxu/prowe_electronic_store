@@ -19,9 +19,9 @@ jobs:
       run: npm ci
     - name: Print secret
       run: | 
-        echo "API Key: ${{ secrets.API_KEY }}"
+        echo "API Key: ${{ env.production.REACT_APP_API_URL }}"
     - name: build
-      run: npm run-script build
+      run: npm run-script build:prod
     - name: login
       run: firebase login
     - name: deploy
