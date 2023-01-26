@@ -246,7 +246,7 @@ const DrawerMenu = () => {
 export const Shop = () => {
   const dispatch = useDispatch();
   const [toggleFilter, setToggleFilter] = useState(false);
-  const { dataAllProducts, isPendingProduct } = useSelector(
+  const { dataAllProducts, isPendingAllProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
   const [dataTable, setDataTable] = useState({
@@ -337,7 +337,7 @@ export const Shop = () => {
             </Grid>
           )}
           <Grid container spacing={2} item md={toggleFilter ? 9 : 12}>
-            {!isPendingProduct && dataAllProducts && dataAllProducts.length > 0 ? (
+            {!isPendingAllProduct && dataAllProducts && dataAllProducts.length > 0 ? (
               dataAllProducts
                 .slice(dataTable.minValue, dataTable.maxValue)
                 .map((item) => (

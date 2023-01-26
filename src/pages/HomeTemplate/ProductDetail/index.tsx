@@ -86,7 +86,7 @@ const ProductServices = () => {
 };
 
 const RelatedProducts = () => {
-  const { dataAllProducts, isPendingProduct } = useSelector(
+  const { dataAllProducts, isPendingAllProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
 
@@ -98,13 +98,17 @@ const RelatedProducts = () => {
       >
         RELATED PRODUCTS
       </Typography>
-      {!isPendingProduct && dataAllProducts.length > 0 ? <RelatedProductSwiper /> : <LoadingPage2 />}
+      {!isPendingAllProduct && dataAllProducts.length > 0 ? (
+        <RelatedProductSwiper />
+      ) : (
+        <LoadingPage2 />
+      )}
     </Container>
   );
 };
 
 export const ProductDetail = () => {
-  const { dataProduct } = useSelector(
+  const { dataProduct, isPendingProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
   const dispatch = useDispatch();
@@ -126,7 +130,7 @@ export const ProductDetail = () => {
 
   return (
     <>
-      {dataProduct.name.length > 0 ? (
+      {!isPendingProduct && dataProduct.name.length > 0 ? (
         <>
           <Container maxWidth='xl' sx={{ paddingTop: '40px' }}>
             <Box sx={{ paddingBottom: '30px' }}>

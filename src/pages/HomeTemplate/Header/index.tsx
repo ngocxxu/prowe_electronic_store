@@ -90,7 +90,7 @@ export const Header = (props: HeaderProps) => {
   const { isOpenModal, isOpenQuickViewModal } = useSelector(
     (state: RootState) => state.otherReducer
   );
-  const { dataProduct } = useSelector(
+  const { dataProduct, isPendingProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
   const dispatch = useDispatch();
@@ -394,7 +394,7 @@ export const Header = (props: HeaderProps) => {
                   onClose={() => dispatch(toggleOpenQuickViewModal(false))}
                   open={isOpenQuickViewModal}
                 >
-                  {dataProduct.name.length > 0 ? (
+                  {!isPendingProduct && dataProduct.name.length > 0 ? (
                     <QuickView />
                   ) : (
                     <LoadingPage2 />

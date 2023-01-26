@@ -4,6 +4,7 @@ import { IProduct } from 'src/types/GeneralTypes';
 interface InitialStateProduct {
   dataAllProducts: IProduct[];
   dataProduct: IProduct;
+  isPendingAllProduct: boolean;
   isPendingProduct: boolean;
 }
 
@@ -63,7 +64,8 @@ const initialState: InitialStateProduct = {
     // },
   ],
   dataProduct: dataProduct,
-  isPendingProduct: false,
+  isPendingAllProduct: false,
+  isPendingProduct: false
 };
 
 const productReducer = createSlice({
@@ -76,8 +78,11 @@ const productReducer = createSlice({
     getProductApiAction: (state, action: PayloadAction<IProduct>) => {
       state.dataProduct = action.payload;
     },
+    togglePendingAllProduct: (state, action) => {
+      state.isPendingAllProduct = action.payload;
+    },
     togglePendingProduct: (state, action) => {
-      state.isPendingProduct = action.payload;
+      state.isPendingAllProduct = action.payload;
     },
   },
 });
@@ -85,6 +90,7 @@ const productReducer = createSlice({
 export const {
   getAllProductsApiAction,
   getProductApiAction,
+  togglePendingAllProduct,
   togglePendingProduct,
 } = productReducer.actions;
 

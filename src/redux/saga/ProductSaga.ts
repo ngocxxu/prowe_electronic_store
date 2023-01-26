@@ -17,19 +17,20 @@ import {
 import {
   getAllProductsApiAction,
   getProductApiAction,
+  togglePendingAllProduct,
   togglePendingProduct,
 } from '../reducers/productReducer';
 
 function* getAllProductsSaga() {
   try {
-    yield put(togglePendingProduct(true));
+    yield put(togglePendingAllProduct(true));
     const { status, data }: AxiosResponse<IProduct[]> = yield call(() =>
       GetAllProductHTTP()
     );
 
     if (status === STATUS_CODES.SUCCESS) {
       yield put(getAllProductsApiAction(data));
-      yield put(togglePendingProduct(false));
+      yield put(togglePendingAllProduct(false));
     } else {
       console.log('error');
     }
@@ -44,14 +45,14 @@ export function* followGetAllProductsSaga() {
 
 function* getAllProductsByQuerySaga(action: TypeGetAllProductsQueryAction) {
   try {
-    yield put(togglePendingProduct(true));
+    yield put(togglePendingAllProduct(true));
     const { status, data }: AxiosResponse<IProduct[]> = yield call(() =>
       GetAllProductByQueryHTTP(action.payload)
     );
 
     if (status === STATUS_CODES.SUCCESS) {
       yield put(getAllProductsApiAction(data));
-      yield put(togglePendingProduct(false));
+      yield put(togglePendingAllProduct(false));
     } else {
       console.log('error');
     }
@@ -66,12 +67,14 @@ export function* followGetAllProductsByQuerySaga() {
 
 function* getProductSaga(action: TypeGetProductAction) {
   try {
+    yield put(togglePendingProduct(true));
     const { status, data }: AxiosResponse<IProduct> = yield call(() =>
       GetProductHTTP(action.payload)
     );
 
     if (status === STATUS_CODES.SUCCESS) {
       yield put(getProductApiAction(data));
+      yield put(togglePendingProduct(false));
     } else {
       console.log('error');
     }

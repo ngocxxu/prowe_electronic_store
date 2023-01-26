@@ -142,7 +142,7 @@ const DynamicTracking = () => {
 };
 
 const BestSeller = memo(({ dataAllProducts }: IHomeProps) => {
-  const { isPendingProduct } = useSelector(
+  const { isPendingAllProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
   const dispatch = useDispatch();
@@ -160,7 +160,7 @@ const BestSeller = memo(({ dataAllProducts }: IHomeProps) => {
         <p className='mt-4 mb-8'>Best Seller Product This Week!</p>
       </div>
       <Grid container spacing={2}>
-        {!isPendingProduct && dataAllProducts.length > 0 ? (
+        {!isPendingAllProduct && dataAllProducts.length > 0 ? (
           dataAllProducts
             .filter((item) => item.is.hot)
             .map((item) => (
