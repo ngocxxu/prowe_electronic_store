@@ -18,8 +18,8 @@ jobs:
     - name: install dependencies
       run: npm ci
     - name: build
-      run: npm run-script build
+      run: npm run build:prod
     - name: login
-      run: firebase login:ci
+      run: firebase login
     - name: deploy
       run: firebase deploy --only hosting

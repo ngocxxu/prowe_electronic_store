@@ -98,12 +98,13 @@ const RelatedProducts = () => {
       >
         RELATED PRODUCTS
       </Typography>
-      
+
       {!isPendingAllProduct && dataAllProducts.length > 0 ? (
         <RelatedProductSwiper />
       ) : (
         <LoadingPage2 />
       )}
+      
     </Container>
   );
 };
