@@ -17,9 +17,9 @@ jobs:
         node-version: 16
     - name: install dependencies
       run: npm ci
-    # - name: Print environment variables
-    #   run: |
-    #     echo "API Key: ${{ env.REACT_APP_API_URL }}"
+    - name: Print secret
+      run: | 
+        echo "API Key: ${{ secrets.API_KEY }}"
     - name: build
       run: npm run-script build
     - name: login
