@@ -29,12 +29,13 @@ import {
 import { setProductId } from 'src/redux/reducers/cartReducer';
 import { getSearchAllProducts } from 'src/redux/reducers/productReducer';
 import useDebounce from '../Hooks/useDebounce';
+import { LoadingPage2 } from '../Loading';
 
 export type Anchor = 'top' | 'right';
 
 export const TemporaryDrawer = memo(({ direction }: { direction: Anchor }) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
-  const { dataSearchAllProducts } = useSelector(
+  const { dataSearchAllProducts, isPendingAllProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
   const { productId, dataCart, isLoadingButton } = useSelector(
@@ -117,8 +118,7 @@ export const TemporaryDrawer = memo(({ direction }: { direction: Anchor }) => {
               />
             </Box>
 
-            {dataSearchAllProducts &&
-              dataSearchAllProducts.length > 0 &&
+            {!isPendingAllProduct ? (
               dataSearchAllProducts.map((item) => (
                 <Box key={item._id}>
                   <div className='flex justify-between items-center m-4'>
@@ -171,7 +171,10 @@ export const TemporaryDrawer = memo(({ direction }: { direction: Anchor }) => {
                   </div>
                   <Divider />
                 </Box>
-              ))}
+              ))
+            ) : (
+              <LoadingPage2 />
+            )}
           </Container>
         </Box>
       ) : (
