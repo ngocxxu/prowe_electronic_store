@@ -21,7 +21,7 @@ jobs:
     #   run: |
     #     echo "API Key: ${{ env.REACT_APP_API_URL }}"
     - name: build
-      run: npm run build:prod
+      run: npm run-script build:prod
     - name: login
       run: firebase login
     - name: deploy
