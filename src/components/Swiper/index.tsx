@@ -72,7 +72,7 @@ export const InstaSwiper = ({ arrayInsta }: SwiperProps) => {
 };
 
 export const RelatedProductSwiper = () => {
-  const { dataAllProducts } = useSelector(
+  const { dataAllProducts, isPendingProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
   return (
@@ -117,7 +117,7 @@ export const RelatedProductSwiper = () => {
             <img src={item.image} alt={item.content} />
           </SwiperSlide>
         ))} */}
-        {dataAllProducts.length > 0 &&
+        {!isPendingProduct && dataAllProducts.length > 0 &&
           dataAllProducts.map((item) => (
             <SwiperSlide key={item._id}>
               <ProductItem item={item} />

@@ -86,7 +86,7 @@ const ProductServices = () => {
 };
 
 const RelatedProducts = () => {
-  const { dataAllProducts } = useSelector(
+  const { dataAllProducts, isPendingProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
 
@@ -98,7 +98,7 @@ const RelatedProducts = () => {
       >
         RELATED PRODUCTS
       </Typography>
-      {dataAllProducts.length > 0 ? <RelatedProductSwiper /> : <LoadingPage2 />}
+      {!isPendingProduct && dataAllProducts.length > 0 ? <RelatedProductSwiper /> : <LoadingPage2 />}
     </Container>
   );
 };
