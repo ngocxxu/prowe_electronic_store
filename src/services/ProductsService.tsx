@@ -5,7 +5,7 @@ import { httpClient } from './settings';
 export const GetAllProductHTTP = () => httpClient.get<IProduct[]>('/products');
 
 export const GetAllProductByQueryHTTP = (
-  query: TypeGetAllProductsQueryAction['payload']
+  query: TypeGetAllProductsQueryAction['payload']['data']
 ) => {
   let searchParams = '';
   let stringParams;

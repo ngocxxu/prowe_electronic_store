@@ -37,7 +37,7 @@ export interface TypeLoginUserAction {
   payload: {
     userData: IUser;
     location: Location;
-    navigate: NavigateFunction
+    navigate: NavigateFunction;
   };
 }
 
@@ -69,7 +69,14 @@ export interface TypeGetProductAction {
 
 export interface TypeGetAllProductsQueryAction {
   type: typeof GET_ALL_PRODUCTS_QUERY_SAGA;
-  payload: { sort?: string; priceRange?: []; name?: string };
+  payload: {
+    data: {
+      sort?: string;
+      priceRange?: [];
+      name?: string;
+    };
+    isSearch?: boolean;
+  };
 }
 
 // CART

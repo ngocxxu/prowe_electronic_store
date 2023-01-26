@@ -26,6 +26,7 @@ import {
   toggleClearAllCart,
   toggleLoadingButton,
 } from '../reducers/cartReducer';
+import { toggleNotification } from '../reducers/otherReducer';
 
 function* getCartSaga(action: TypeGetCartAction) {
   try {
@@ -58,6 +59,15 @@ function* addToCartSaga(action: TypeAddToCartAction) {
       );
 
       if (status === STATUS_CODES.SUCCESS) {
+        yield put(
+          toggleNotification({
+            isNotification: true,
+            severity: 'info',
+            message: 'Product added to cart successfully',
+            vertical: 'bottom',
+            horizontal: 'left'
+          })
+        );
         yield put({
           type: GET_CART_SAGA,
           payload: action.payload.idCart,

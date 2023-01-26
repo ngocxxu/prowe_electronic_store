@@ -25,6 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import { TemporaryDrawer } from 'src/components/Drawer/index';
 import { LoadingPage2 } from 'src/components/Loading';
 import FeatureModal from 'src/components/Modal';
+import { Notification } from 'src/components/Notification';
 import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_CART_SAGA,
@@ -124,6 +125,7 @@ export const Header = (props: HeaderProps) => {
 
   return (
     <>
+      <Notification />
       <ElevationScroll {...props}>
         <AppBar
           sx={{
@@ -401,7 +403,7 @@ export const Header = (props: HeaderProps) => {
                   )}
                 </FeatureModal>
 
-                <TemporaryDrawer dataCart={dataCart} direction='right' />
+                <TemporaryDrawer direction='right' />
                 <Menu
                   sx={{ mt: '45px' }}
                   id='menu-appbar'

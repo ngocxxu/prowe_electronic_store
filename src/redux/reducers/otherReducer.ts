@@ -16,6 +16,8 @@ const initialState: OtherState = {
     isNotification: false,
     severity: 'info',
     message: '',
+    vertical: 'top',
+    horizontal: 'right',
   },
 };
 

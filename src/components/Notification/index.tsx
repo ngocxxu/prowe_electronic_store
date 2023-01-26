@@ -6,14 +6,17 @@ import { toggleNotification } from 'src/redux/reducers/otherReducer';
 export const Notification = () => {
   const dispatch = useDispatch();
   const {
-    notify: { isNotification, severity, message },
+    notify: { isNotification, severity, message, vertical, horizontal },
   } = useSelector((state: RootState) => state.otherReducer);
 
   return (
     <>
       <Snackbar
-        autoHideDuration={5000}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        autoHideDuration={4000}
+        anchorOrigin={{
+          vertical: vertical ?? 'top',
+          horizontal: horizontal ?? 'right',
+        }}
         open={isNotification}
         onClose={() =>
           dispatch(
@@ -22,7 +25,7 @@ export const Notification = () => {
             })
           )
         }
-        key={'topright'}
+        key={vertical ?? 'top' + horizontal ?? 'right'}
       >
         <Alert
           onClose={() =>

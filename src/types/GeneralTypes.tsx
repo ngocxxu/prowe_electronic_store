@@ -33,6 +33,8 @@ export interface OtherState {
     isNotification: boolean;
     severity?: AlertColor;
     message?: string;
+    vertical: "top" | "bottom";
+    horizontal: "left" | "center" | "right";
   };
 }
 

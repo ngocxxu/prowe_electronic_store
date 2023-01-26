@@ -69,7 +69,6 @@ const QuickView = () => {
                   data: {
                     idProduct: _id,
                     quantity,
-                    price: price.raw,
                   },
                 },
               });

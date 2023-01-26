@@ -17,6 +17,7 @@ import {
 import {
   getAllProductsApiAction,
   getProductApiAction,
+  getSearchAllProducts,
   togglePendingAllProduct,
   togglePendingProduct,
 } from '../reducers/productReducer';
@@ -47,10 +48,18 @@ function* getAllProductsByQuerySaga(action: TypeGetAllProductsQueryAction) {
   try {
     yield put(togglePendingAllProduct(true));
     const { status, data }: AxiosResponse<IProduct[]> = yield call(() =>
-      GetAllProductByQueryHTTP(action.payload)
+      GetAllProductByQueryHTTP(action.payload.data)
     );
 
+    // Filter products are be searched
+    const isSearching: boolean = action.payload.isSearch ?? false;
     if (status === STATUS_CODES.SUCCESS) {
+      if (isSearching) {
+        yield put(getSearchAllProducts(data));
+        yield put(togglePendingAllProduct(false));
+        return;
+      }
+
       yield put(getAllProductsApiAction(data));
       yield put(togglePendingAllProduct(false));
     } else {

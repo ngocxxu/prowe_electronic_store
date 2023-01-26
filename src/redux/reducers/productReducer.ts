@@ -3,6 +3,7 @@ import { IProduct } from 'src/types/GeneralTypes';
 
 interface InitialStateProduct {
   dataAllProducts: IProduct[];
+  dataSearchAllProducts: IProduct[];
   dataProduct: IProduct;
   isPendingAllProduct: boolean;
   isPendingProduct: boolean;
@@ -63,6 +64,7 @@ const initialState: InitialStateProduct = {
     //   },
     // },
   ],
+  dataSearchAllProducts: [],
   dataProduct: dataProduct,
   isPendingAllProduct: false,
   isPendingProduct: false
@@ -84,6 +86,9 @@ const productReducer = createSlice({
     togglePendingProduct: (state, action) => {
       state.isPendingAllProduct = action.payload;
     },
+    getSearchAllProducts: (state, action: PayloadAction<IProduct[]>) => {
+      state.dataSearchAllProducts = action.payload;
+    },
   },
 });
 
@@ -92,6 +97,7 @@ export const {
   getProductApiAction,
   togglePendingAllProduct,
   togglePendingProduct,
+  getSearchAllProducts
 } = productReducer.actions;
 
 export default productReducer.reducer;
