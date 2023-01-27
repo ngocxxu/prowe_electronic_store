@@ -31,7 +31,7 @@ jobs:
       run: npm run build:prod
 
     - name: login
-      run: firebase login:ci
+      run: firebase login:ci --interactive
 
     - name: deploy
       run: firebase deploy --only hosting
