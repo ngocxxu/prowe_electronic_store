@@ -20,9 +20,6 @@ jobs:
     - name: install dependencies
       run: npm ci
 
-    - name: install firebase
-      run: npm install -g firebase-tools
-
     - name: Print secret
       run: | 
         echo "API Key: ${{ env.REACT_APP_API_URL }}"
@@ -30,8 +27,11 @@ jobs:
     - name: build
       run: npm run build:prod
 
+    - name: install firebase
+      run: npm install -g firebase-tools
+
     - name: login
-      run: firebase login:ci --interactive
+      run: firebase login:ci --interactive --no-localhost
 
     - name: deploy
       run: firebase deploy --only hosting
