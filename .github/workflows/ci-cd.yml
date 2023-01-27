@@ -20,6 +20,9 @@ jobs:
     - name: install dependencies
       run: npm ci
 
+    - name: Install env-cmd
+      run: npm install -g env-cmd
+
     - name: Print secret
       run: | 
         echo "API Key: ${{ env.REACT_APP_API_URL }}"
