@@ -20,7 +20,7 @@ jobs:
       run: npm ci
     - name: Print secret
       run: | 
-        echo "API Key: ${{ process.env.REACT_APP_API_URL }}"
+        echo "API Key: ${{ env.REACT_APP_API_URL }}"
     - name: build
       run: npm run build:prod
     - name: login
