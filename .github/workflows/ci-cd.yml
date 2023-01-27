@@ -23,9 +23,12 @@ jobs:
     - name: Print secret
       run: | 
         echo "API Key: ${{ env.REACT_APP_API_URL }}"
+        echo "Google Key: ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}"
 
     - name: build
       run: npm run build:prod
+      # env:
+      #   GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS 
 
     - name: install firebase
       run: npm install -g firebase-tools
