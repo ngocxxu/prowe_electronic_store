@@ -15,7 +15,7 @@ import Register from './pages/UserTemplate/Register';
 import RegisterSuccess from './pages/UserTemplate/Register/RegisterSuccess';
 
 // Import the functions you need from the SDKs you need
-import { getAnalytics } from 'firebase/analytics';
+// import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
 import { lazy, Suspense } from 'react';
 import { LoadingPage } from './components/Loading';
@@ -37,8 +37,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
 
 const HomeTemplateLazy = lazy(() => import('./pages/HomeTemplate'));
 
