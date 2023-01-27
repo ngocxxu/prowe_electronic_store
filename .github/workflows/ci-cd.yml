@@ -28,8 +28,8 @@ jobs:
 
     - name: build
       run: npm run build:prod
-      # env:
-      #   GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS 
+      env:
+        REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL 
 
     - name: install firebase
       run: npm install -g firebase-tools
