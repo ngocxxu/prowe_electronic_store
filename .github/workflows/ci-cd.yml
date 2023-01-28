@@ -25,17 +25,18 @@ jobs:
     - name: Install env-cmd
       run: npm install -g env-cmd
 
+    - name: Print environment variables
+      run: env-cmd -f ./.env.prodution echo $REACT_APP_API_URL
+
     # - name: Set environment variable
     #   run: echo "::set-env name=REACT_APP_API_URL::${{ secrets.REACT_APP_API_URL }}"
-    - name: Set environment variable
-      run: |
-        REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
-        echo "REACT_APP_API_URL=$REACT_APP_API_URL" >> $GITHUB_ENV
-        echo "::addmask::$REACT_APP_API_URL"
+    # - name: Set environment variable
+    #   run: |
+    #     REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
+    #     echo "REACT_APP_API_URL=$REACT_APP_API_URL" >> $GITHUB_ENV
+    #     echo "::addmask::$REACT_APP_API_URL"
 
     # - name: build
-    #   # env: 
-    #   #   REACT_APP_API_URL: "https://prowe-store-backend-ngocxxu.koyeb.app/api"
     #   run: npm run build:prod
 
     # - name: install firebase
