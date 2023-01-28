@@ -157,7 +157,7 @@ const BestSeller = memo(({ dataAllProducts }: IHomeProps) => {
     <div>
       <div className='text-center'>
         <h1 className='font-medium text-5xl mt-20'>BEST SELLER</h1>
-        <p className='mt-4 mb-8'>Best Seller Product This Week!</p>
+        <p className='mt-4 mb-8'>Best Seller Products This Week!</p>
       </div>
       <Grid container spacing={2}>
         {!isPendingAllProduct && dataAllProducts.length > 0 ? (

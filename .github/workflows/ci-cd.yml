@@ -22,14 +22,6 @@ jobs:
     - name: install dependencies
       run: npm ci
 
-    - name: Install env-cmd
-      run: npm install -g env-cmd
-
-    # - name: Print environment variables
-    #   run: env-cmd -f .env.prodution echo $REACT_APP_API_URL
-
-    # - name: Set environment variable
-    #   run: echo "::set-env name=REACT_APP_API_URL::${{ secrets.REACT_APP_API_URL }}"
     - name: Set environment variable
       run: |
         REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
@@ -49,10 +41,3 @@ jobs:
       env:
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-
-    # - name: login
-    #   run: firebase login:ci --interactive
-
-    # - name: deploy
-    #   run: firebase deploy --only hosting
