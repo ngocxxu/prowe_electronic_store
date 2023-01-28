@@ -19,7 +19,7 @@ jobs:
           node-version: 16.x
           cache: npm
 
-    - name: Install dependencies
+    - name: install dependencies
       run: npm ci
 
     - name: Set environment variable
@@ -27,11 +27,10 @@ jobs:
         REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
         echo "REACT_APP_API_URL=$REACT_APP_API_URL" >> $GITHUB_ENV
         echo "::addmask::$REACT_APP_API_URL"
-
-    - name: Build
+    - name: build
       run: npm run build
 
-    - name: Install firebase
+    - name: install firebase
       run: npm install -g firebase-tools
 
     - name: Deploy to Firebase
@@ -39,5 +38,5 @@ jobs:
       with:
         args: deploy --only hosting
       env:
-        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
