@@ -37,4 +37,6 @@ jobs:
         args: deploy --only hosting
       env:
         # firebase login:ci on your local computer and store the token as the FIREBASE_TOKEN secret
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        
