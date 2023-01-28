@@ -10,13 +10,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { memo } from 'react';
+import { memo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/redux/configStore';
 import { updateActiveStep } from 'src/redux/reducers/otherReducer';
 import { TCheckoutShipping } from 'src/types/GeneralTypes';
 
-const shipMethods = [
+export const shipMethods = [
   {
     value: 'standard',
     label: 'Standard',
@@ -35,6 +35,12 @@ export const CheckoutShipping = memo(
     const { myInfo } = useSelector((state: RootState) => state.userReducer);
     const { activeStep } = useSelector(
       (state: RootState) => state.otherReducer
+    );
+    const {
+      dataFormCheckout: { shippingMethod },
+    } = useSelector((state: RootState) => state.cartReducer);
+    const refPriceShippingMethod = useRef(
+      shipMethods.find((item) => item.value === shippingMethod)
     );
 
     return (
@@ -108,7 +114,10 @@ export const CheckoutShipping = memo(
               >
                 <div className='flex justify-between items-center'>
                   <h1 className='text-[#737373]'>Method</h1>
-                  <p className='ml-10'>Standard · $19.70</p>
+                  <p className='ml-10'>
+                    {refPriceShippingMethod.current?.label} - $
+                    {refPriceShippingMethod.current?.price}
+                  </p>
                 </div>
                 <Button
                   onClick={() => dispatch(updateActiveStep(1))}
@@ -136,6 +145,7 @@ export const CheckoutShipping = memo(
             >
               <FormControl fullWidth>
                 <RadioGroup
+                  value={values.shippingMethod}
                   onChange={handleChange}
                   id='shippingMethod'
                   name='shippingMethod'
@@ -166,6 +176,7 @@ export const CheckoutShipping = memo(
             </Typography>
             <Box component='form' autoComplete='off'>
               <TextField
+                required
                 onChange={handleChange}
                 id='cardNumber'
                 name='cardNumber'
@@ -182,6 +193,7 @@ export const CheckoutShipping = memo(
                 }}
               >
                 <TextField
+                  required
                   sx={{ mr: 0.5 }}
                   fullWidth
                   onChange={handleChange}
@@ -190,6 +202,7 @@ export const CheckoutShipping = memo(
                   label='Expiry Year (ex: 2030)'
                 />
                 <TextField
+                  required
                   sx={{ ml: 0.5 }}
                   fullWidth
                   onChange={handleChange}
@@ -199,6 +212,7 @@ export const CheckoutShipping = memo(
                 />
               </Box>
               <TextField
+                required
                 sx={{ mt: 1 }}
                 fullWidth
                 onChange={handleChange}

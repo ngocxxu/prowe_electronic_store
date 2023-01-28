@@ -16,7 +16,7 @@ export const DataFormCheckout = {
   apartment: '',
   city: '',
   zip: '',
-  shippingMethod: '',
+  shippingMethod: 'standard',
   cardNumber: '',
   expYear: '',
   expMonth: '',

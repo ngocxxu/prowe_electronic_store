@@ -19,7 +19,6 @@ import RegisterSuccess from './pages/UserTemplate/Register/RegisterSuccess';
 import { initializeApp } from 'firebase/app';
 import { lazy, Suspense } from 'react';
 import { LoadingPage } from './components/Loading';
-import PrivateRoutes from './routes/PrivateRoutes';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -65,10 +64,7 @@ function App() {
         // },
       ],
     },
-    {
-      element: <PrivateRoutes />,
-      children: [{ path: '/cart/checkout', element: <Checkout /> }],
-    },
+    { path: '/cart/checkout', element: <Checkout /> },
     {
       element: <UserTemplate />,
       children: [

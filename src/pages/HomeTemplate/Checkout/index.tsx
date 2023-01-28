@@ -6,24 +6,40 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/redux/configStore';
 import { GET_MY_USER_SAGA } from 'src/redux/consts/consts';
 import HorizontalLinearStepper from './Stepper';
 import Shipper1 from '../../../assets/img/gif/shipper1.gif';
+import { useNavigate } from 'react-router-dom';
+import { shipMethods } from './CheckoutShipping';
 
 export const Checkout = () => {
   const {
     dataCart: { lineItems, subTotal },
+    dataFormCheckout: { shippingMethod },
   } = useSelector((state: RootState) => state.cartReducer);
+  const { activeStep } = useSelector((state: RootState) => state.otherReducer);
+  const refPriceShippingMethod = useRef(
+    shipMethods.find((item) => item.value === shippingMethod)
+  );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch({
       type: GET_MY_USER_SAGA,
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    if (shippingMethod) {
+      refPriceShippingMethod.current = shipMethods.find(
+        (item) => item.value === shippingMethod
+      );
+    }
+  }, [shippingMethod]);
 
   return (
     <Container maxWidth='lg'>
@@ -58,9 +74,16 @@ export const Checkout = () => {
                               />
                             </div>
                           </Badge>
-                          <div className='ml-4'>
+                          <div
+                            className='ml-4'
+                            onClick={() => {
+                              navigate(`/shop/${product._id}`);
+                            }}
+                          >
                             <Typography variant='subtitle1'>
-                              {product.name}
+                              <span className='hover:text-orange-500 transition ease-out cursor-pointer'>
+                                {product.name}
+                              </span>
                             </Typography>
                           </div>
                         </div>
@@ -83,7 +106,9 @@ export const Checkout = () => {
                   variant='subtitle2'
                   display='block'
                 >
-                  Calculated at next step
+                  {activeStep === 2
+                    ? `$${refPriceShippingMethod.current?.price}`
+                    : ' Calculated at next step'}
                 </Typography>
               </div>
               <Divider sx={{ mt: 2, mb: 2 }} />
@@ -93,7 +118,13 @@ export const Checkout = () => {
                   <Typography variant='overline' display='block'>
                     USD &nbsp;
                   </Typography>
-                  <Typography variant='h5'>${subTotal}</Typography>
+                  {refPriceShippingMethod.current?.price && activeStep === 2 ? (
+                    <Typography variant='h5'>
+                      {subTotal + refPriceShippingMethod.current?.price}
+                    </Typography>
+                  ) : (
+                    <Typography variant='h5'>${subTotal}</Typography>
+                  )}
                 </div>
               </div>
             </>

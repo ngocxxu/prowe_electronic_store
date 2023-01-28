@@ -42,7 +42,6 @@ const shopReducer = createSlice({
   initialState, //giá trị mặc định của reducer (stateDefault)
   reducers: {
     getProductApiAction: (state, action) => {
-      console.log(action);
       state.dataProduct = action.payload;
     },
     addToCartAction: (state, action) => {

@@ -117,7 +117,6 @@ export const Header = (props: HeaderProps) => {
   };
 
   useEffect(() => {
-    console.log(favourId);
     dispatch({
       type: GET_MY_USER_SAGA,
     });
