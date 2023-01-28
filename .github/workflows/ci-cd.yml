@@ -42,8 +42,15 @@ jobs:
     - name: install firebase
       run: npm install -g firebase-tools
 
-    - name: login
-      run: firebase login:ci --interactive
+    - name: Firebase Login
+      uses: w9jds/firebase-action@v2
+      with:
+        args: login:ci
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+    # - name: login
+    #   run: firebase login:ci --interactive
 
     # - name: deploy
     #   run: firebase deploy --only hosting
