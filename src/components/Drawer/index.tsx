@@ -51,6 +51,9 @@ export const TemporaryDrawer = memo(({ direction }: { direction: Anchor }) => {
   const debouncedValue = useDebounce<string>(valueSearch, 500);
 
   const toggleDrawer = (anchor: Anchor, open: boolean) => () => {
+    if (open === false) {
+      dispatch(getSearchAllProducts([]));
+    }
     setState({ ...state, [anchor]: open });
   };
 
@@ -108,6 +111,7 @@ export const TemporaryDrawer = memo(({ direction }: { direction: Anchor }) => {
           <Container maxWidth='md'>
             <Box className='sticky top-0 bg-white'>
               <TextField
+                autoComplete='off'
                 fullWidth
                 id='standard-search'
                 label='Search anything'
