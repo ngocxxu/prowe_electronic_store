@@ -3,6 +3,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 import SearchIcon from '@mui/icons-material/Search';
 import { LoadingButton } from '@mui/lab';
 import {
@@ -48,10 +49,11 @@ export const TemporaryDrawer = memo(({ direction }: { direction: Anchor }) => {
     right: false,
   });
   const [valueSearch, setValueSearch] = useState('');
-  const debouncedValue = useDebounce<string>(valueSearch, 500);
+  const debouncedValue = useDebounce<string>(valueSearch, 700);
 
   const toggleDrawer = (anchor: Anchor, open: boolean) => () => {
     if (open === false) {
+      setValueSearch('');
       dispatch(getSearchAllProducts([]));
     }
     setState({ ...state, [anchor]: open });
@@ -179,6 +181,19 @@ export const TemporaryDrawer = memo(({ direction }: { direction: Anchor }) => {
             ) : (
               <LoadingPage2 />
             )}
+
+            {!isPendingAllProduct &&
+              dataSearchAllProducts.length === 0 &&
+              valueSearch !== '' && (
+                <div className='flex items-center justify-center h-[200px]'>
+                  <div>
+                    <div className='flex items-center justify-center'>
+                      <FindInPageIcon fontSize='large' />
+                    </div>
+                    <p>No result is found!</p>
+                  </div>
+                </div>
+              )}
           </Container>
         </Box>
       ) : (
