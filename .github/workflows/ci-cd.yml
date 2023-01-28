@@ -29,9 +29,9 @@ jobs:
         echo "Google Key: ${{ env.GOOGLE_APPLICATION_CREDENTIALS }}"
 
     - name: build
-      run: env-cmd -f .env.production "npm run build"
       env:
         REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }} 
+      run: $REACT_APP_API_URL -f npm run build
 
     - name: install firebase
       run: npm install -g firebase-tools
