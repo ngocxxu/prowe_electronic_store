@@ -23,11 +23,11 @@ jobs:
     - name: Install env-cmd
       run: npm install -g env-cmd
 
-    - name: Set environment variable
-      run: echo "::set-env name=REACT_APP_API_URL::${{ secrets.REACT_APP_API_URL }}"
+    # - name: Set environment variable
+    #   run: echo "::set-env name=REACT_APP_API_URL::${{ secrets.REACT_APP_API_URL }}"
 
     - name: build
-      run: npm run build:prod -- --env.REACT_APP_API_URL=$REACT_APP_API_URL
+      run: npm run build:prod
 
     - name: install firebase
       run: npm install -g firebase-tools
