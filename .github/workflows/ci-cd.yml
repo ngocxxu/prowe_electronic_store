@@ -37,7 +37,7 @@ jobs:
         echo "::addmask::$REACT_APP_API_URL"
 
     - name: build
-      run: npm run buil
+      run: npm run build
 
     - name: install firebase
       run: npm install -g firebase-tools
