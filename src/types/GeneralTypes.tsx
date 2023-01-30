@@ -25,6 +25,8 @@ export interface OtherState {
   isDrawer: boolean;
   isOpenModal: boolean;
   isOpenQuickViewModal: boolean;
+  isOpenComparisonModal: boolean;
+  isOpenComparisonTable: boolean;
   stateToggleDrawer: {
     anchor: string;
     open: boolean;
@@ -33,8 +35,8 @@ export interface OtherState {
     isNotification: boolean;
     severity?: AlertColor;
     message?: string;
-    vertical: "top" | "bottom";
-    horizontal: "left" | "center" | "right";
+    vertical: 'top' | 'bottom';
+    horizontal: 'left' | 'center' | 'right';
   };
 }
 

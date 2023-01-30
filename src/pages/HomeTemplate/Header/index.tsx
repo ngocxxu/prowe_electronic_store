@@ -131,7 +131,7 @@ export const Header = (props: HeaderProps) => {
             backgroundColor: 'white',
           }}
         >
-          <Container maxWidth='xl'>
+          <Container sx={{ position: 'relative' }} maxWidth='xl'>
             <Toolbar disableGutters>
               <Box
                 onClick={() => navigate('/')}

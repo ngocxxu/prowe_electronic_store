@@ -8,6 +8,8 @@ const initialState: OtherState = {
   isDrawer: false,
   isOpenModal: false,
   isOpenQuickViewModal: false,
+  isOpenComparisonModal: false,
+  isOpenComparisonTable:false,
   stateToggleDrawer: {
     anchor: 'right',
     open: false,
@@ -45,6 +47,12 @@ const otherReducer = createSlice({
     toggleOpenQuickViewModal: (state, action) => {
       state.isOpenQuickViewModal = action.payload;
     },
+    toggleOpenComparisonModal: (state, action) => {
+      state.isOpenComparisonModal = action.payload;
+    },
+    toggleOpenComparisonTable: (state, action) => {
+      state.isOpenComparisonTable = action.payload;
+    },
   },
 });
 
@@ -54,6 +62,8 @@ export const {
   toggleNotification,
   toggleOpenModal,
   toggleOpenQuickViewModal,
+  toggleOpenComparisonModal,
+  toggleOpenComparisonTable
 } = otherReducer.actions;
 
 export default otherReducer.reducer;
