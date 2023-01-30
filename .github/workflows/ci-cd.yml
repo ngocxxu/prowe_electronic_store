@@ -3,7 +3,7 @@ name: Prowe_Electronic_Store_FE CI/CD
 on:
   push:
     branches:
-      - homepage
+      - dev
 
 jobs:
   build-and-deploy:

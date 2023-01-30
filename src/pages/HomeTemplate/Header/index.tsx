@@ -129,8 +129,6 @@ export const Header = (props: HeaderProps) => {
         <AppBar
           sx={{
             backgroundColor: 'white',
-            paddingBottom: '10px',
-            paddingTop: '10px',
           }}
         >
           <Container maxWidth='xl'>

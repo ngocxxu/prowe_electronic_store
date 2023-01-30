@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import ScrollButton from 'src/components/Scroll/ScrollButton';
+import Comparison from './Comparison';
 import { Footer } from './Footer';
 import { Header } from './Header';
 
@@ -10,6 +11,7 @@ const HomeTemplate = () => {
       <Outlet />
       <Footer />
       <ScrollButton />
+      <Comparison/>
     </>
   );
 };
