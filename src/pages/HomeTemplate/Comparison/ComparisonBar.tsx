@@ -1,4 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import MenuIcon from '@mui/icons-material/Menu';
 import PlaylistRemoveOutlinedIcon from '@mui/icons-material/PlaylistRemoveOutlined';
@@ -6,17 +7,16 @@ import {
   Button,
   Dialog,
   DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
+  DialogContent, DialogTitle,
   IconButton,
-  Tooltip,
+  TextField,
+  Tooltip
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/redux/configStore';
 import {
   toggleOpenComparisonModal,
-  toggleOpenComparisonTable,
+  toggleOpenComparisonTable
 } from 'src/redux/reducers/otherReducer';
 import Prod1 from '../../../assets/img/product/1.1.jpg';
 
@@ -91,17 +91,31 @@ const ComparisonBar = () => {
         aria-describedby='alert-dialog-description'
       >
         <DialogTitle id='alert-dialog-title'>
-          {"Use Google's location service?"}
+          <TextField
+            margin='dense'
+            id='name'
+            label='Type any keyword to search...'
+            type='email'
+            fullWidth
+            variant='outlined'
+          />
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
+          <div className='flex justify-center items-center'>
+            <div className='max-w-[50px]'>
+              <img className='max-w-full rounded-sm' src={Prod1} alt='icon1' />
+            </div>
+            <p className='break-all w-45'>Wood Grain Wireless Speaker</p>
+            <IconButton
+              aria-label='upload picture'
+              component='label'
+            >
+              <AddBoxIcon sx={{fill: 'black'}} />
+            </IconButton>
+          </div>
         </DialogContent>
         <DialogActions>
-          <Button>Disagree</Button>
-          <Button autoFocus>Agree</Button>
+          <Button>Close</Button>
         </DialogActions>
       </Dialog>
     </div>

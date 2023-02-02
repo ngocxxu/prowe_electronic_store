@@ -66,7 +66,10 @@ httpClient.interceptors.response.use(
         return Promise.reject(_error);
       }
     } else if (originalConfig.url === '/auth/refreshToken') {
-      window.location.replace('/login/login-expiration');
+      const text = "Your login session has expired, click Yes to log in again ";
+      if (window.confirm(text) === true) {
+        window.location.replace('/login');
+      }
       localStorage.clear();
     }
     return Promise.reject(err);

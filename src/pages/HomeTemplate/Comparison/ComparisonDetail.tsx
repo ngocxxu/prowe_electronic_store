@@ -27,13 +27,11 @@ const rows = [
 ];
 const ComparisonDetail = () => {
   return (
-    // <div className='absolute -top-[85vh] left-0 z-[9999] px-20 bg-blue-100 w-full h-[83vh]'>
-    // </div>
     <TableContainer
-      className='absolute -top-[85vh] left-0 z-[9999] bg-blue-100 w-full h-[83vh]'
+      className='absolute -top-[85vh] left-0 z-[9999] w-full h-[83vh]'
       component={Paper}
     >
-      <Table sx={{ minWidth: 650, height: '100%' }} aria-label='simple table'>
+      <Table sx={{ minWidth: 650, height: '100%', backgroundColor: '#f8fafc' }} aria-label='simple table'>
         <TableHead>
           <TableRow>
             <TableCell align='center'>Settings</TableCell>
