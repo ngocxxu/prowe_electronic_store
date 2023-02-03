@@ -7,24 +7,52 @@ import {
   Button,
   Dialog,
   DialogActions,
-  DialogContent, DialogTitle,
+  DialogTitle,
   IconButton,
   TextField,
-  Tooltip
+  Tooltip,
 } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useDebounce from 'src/components/Hooks/useDebounce';
+import { LoadingPage2 } from 'src/components/Loading';
 import { RootState } from 'src/redux/configStore';
+import { GET_ALL_PRODUCTS_QUERY_SAGA } from 'src/redux/consts/consts';
 import {
   toggleOpenComparisonModal,
-  toggleOpenComparisonTable
+  toggleOpenComparisonTable,
 } from 'src/redux/reducers/otherReducer';
 import Prod1 from '../../../assets/img/product/1.1.jpg';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 
 const ComparisonBar = () => {
   const { isOpenComparisonModal, isOpenComparisonTable } = useSelector(
     (state: RootState) => state.otherReducer
   );
+  const { dataSearchAllProducts, isPendingAllProduct } = useSelector(
+    (state: RootState) => state.productReducer
+  );
   const dispatch = useDispatch();
+  const [valueSearch, setValueSearch] = useState('');
+  const debouncedValue = useDebounce<string>(valueSearch, 700);
+
+  useEffect(() => {
+    // Do fetch here...
+    dispatch({
+      type: GET_ALL_PRODUCTS_QUERY_SAGA,
+      payload: { data: { name: debouncedValue }, isSearch: true },
+    });
+
+    // Triggers when "debouncedValue" changes
+  }, [debouncedValue, dispatch]);
+
+  useEffect(() => {
+    dispatch({
+      type: GET_ALL_PRODUCTS_QUERY_SAGA,
+      payload: { data: { name: debouncedValue }, isSearch: true },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className='flex justify-end items-center'>
@@ -86,7 +114,10 @@ const ComparisonBar = () => {
       {/* Dialog */}
       <Dialog
         open={isOpenComparisonModal}
-        onClose={() => dispatch(toggleOpenComparisonModal(false))}
+        onClose={() => {
+          setValueSearch('');
+          dispatch(toggleOpenComparisonModal(false));
+        }}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
@@ -98,24 +129,52 @@ const ComparisonBar = () => {
             type='email'
             fullWidth
             variant='outlined'
+            onChange={(e: React.ChangeEvent<any>) => {
+              setValueSearch(e.target.value);
+            }}
           />
         </DialogTitle>
-        <DialogContent>
-          <div className='flex justify-center items-center'>
-            <div className='max-w-[50px]'>
-              <img className='max-w-full rounded-sm' src={Prod1} alt='icon1' />
-            </div>
-            <p className='break-all w-45'>Wood Grain Wireless Speaker</p>
-            <IconButton
-              aria-label='upload picture'
-              component='label'
-            >
-              <AddBoxIcon sx={{fill: 'black'}} />
-            </IconButton>
-          </div>
-        </DialogContent>
+        <div className='mx-4 overflow-y-auto h-52 w-[300px]'>
+          {!isPendingAllProduct ? (
+            dataSearchAllProducts.map((item) => (
+              <div
+                key={item._id}
+                className='flex justify-between items-center mt-4'
+              >
+                <div className='max-w-[50px]'>
+                  <img
+                    className='max-w-full rounded-sm'
+                    src={item.image?.main}
+                    alt={item.name}
+                  />
+                </div>
+                <p className='break-all w-45 ml-1'>{item.name}</p>
+                <IconButton aria-label='upload picture' component='label'>
+                  <AddBoxIcon sx={{ fill: 'black' }} />
+                </IconButton>
+              </div>
+            ))
+          ) : (
+            <LoadingPage2 />
+          )}
+
+          {!isPendingAllProduct &&
+            dataSearchAllProducts.length === 0 &&
+            valueSearch !== '' && (
+              <div className='flex items-center justify-center h-[200px]'>
+                <div>
+                  <div className='flex items-center justify-center'>
+                    <FindInPageIcon fontSize='large' />
+                  </div>
+                  <p>No result is found!</p>
+                </div>
+              </div>
+            )}
+        </div>
         <DialogActions>
-          <Button>Close</Button>
+          <Button onClick={() => dispatch(toggleOpenComparisonModal(false))}>
+            Close
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
