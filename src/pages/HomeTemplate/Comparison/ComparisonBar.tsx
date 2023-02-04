@@ -29,7 +29,7 @@ const ComparisonBar = () => {
   const { isOpenComparisonModal, isOpenComparisonTable } = useSelector(
     (state: RootState) => state.otherReducer
   );
-  const { dataSearchAllProducts, isPendingAllProduct } = useSelector(
+  const { dataAddingSearchAllProducts, isPendingAllProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const ComparisonBar = () => {
     // Do fetch here...
     dispatch({
       type: GET_ALL_PRODUCTS_QUERY_SAGA,
-      payload: { data: { name: debouncedValue }, isSearch: true },
+      payload: { data: { name: debouncedValue }, isAddingSearch: true },
     });
 
     // Triggers when "debouncedValue" changes
@@ -49,7 +49,7 @@ const ComparisonBar = () => {
   useEffect(() => {
     dispatch({
       type: GET_ALL_PRODUCTS_QUERY_SAGA,
-      payload: { data: { name: debouncedValue }, isSearch: true },
+      payload: { data: { name: debouncedValue }, isAddingSearch: true },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -136,7 +136,7 @@ const ComparisonBar = () => {
         </DialogTitle>
         <div className='mx-4 overflow-y-auto h-52 w-[300px]'>
           {!isPendingAllProduct ? (
-            dataSearchAllProducts.map((item) => (
+            dataAddingSearchAllProducts.map((item) => (
               <div
                 key={item._id}
                 className='flex justify-between items-center mt-4'
@@ -159,7 +159,7 @@ const ComparisonBar = () => {
           )}
 
           {!isPendingAllProduct &&
-            dataSearchAllProducts.length === 0 &&
+            dataAddingSearchAllProducts.length === 0 &&
             valueSearch !== '' && (
               <div className='flex items-center justify-center h-[200px]'>
                 <div>

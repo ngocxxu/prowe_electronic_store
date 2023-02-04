@@ -76,6 +76,7 @@ export interface TypeGetAllProductsQueryAction {
       name?: string;
     };
     isSearch?: boolean;
+    isAddingSearch?: boolean;
   };
 }
 

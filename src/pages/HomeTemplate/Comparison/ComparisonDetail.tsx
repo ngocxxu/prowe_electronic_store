@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import Prod1 from '../../../assets/img/product/1.1.jpg';
 
 function createData(
   name: string,
@@ -31,7 +32,10 @@ const ComparisonDetail = () => {
       className='absolute -top-[85vh] left-0 z-[9999] w-full h-[83vh]'
       component={Paper}
     >
-      <Table sx={{ minWidth: 650, height: '100%', backgroundColor: '#f8fafc' }} aria-label='simple table'>
+      <Table
+        sx={{ minWidth: 650, height: '100%', backgroundColor: '#f8fafc' }}
+        aria-label='simple table'
+      >
         <TableHead>
           <TableRow>
             <TableCell align='center'>Settings</TableCell>
@@ -48,7 +52,15 @@ const ComparisonDetail = () => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell align='center'>{row.name}</TableCell>
-              <TableCell>{row.calories}</TableCell>
+              <TableCell>
+                <div className='max-w-[50px]'>
+                  <img
+                    className='max-w-full rounded-sm'
+                    src={Prod1}
+                    alt='icon1'
+                  />
+                </div>
+              </TableCell>
               <TableCell>{row.fat}</TableCell>
               <TableCell>{row.carbs}</TableCell>
               <TableCell>{row.protein}</TableCell>

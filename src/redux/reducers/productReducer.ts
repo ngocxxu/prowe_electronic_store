@@ -4,6 +4,7 @@ import { IProduct } from 'src/types/GeneralTypes';
 interface InitialStateProduct {
   dataAllProducts: IProduct[];
   dataSearchAllProducts: IProduct[];
+  dataAddingSearchAllProducts: IProduct[];
   dataProduct: IProduct;
   isPendingAllProduct: boolean;
   isPendingProduct: boolean;
@@ -34,40 +35,12 @@ export const dataProduct = {
 };
 
 const initialState: InitialStateProduct = {
-  dataAllProducts: [
-    // {
-    //   _id: '',
-    //   name: '',
-    //   description: '',
-    //   price: {
-    //     raw: 650,
-    //   },
-    //   categories: ['', ''],
-    //   inventory: 30,
-    //   sale: 0,
-    //   avgReviews: 0,
-    //   is: {
-    //     hot: false,
-    //     new: false,
-    //     sale: false,
-    //     available: false,
-    //     delete: false,
-    //   },
-    //   image: {
-    //     main: 'https://specs-tech.com/wp-content/uploads/2021/07/Xiaomi-Poco-F4-2.jpg',
-    //     library: [
-    //       'https://specs-tech.com/wp-content/uploads/2021/07/Xiaomi-Poco-F4-2.jpg',
-    //       'https://m.media-amazon.com/images/I/41T92QRpW-L._AC_SL1001_.jpg',
-    //       'https://m.media-amazon.com/images/I/51Jd+uGiZBL._AC_SL1001_.jpg',
-    //       'https://m.media-amazon.com/images/I/61qC7BIjHiL._AC_SL1001_.jpg',
-    //     ],
-    //   },
-    // },
-  ],
+  dataAllProducts: [],
   dataSearchAllProducts: [],
+  dataAddingSearchAllProducts: [],
   dataProduct: dataProduct,
   isPendingAllProduct: false,
-  isPendingProduct: false
+  isPendingProduct: false,
 };
 
 const productReducer = createSlice({
@@ -89,6 +62,9 @@ const productReducer = createSlice({
     getSearchAllProducts: (state, action: PayloadAction<IProduct[]>) => {
       state.dataSearchAllProducts = action.payload;
     },
+    getAddingSearchAllProducts: (state, action: PayloadAction<IProduct[]>) => {
+      state.dataAddingSearchAllProducts = action.payload;
+    },
   },
 });
 
@@ -97,7 +73,8 @@ export const {
   getProductApiAction,
   togglePendingAllProduct,
   togglePendingProduct,
-  getSearchAllProducts
+  getSearchAllProducts,
+  getAddingSearchAllProducts
 } = productReducer.actions;
 
 export default productReducer.reducer;

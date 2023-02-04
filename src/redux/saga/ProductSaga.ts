@@ -15,6 +15,7 @@ import {
   TypeGetProductAction,
 } from '../consts/consts';
 import {
+  getAddingSearchAllProducts,
   getAllProductsApiAction,
   getProductApiAction,
   getSearchAllProducts,
@@ -53,9 +54,15 @@ function* getAllProductsByQuerySaga(action: TypeGetAllProductsQueryAction) {
 
     // Filter products are be searched
     const isSearching: boolean = action.payload.isSearch ?? false;
+    const isAddingSearching: boolean = action.payload.isAddingSearch ?? false;
     if (status === STATUS_CODES.SUCCESS) {
       if (isSearching) {
         yield put(getSearchAllProducts(data));
+        yield put(togglePendingAllProduct(false));
+        return;
+      }
+      if (isAddingSearching) {
+        yield put(getAddingSearchAllProducts(data));
         yield put(togglePendingAllProduct(false));
         return;
       }
