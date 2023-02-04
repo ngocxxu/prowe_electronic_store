@@ -1,4 +1,5 @@
 import {
+  Button,
   Paper,
   Table,
   TableBody,
@@ -6,26 +7,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material';
 import Prod1 from '../../../assets/img/product/1.1.jpg';
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Image', 159, 6.0, 24, 4.0),
-  createData('Price', 237, 9.0, 37, 4.3),
-  createData('Description', 262, 16.0, 24, 6.0),
-  createData('Dimensions', 305, 3.7, 67, 4.3),
-  createData('Add to cart', 356, 16.0, 49, 3.9),
-];
 const ComparisonDetail = () => {
   return (
     <TableContainer
@@ -40,32 +25,59 @@ const ComparisonDetail = () => {
           <TableRow>
             <TableCell align='center'>Settings</TableCell>
             <TableCell>Ultra Android 10.0 Smartphone 8GB Ram</TableCell>
-            <TableCell>Xiaomi Redmi Note 10 Global Version</TableCell>
-            <TableCell>Office Gaming Laptop Silver AMD-Ryzen</TableCell>
-            <TableCell>Teclast Touch Screen Laptop 8GB Windows 10</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell align='center'>{row.name}</TableCell>
-              <TableCell>
-                <div className='max-w-[50px]'>
-                  <img
-                    className='max-w-full rounded-sm'
-                    src={Prod1}
-                    alt='icon1'
-                  />
-                </div>
-              </TableCell>
-              <TableCell>{row.fat}</TableCell>
-              <TableCell>{row.carbs}</TableCell>
-              <TableCell>{row.protein}</TableCell>
-            </TableRow>
-          ))}
+          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell align='center'>Image</TableCell>
+            <TableCell>
+              <div>
+                <img
+                  className='max-w-full rounded-sm'
+                  src={Prod1}
+                  alt='icon1'
+                />
+              </div>
+            </TableCell>
+          </TableRow>
+          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell align='center'>Price</TableCell>
+            <TableCell>
+              <Typography variant='button' display='block' gutterBottom>
+                $54.50
+              </Typography>
+            </TableCell>
+          </TableRow>
+          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell align='center'>Description</TableCell>
+            <TableCell className='w-64'>
+              <div>
+                At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                blanditiis praesentium voluptatum deleniti atque corrupti quos
+                dolores et quas molestias excepturi sint occaecati cupiditate
+                non provident.
+              </div>
+            </TableCell>
+          </TableRow>
+          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell align='center'>Dimensions</TableCell>
+            <TableCell>
+              <div>N/A</div>
+            </TableCell>
+          </TableRow>
+          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell align='center'>Add to cart</TableCell>
+            <TableCell>
+              <Button
+                // onClick={() => navigate('/shop')}
+                size='large'
+                variant='contained'
+                sx={{ backgroundColor: 'black' }}
+              >
+                Add To Cart
+              </Button>
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
