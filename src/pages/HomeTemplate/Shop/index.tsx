@@ -18,20 +18,17 @@ import {
   Slider,
   Stack,
   styled,
-  Typography,
+  Typography
 } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import { Container } from '@mui/system';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Breadcrumb from 'src/components/Breadcrumb';
 import { LoadingPage2 } from 'src/components/Loading';
 import ProductItem from 'src/components/ProductItem';
 import { RootState } from 'src/redux/configStore';
-import {
-  GET_ALL_PRODUCTS_QUERY_SAGA,
-  GET_ALL_PRODUCTS_SAGA,
-} from 'src/redux/consts/consts';
+import { GET_ALL_PRODUCTS_QUERY_SAGA } from 'src/redux/consts/consts';
 import { ChipData } from 'src/types/GeneralTypes';
 import { MAX_PRICE, MIN_PRICE } from 'src/utils';
 import Ba1 from '../../../assets/img/background/collection.jpg';
@@ -244,7 +241,6 @@ const DrawerMenu = () => {
 };
 
 export const Shop = () => {
-  const dispatch = useDispatch();
   const [toggleFilter, setToggleFilter] = useState(false);
   const { dataAllProducts, isPendingAllProduct } = useSelector(
     (state: RootState) => state.productReducer
@@ -270,12 +266,6 @@ export const Shop = () => {
     },
     [dataTable]
   );
-
-  useEffect(() => {
-    dispatch({
-      type: GET_ALL_PRODUCTS_SAGA,
-    });
-  }, [dispatch]);
 
   return (
     <Box>
@@ -337,7 +327,9 @@ export const Shop = () => {
             </Grid>
           )}
           <Grid container spacing={2} item md={toggleFilter ? 9 : 12}>
-            {!isPendingAllProduct && dataAllProducts && dataAllProducts.length > 0 ? (
+            {!isPendingAllProduct &&
+            dataAllProducts &&
+            dataAllProducts.length > 0 ? (
               dataAllProducts
                 .slice(dataTable.minValue, dataTable.maxValue)
                 .map((item) => (

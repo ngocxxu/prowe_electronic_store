@@ -1,6 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 import MenuIcon from '@mui/icons-material/Menu';
 import PlaylistRemoveOutlinedIcon from '@mui/icons-material/PlaylistRemoveOutlined';
 import {
@@ -17,13 +18,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import useDebounce from 'src/components/Hooks/useDebounce';
 import { LoadingPage2 } from 'src/components/Loading';
 import { RootState } from 'src/redux/configStore';
-import { GET_ALL_PRODUCTS_QUERY_SAGA } from 'src/redux/consts/consts';
+import {
+  ADD_TO_COMPARISON_SAGA,
+  GET_ALL_PRODUCTS_QUERY_SAGA,
+  REMOVE_TO_COMPARISON_SAGA,
+} from 'src/redux/consts/consts';
 import {
   toggleOpenComparisonModal,
   toggleOpenComparisonTable,
 } from 'src/redux/reducers/otherReducer';
-import Prod1 from '../../../assets/img/product/1.1.jpg';
-import FindInPageIcon from '@mui/icons-material/FindInPage';
 
 const ComparisonBar = () => {
   const { isOpenComparisonModal, isOpenComparisonTable } = useSelector(
@@ -32,6 +35,11 @@ const ComparisonBar = () => {
   const { dataAddingSearchAllProducts, isPendingAllProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
+  const {
+    dataComparison: { comparisonItems },
+  } = useSelector((state: RootState) => state.comparisonReducer);
+  const { myInfo } = useSelector((state: RootState) => state.userReducer);
+
   const dispatch = useDispatch();
   const [valueSearch, setValueSearch] = useState('');
   const debouncedValue = useDebounce<string>(valueSearch, 700);
@@ -45,14 +53,6 @@ const ComparisonBar = () => {
 
     // Triggers when "debouncedValue" changes
   }, [debouncedValue, dispatch]);
-
-  useEffect(() => {
-    dispatch({
-      type: GET_ALL_PRODUCTS_QUERY_SAGA,
-      payload: { data: { name: debouncedValue }, isAddingSearch: true },
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className='flex justify-end items-center'>
@@ -74,30 +74,46 @@ const ComparisonBar = () => {
           </IconButton>
         </Tooltip>
 
-        <div className='group mx-4 relative rounded-sm'>
-          <Tooltip title='Prod1' arrow>
-            <div className='max-w-[50px]'>
-              <img className='max-w-full rounded-sm' src={Prod1} alt='icon1' />
-            </div>
-          </Tooltip>
-          <div className='absolute right-0 -top-[4px] hidden group-hover:block'>
-            <Tooltip title='Remove' arrow>
-              <IconButton
-                size='small'
-                sx={{
-                  padding: '0px',
-                }}
-              >
-                <DisabledByDefaultIcon
-                  sx={{ fill: 'black', fontSize: '18px' }}
+        {comparisonItems.map(({ product }) => (
+          <div key={product._id} className='group ml-4 relative rounded-sm'>
+            <Tooltip title={product.name} arrow>
+              <div className='max-w-[50px]'>
+                <img
+                  className='max-w-full rounded-sm'
+                  src={product.image?.main}
+                  alt='icon1'
                 />
-              </IconButton>
+              </div>
             </Tooltip>
+            <div className='absolute right-0 -top-[4px] hidden group-hover:block'>
+              <Tooltip title='Remove' arrow>
+                <IconButton
+                  onClick={() =>
+                    dispatch({
+                      type: REMOVE_TO_COMPARISON_SAGA,
+                      payload: {
+                        id: myInfo._id,
+                        idProduct: product._id,
+                      },
+                    })
+                  }
+                  size='small'
+                  sx={{
+                    padding: '0px',
+                  }}
+                >
+                  <DisabledByDefaultIcon
+                    sx={{ fill: 'black', fontSize: '18px' }}
+                  />
+                </IconButton>
+              </Tooltip>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
 
       <Button
+        sx={{ ml: 2 }}
         onClick={() =>
           dispatch(toggleOpenComparisonTable(!isOpenComparisonTable))
         }
@@ -149,9 +165,22 @@ const ComparisonBar = () => {
                   />
                 </div>
                 <p className='break-all w-45 ml-1'>{item.name}</p>
-                <IconButton aria-label='upload picture' component='label'>
-                  <AddBoxIcon sx={{ fill: 'black' }} />
-                </IconButton>
+                <Tooltip title='Add to compare' arrow>
+                  <IconButton
+                    onClick={() =>
+                      dispatch({
+                        type: ADD_TO_COMPARISON_SAGA,
+                        payload: {
+                          data: { userId: myInfo._id, idProduct: item._id },
+                        },
+                      })
+                    }
+                    aria-label='upload picture'
+                    component='label'
+                  >
+                    <AddBoxIcon sx={{ fill: 'black' }} />
+                  </IconButton>
+                </Tooltip>
               </div>
             ))
           ) : (

@@ -7,21 +7,20 @@ import {
   InputBase,
   Paper,
   styled,
-  Typography,
+  Typography
 } from '@mui/material';
-import React, { memo, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { memo } from 'react';
+import { useSelector } from 'react-redux';
 import {
   ShopButton,
   ShopRoundButton,
-  ShopWhiteButton,
+  ShopWhiteButton
 } from 'src/components/Button';
 import { Carousel } from 'src/components/Carousel';
 import { LoadingPage2 } from 'src/components/Loading';
 import ProductItem from 'src/components/ProductItem';
 import { InstaSwiper } from 'src/components/Swiper';
 import { RootState } from 'src/redux/configStore';
-import { GET_ALL_PRODUCTS_SAGA } from 'src/redux/consts/consts';
 import { IHomeProps } from 'src/types/GeneralTypes';
 import Ba10 from '../../../assets/img/background/ba10.jpg';
 import Ba11 from '../../../assets/img/background/ba11.jpg';
@@ -145,13 +144,6 @@ const BestSeller = memo(({ dataAllProducts }: IHomeProps) => {
   const { isPendingAllProduct } = useSelector(
     (state: RootState) => state.productReducer
   );
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch({
-      type: GET_ALL_PRODUCTS_SAGA,
-    });
-  }, [dispatch]);
 
   return (
     <div>
@@ -362,16 +354,9 @@ const GetUpdate = () => {
 };
 
 export const Home = () => {
-  const dispatch = useDispatch();
   const { dataAllProducts } = useSelector(
     (state: RootState) => state.productReducer
   );
-
-  useEffect(() => {
-    dispatch({
-      type: GET_ALL_PRODUCTS_SAGA,
-    });
-  }, [dispatch]);
 
   return (
     <>

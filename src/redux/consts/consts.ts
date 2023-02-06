@@ -23,6 +23,10 @@ export const GET_COMMENT_SAGA = 'GET_COMMENT_SAGA';
 export const ADD_TO_COMMENT_SAGA = 'ADD_TO_COMMENT_SAGA';
 export const REMOVE_TO_COMMENT_SAGA = 'REMOVE_TO_COMMENT_SAGA';
 export const REMOVE_ALL_COMMENT_SAGA = 'REMOVE_ALL_COMMENT_SAGA';
+export const ADD_TO_COMPARISON_SAGA = 'ADD_TO_COMPARISON_SAGA';
+export const GET_COMPARISON_SAGA = 'GET_COMPARISON_SAGA';
+export const REMOVE_ALL_COMPARISON_SAGA = 'REMOVE_ALL_COMPARISON_SAGA';
+export const REMOVE_TO_COMPARISON_SAGA = 'REMOVE_TO_COMPARISON_SAGA';
 
 // USER
 export interface TypeRegisterUserAction {
@@ -160,6 +164,27 @@ export interface TypeRemoveToCommentAction {
   type: typeof REMOVE_TO_COMMENT_SAGA;
   payload: {
     idComment: string;
+    idProduct: string;
+  };
+}
+
+// COMPARISON
+export interface TypeGetComparisonAction {
+  type: typeof GET_COMPARISON_SAGA;
+  payload: string;
+}
+
+export interface TypeAddToComparisonAction {
+  type: typeof ADD_TO_COMPARISON_SAGA;
+  payload: {
+    data: { id: string; idProduct: string };
+  };
+}
+
+export interface TypeRemoveToComparisonAction {
+  type: typeof REMOVE_TO_COMPARISON_SAGA;
+  payload: {
+    userId: string;
     idProduct: string;
   };
 }

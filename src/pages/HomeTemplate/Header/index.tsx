@@ -29,6 +29,7 @@ import { Notification } from 'src/components/Notification';
 import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_CART_SAGA,
+  GET_ALL_PRODUCTS_SAGA,
   GET_MY_USER_SAGA,
   LOGOUT_USER_SAGA,
   REMOVE_ALL_FAVOR_SAGA,
@@ -120,7 +121,10 @@ export const Header = (props: HeaderProps) => {
     dispatch({
       type: GET_MY_USER_SAGA,
     });
-  }, [dispatch, favourId]);
+    dispatch({
+      type: GET_ALL_PRODUCTS_SAGA,
+    });
+  }, [dispatch]);
 
   return (
     <>

@@ -11,6 +11,7 @@ import {
 import { IAuth, IUser } from 'src/types/GeneralTypes';
 import {
   GET_CART_SAGA,
+  GET_COMPARISON_SAGA,
   GET_FAVOR_SAGA,
   GET_MY_USER_SAGA,
   LOGIN_USER_SAGA,
@@ -116,6 +117,10 @@ function* getMyUserSaga() {
 
     if (status === STATUS_CODES.SUCCESS) {
       yield put(getMyInfo(data));
+      yield put({
+        type: GET_COMPARISON_SAGA,
+        payload: data._id,
+      });
       yield put({
         type: GET_CART_SAGA,
         payload: data.idCart,

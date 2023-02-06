@@ -145,3 +145,7 @@ export type TCheckoutFormValues = {
   expMonth: number | string;
   CVCAndCVV: number | string;
 };
+
+export type IComparison = {
+  comparisonItems: IProductCart[];
+};

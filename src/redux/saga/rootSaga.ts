@@ -4,6 +4,7 @@ import * as UserSaga from './UserSaga';
 import * as CartSaga from './CartSaga';
 import * as FavorSaga from './FavorSaga';
 import * as CommentSaga from './CommentSaga';
+import * as ComparisonSaga from './ComparisonSaga';
 
 export function* rootSaga() {
   // follow all action
@@ -28,5 +29,8 @@ export function* rootSaga() {
     CommentSaga.followGetCommentSaga(),
     CommentSaga.followAddToCommentSaga(),
     CommentSaga.followRemoveToCommentSaga(),
+    ComparisonSaga.followGetComparisonSaga(),
+    ComparisonSaga.followAddToComparisonSaga(),
+    ComparisonSaga.followRemoveToComparisonSaga(),
   ]);
 }

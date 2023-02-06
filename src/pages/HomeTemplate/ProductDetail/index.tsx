@@ -20,11 +20,7 @@ import Breadcrumb from 'src/components/Breadcrumb';
 import { LoadingPage2 } from 'src/components/Loading';
 import { RelatedProductSwiper } from 'src/components/Swiper';
 import { RootState } from 'src/redux/configStore';
-import {
-  GET_ALL_PRODUCTS_SAGA,
-  GET_COMMENT_SAGA,
-  GET_PRODUCT_SAGA,
-} from 'src/redux/consts/consts';
+import { GET_COMMENT_SAGA, GET_PRODUCT_SAGA } from 'src/redux/consts/consts';
 import { ProductIntro } from './ProductIntro';
 import { ProductTabs } from './ProductTabs';
 
@@ -104,7 +100,6 @@ const RelatedProducts = () => {
       ) : (
         <LoadingPage2 />
       )}
-      
     </Container>
   );
 };
@@ -117,9 +112,6 @@ export const ProductDetail = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch({
-      type: GET_ALL_PRODUCTS_SAGA,
-    });
     dispatch({
       type: GET_PRODUCT_SAGA,
       payload: id,
