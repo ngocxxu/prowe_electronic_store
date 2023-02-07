@@ -75,13 +75,13 @@ function* removeToComparisonSaga(action: TypeRemoveToComparisonAction) {
     if (action.payload) {
       yield put(toggleLoadingComparisonButton(true));
       const { status }: AxiosResponse<IComparison> = yield call(() =>
-        RemoveToComparisonHTTP(action.payload.userId, action.payload.idProduct)
+        RemoveToComparisonHTTP(action.payload.id, action.payload.idProduct)
       );
 
       if (status === STATUS_CODES.SUCCESS) {
         yield put({
           type: GET_COMPARISON_SAGA,
-          payload: action.payload.userId,
+          payload: action.payload.id,
         });
         yield put(setComparisonId(''));
         yield put(toggleLoadingComparisonButton(false));

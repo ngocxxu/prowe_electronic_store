@@ -184,7 +184,7 @@ export interface TypeAddToComparisonAction {
 export interface TypeRemoveToComparisonAction {
   type: typeof REMOVE_TO_COMPARISON_SAGA;
   payload: {
-    userId: string;
+    id: string;
     idProduct: string;
   };
 }

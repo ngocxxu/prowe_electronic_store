@@ -27,6 +27,7 @@ import {
   toggleOpenComparisonModal,
   toggleOpenComparisonTable,
 } from 'src/redux/reducers/otherReducer';
+import { IProductCart } from 'src/types/GeneralTypes';
 
 const ComparisonBar = () => {
   const { isOpenComparisonModal, isOpenComparisonTable } = useSelector(
@@ -142,7 +143,7 @@ const ComparisonBar = () => {
             margin='dense'
             id='name'
             label='Type any keyword to search...'
-            type='email'
+            type='text'
             fullWidth
             variant='outlined'
             onChange={(e: React.ChangeEvent<any>) => {
@@ -152,37 +153,45 @@ const ComparisonBar = () => {
         </DialogTitle>
         <div className='mx-4 overflow-y-auto h-52 w-[300px]'>
           {!isPendingAllProduct ? (
-            dataAddingSearchAllProducts.map((item) => (
-              <div
-                key={item._id}
-                className='flex justify-between items-center mt-4'
-              >
-                <div className='max-w-[50px]'>
-                  <img
-                    className='max-w-full rounded-sm'
-                    src={item.image?.main}
-                    alt={item.name}
-                  />
+            dataAddingSearchAllProducts
+              .filter(
+                (item) =>
+                  !comparisonItems.find(
+                    ({ product }: IProductCart) => product._id === item._id
+                  )
+              )
+              .map((item) => (
+                <div
+                  key={item._id}
+                  className='flex justify-between items-center mt-4'
+                >
+                  <div className='max-w-[50px]'>
+                    <img
+                      className='max-w-full rounded-sm'
+                      src={item.image?.main}
+                      alt={item.name}
+                    />
+                  </div>
+                  <p className='break-all w-45 ml-1'>{item.name}</p>
+                  <Tooltip title='Add to compare' arrow>
+                    <IconButton
+                      onClick={() => {
+                        dispatch({
+                          type: ADD_TO_COMPARISON_SAGA,
+                          payload: {
+                            data: { id: myInfo._id, idProduct: item._id },
+                          },
+                        });
+                        dispatch(toggleOpenComparisonModal(false));
+                      }}
+                      aria-label='upload picture'
+                      component='label'
+                    >
+                      <AddBoxIcon sx={{ fill: 'black' }} />
+                    </IconButton>
+                  </Tooltip>
                 </div>
-                <p className='break-all w-45 ml-1'>{item.name}</p>
-                <Tooltip title='Add to compare' arrow>
-                  <IconButton
-                    onClick={() =>
-                      dispatch({
-                        type: ADD_TO_COMPARISON_SAGA,
-                        payload: {
-                          data: { userId: myInfo._id, idProduct: item._id },
-                        },
-                      })
-                    }
-                    aria-label='upload picture'
-                    component='label'
-                  >
-                    <AddBoxIcon sx={{ fill: 'black' }} />
-                  </IconButton>
-                </Tooltip>
-              </div>
-            ))
+              ))
           ) : (
             <LoadingPage2 />
           )}
