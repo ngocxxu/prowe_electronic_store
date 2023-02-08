@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import {
   AddToComparisonHTTP,
@@ -20,6 +20,7 @@ import {
   setComparisonId,
   toggleLoadingComparisonButton,
 } from '../reducers/comparisonReducer';
+import { toggleNotification, toggleOpenComparisonModal } from '../reducers/otherReducer';
 
 function* getComparisonSaga(action: TypeGetComparisonAction) {
   try {
@@ -46,6 +47,7 @@ export function* followGetComparisonSaga() {
 function* addToComparisonSaga(action: TypeAddToComparisonAction) {
   try {
     if (action.payload) {
+      yield put(setComparisonId(action.payload.data));
       yield put(toggleLoadingComparisonButton(true));
       const { status }: AxiosResponse<IComparison> = yield call(() =>
         AddToComparisonHTTP(action.payload.data)
@@ -57,11 +59,19 @@ function* addToComparisonSaga(action: TypeAddToComparisonAction) {
           payload: action.payload.data.id,
         });
         yield put(toggleLoadingComparisonButton(false));
+        yield put(toggleOpenComparisonModal(false));
       } else {
         console.log('error');
       }
     }
   } catch (err: unknown) {
+    yield put(
+      toggleNotification({
+        isNotification: true,
+        severity: 'error',
+        message: `${((err as AxiosError).response?.data as any)?.error}`,
+      })
+    );
     console.log((err as Error).message);
   }
 }

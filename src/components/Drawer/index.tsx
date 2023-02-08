@@ -156,7 +156,7 @@ export const TemporaryDrawer = memo(({ direction }: { direction: Anchor }) => {
                       </div>
                     </div>
                     <CustomizedLoadingButton
-                      loading={isLoadingButton}
+                      loading={productId === item._id && isLoadingButton}
                       loadingPosition='center'
                       startIcon={<AddShoppingCartIcon />}
                       onClick={() => {

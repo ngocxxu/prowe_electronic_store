@@ -19,7 +19,7 @@ const QuickView = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
   const dispatch = useDispatch();
-  const { dataCart, isLoadingButton } = useSelector(
+  const { dataCart, isLoadingButton, productId } = useSelector(
     (state: RootState) => state.cartReducer
   );
   const [quantity, setQuantity] = useState<number | string>(1);
@@ -60,7 +60,7 @@ const QuickView = () => {
             onChange={(event) => setQuantity(event.target.value)}
           />
           <LoadingButton
-            loading={isLoadingButton}
+            loading={productId === _id && isLoadingButton}
             onClick={() => {
               dispatch({
                 type: ADD_TO_CART_SAGA,

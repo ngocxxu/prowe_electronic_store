@@ -10,11 +10,15 @@ import { useNavigate } from 'react-router-dom';
 import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_CART_SAGA,
+  ADD_TO_COMPARISON_SAGA,
   ADD_TO_FAVOR_SAGA,
   GET_PRODUCT_SAGA,
   REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
-import { toggleOpenQuickViewModal } from 'src/redux/reducers/otherReducer';
+import {
+  toggleOpenComparisonTable,
+  toggleOpenQuickViewModal,
+} from 'src/redux/reducers/otherReducer';
 import { IProduct } from 'src/types/GeneralTypes';
 import './style.scss';
 
@@ -35,12 +39,17 @@ const CustomizedLoadingButton2 = styled(LoadingButton)`
 
 const ProductItem = memo(({ item }: { item: IProduct }) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
-  const { dataCart, isLoadingButton } = useSelector(
+  const { dataCart, isLoadingButton, productId } = useSelector(
     (state: RootState) => state.cartReducer
   );
-  const { dataFavor, isLoadingFavourButton } = useSelector(
+  const { dataFavor, isLoadingFavourButton, favourId } = useSelector(
     (state: RootState) => state.favorReducer
   );
+  const {
+    dataComparison: { comparisonItems },
+    isLoadingComparisonButton,
+    comparisonId,
+  } = useSelector((state: RootState) => state.comparisonReducer);
   const [toggleFavor, setToggleFavor] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -97,7 +106,7 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
               arrow
             >
               <CustomizedLoadingButton
-                loading={isLoadingButton}
+                loading={productId === _id && isLoadingButton}
                 loadingPosition='center'
                 startIcon={<AddShoppingCartIcon />}
                 onClick={() => {
@@ -188,7 +197,7 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
               arrow
             >
               <CustomizedLoadingButton2
-                loading={isLoadingFavourButton}
+                loading={favourId === _id && isLoadingFavourButton}
                 loadingPosition='center'
                 startIcon={<FavoriteBorderIcon />}
               />
@@ -202,14 +211,59 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
                   color: 'white',
                 },
               }}
+              title='Add to Cart'
+              placement='top'
+              arrow
+            >
+              <CustomizedLoadingButton
+                loading={isLoadingComparisonButton && comparisonId === item._id}
+                loadingPosition='center'
+                startIcon={<CompareArrowsIcon />}
+                onClick={() => {
+                  if (myInfo.email) {
+                    dispatch({
+                      type: ADD_TO_COMPARISON_SAGA,
+                      payload: {
+                        data: { id: myInfo._id, idProduct: _id },
+                      },
+                    });
+
+                    // Display Comparison Table when click at first product
+                    if (comparisonItems.length === 0) {
+                      dispatch(toggleOpenComparisonTable(true));
+                    }
+                  } else {
+                    navigate('/login');
+                  }
+                }}
+              />
+            </Tooltip>
+            {/* <Tooltip
+              sx={{
+                backgroundColor: 'white',
+                padding: '12px',
+                '&:hover': {
+                  backgroundColor: '#f9773a',
+                  color: 'white',
+                },
+              }}
               title='Compare'
               placement='top'
               arrow
             >
-              <IconButton>
+              <IconButton
+                onClick={() =>
+                  dispatch({
+                    type: ADD_TO_COMPARISON_SAGA,
+                    payload: {
+                      data: { id: myInfo._id, idProduct: _id },
+                    },
+                  })
+                }
+              >
                 <CompareArrowsIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
           </div>
         </div>
       </div>

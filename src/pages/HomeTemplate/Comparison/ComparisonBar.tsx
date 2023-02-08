@@ -6,12 +6,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PlaylistRemoveOutlinedIcon from '@mui/icons-material/PlaylistRemoveOutlined';
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogTitle,
   IconButton,
   TextField,
-  Tooltip,
+  Tooltip
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,11 +22,11 @@ import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_COMPARISON_SAGA,
   GET_ALL_PRODUCTS_QUERY_SAGA,
-  REMOVE_TO_COMPARISON_SAGA,
+  REMOVE_TO_COMPARISON_SAGA
 } from 'src/redux/consts/consts';
 import {
   toggleOpenComparisonModal,
-  toggleOpenComparisonTable,
+  toggleOpenComparisonTable
 } from 'src/redux/reducers/otherReducer';
 import { IProductCart } from 'src/types/GeneralTypes';
 
@@ -38,6 +39,8 @@ const ComparisonBar = () => {
   );
   const {
     dataComparison: { comparisonItems },
+    isLoadingComparisonButton,
+    comparisonId,
   } = useSelector((state: RootState) => state.comparisonReducer);
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
 
@@ -173,23 +176,26 @@ const ComparisonBar = () => {
                     />
                   </div>
                   <p className='break-all w-45 ml-1'>{item.name}</p>
-                  <Tooltip title='Add to compare' arrow>
-                    <IconButton
-                      onClick={() => {
-                        dispatch({
-                          type: ADD_TO_COMPARISON_SAGA,
-                          payload: {
-                            data: { id: myInfo._id, idProduct: item._id },
-                          },
-                        });
-                        dispatch(toggleOpenComparisonModal(false));
-                      }}
-                      aria-label='upload picture'
-                      component='label'
-                    >
-                      <AddBoxIcon sx={{ fill: 'black' }} />
-                    </IconButton>
-                  </Tooltip>
+                  {isLoadingComparisonButton && comparisonId === item._id ? (
+                    <CircularProgress />
+                  ) : (
+                    <Tooltip title='Compare' arrow>
+                      <IconButton
+                        onClick={async () => {
+                          dispatch({
+                            type: ADD_TO_COMPARISON_SAGA,
+                            payload: {
+                              data: { id: myInfo._id, idProduct: item._id },
+                            },
+                          });
+                        }}
+                        aria-label='upload picture'
+                        component='label'
+                      >
+                        <AddBoxIcon sx={{ fill: 'black' }} />
+                      </IconButton>
+                    </Tooltip>
+                  )}
                 </div>
               ))
           ) : (

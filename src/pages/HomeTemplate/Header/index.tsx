@@ -83,7 +83,7 @@ function ElevationScroll({ children, window }: HeaderProps) {
 
 export const Header = (props: HeaderProps) => {
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
-  const { dataCart, isLoadingButton } = useSelector(
+  const { dataCart, isLoadingButton, productId } = useSelector(
     (state: RootState) => state.cartReducer
   );
   const { dataFavor, favourId, isClearAllFavour } = useSelector(
@@ -347,8 +347,11 @@ export const Header = (props: HeaderProps) => {
                                   In stock
                                 </p>
                                 <LoadingButton
-                                  loading={isLoadingButton}
-                                  onClick={() =>
+                                  loading={
+                                    productId === item.product._id &&
+                                    isLoadingButton
+                                  }
+                                  onClick={() => {
                                     dispatch({
                                       type: ADD_TO_CART_SAGA,
                                       payload: {
@@ -358,8 +361,8 @@ export const Header = (props: HeaderProps) => {
                                           quantity: 1,
                                         },
                                       },
-                                    })
-                                  }
+                                    });
+                                  }}
                                   variant='contained'
                                   size='small'
                                   color='error'

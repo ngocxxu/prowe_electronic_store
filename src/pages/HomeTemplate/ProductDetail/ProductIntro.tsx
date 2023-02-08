@@ -13,7 +13,7 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
-  useTheme,
+  useTheme
 } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,7 +23,7 @@ import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_CART_SAGA,
   ADD_TO_FAVOR_SAGA,
-  REMOVE_TO_FAVOR_SAGA,
+  REMOVE_TO_FAVOR_SAGA
 } from 'src/redux/consts/consts';
 
 const CustomizedLoadingButton = styled(LoadingButton)`
@@ -48,10 +48,10 @@ export const ProductIntro = () => {
     (state: RootState) => state.commentReducer
   );
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
-  const { dataCart, isLoadingButton } = useSelector(
+  const { dataCart, isLoadingButton, productId } = useSelector(
     (state: RootState) => state.cartReducer
   );
-  const { dataFavor, isLoadingFavourButton } = useSelector(
+  const { dataFavor, isLoadingFavourButton, favourId } = useSelector(
     (state: RootState) => state.favorReducer
   );
   const { dataProduct } = useSelector(
@@ -143,7 +143,7 @@ export const ProductIntro = () => {
             arrow
           >
             <CustomizedLoadingButton
-              loading={isLoadingFavourButton}
+              loading={favourId === _id && isLoadingFavourButton}
               loadingPosition='center'
               startIcon={<FavoriteBorderIcon />}
             />
@@ -227,7 +227,7 @@ export const ProductIntro = () => {
           sx={{ margin: '30px 0' }}
         >
           <LoadingButton
-            loading={isLoadingButton}
+            loading={productId === _id && isLoadingButton}
             onClick={() => {
               if (myInfo.email) {
                 dispatch({

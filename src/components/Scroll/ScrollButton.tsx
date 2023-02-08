@@ -1,9 +1,14 @@
 import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/redux/configStore';
 import './style.scss';
 
 const ScrollButton = () => {
   const [visible, setVisible] = useState(false);
+  const {
+    dataComparison: { comparisonItems },
+  } = useSelector((state: RootState) => state.comparisonReducer);
 
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop;
@@ -29,7 +34,11 @@ const ScrollButton = () => {
   }, []);
 
   return (
-    <button className='buttonScroll hidden lg:block'>
+    <button
+      className={`buttonScroll hidden lg:block ${
+        comparisonItems.length > 0 ? 'bottom-[120px]' : 'bottom-[60px]'
+      }`}
+    >
       <div
         onClick={scrollToTop}
         style={{ display: visible ? 'inline' : 'none', color: 'red' }}
