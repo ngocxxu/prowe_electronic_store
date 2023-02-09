@@ -16,6 +16,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import useDebounce from 'src/components/Hooks/useDebounce';
 import { LoadingPage2 } from 'src/components/Loading';
 import { RootState } from 'src/redux/configStore';
@@ -44,8 +45,8 @@ const ComparisonBar = () => {
     comparisonId,
   } = useSelector((state: RootState) => state.comparisonReducer);
   const { myInfo } = useSelector((state: RootState) => state.userReducer);
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [valueSearch, setValueSearch] = useState('');
   const debouncedValue = useDebounce<string>(valueSearch, 700);
 
@@ -191,13 +192,22 @@ const ComparisonBar = () => {
                     <Tooltip title='Compare' arrow>
                       <IconButton
                         onClick={async () => {
-                          dispatch(setComparisonId(item._id));
-                          dispatch({
-                            type: ADD_TO_COMPARISON_SAGA,
-                            payload: {
-                              data: { id: myInfo._id, idProduct: item._id },
-                            },
-                          });
+                          if (myInfo.email) {
+                            dispatch(setComparisonId(item._id));
+                            dispatch({
+                              type: ADD_TO_COMPARISON_SAGA,
+                              payload: {
+                                data: { id: myInfo._id, idProduct: item._id },
+                              },
+                            });
+
+                            // Display Comparison Table when click at first product
+                            if (comparisonItems.length === 0) {
+                              dispatch(toggleOpenComparisonTable(true));
+                            }
+                          } else {
+                            navigate('/login');
+                          }
                         }}
                         component='label'
                       >

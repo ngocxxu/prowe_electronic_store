@@ -1,5 +1,6 @@
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { LoadingButton } from '@mui/lab';
 import {
-  Button,
   Paper,
   Table,
   TableBody,
@@ -9,9 +10,78 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import Prod1 from '../../../assets/img/product/1.1.jpg';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { RootState } from 'src/redux/configStore';
+import {
+  ADD_TO_CART_SAGA,
+  REMOVE_TO_COMPARISON_SAGA,
+} from 'src/redux/consts/consts';
+import { setProductId } from 'src/redux/reducers/cartReducer';
+import { setComparisonId } from 'src/redux/reducers/comparisonReducer';
+import { IProduct } from 'src/types/GeneralTypes';
 
 const ComparisonDetail = () => {
+  const { isLoadingButton, productId, dataCart } = useSelector(
+    (state: RootState) => state.cartReducer
+  );
+  const {
+    dataComparison: { comparisonItems },
+    isLoadingComparisonButton,
+    comparisonId,
+  } = useSelector((state: RootState) => state.comparisonReducer);
+
+  const { myInfo } = useSelector((state: RootState) => state.userReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleRenderTableCell = useCallback(
+    (
+      infoKey: keyof IProduct,
+      infoKey2?: keyof { raw: number },
+      infoKey3?: keyof { main: string }
+    ) =>
+      comparisonItems.map(({ product }) => {
+        switch (infoKey) {
+          case 'price':
+            return (
+              <TableCell>
+                <Typography variant='h6' display='block' gutterBottom>
+                  ${infoKey2 && `${product[infoKey][infoKey2]}`}
+                </Typography>
+              </TableCell>
+            );
+          case 'description':
+            return (
+              <TableCell>
+                <Typography variant='body1'>{`${product[infoKey]}`}</Typography>
+              </TableCell>
+            );
+          case 'image':
+            return (
+              <TableCell>
+                <div className='max-w-[170px]'>
+                  <img
+                    className='max-w-full rounded-sm'
+                    src={infoKey3 && product[infoKey][infoKey3]}
+                    alt='icon1'
+                  />
+                </div>
+              </TableCell>
+            );
+
+          default:
+            return (
+              <TableCell key={product._id} className='w-20'>
+                {`${product[infoKey]}`}
+              </TableCell>
+            );
+        }
+      }),
+    [comparisonItems]
+  );
+
   return (
     <TableContainer
       className='absolute -top-[85vh] left-0 z-[9999] w-full h-[83vh]'
@@ -26,21 +96,7 @@ const ComparisonDetail = () => {
             <TableCell className='w-10' align='center'>
               Settings
             </TableCell>
-            <TableCell className='w-20'>
-              Ultra Android 10.0 Smartphone 8GB Ram
-            </TableCell>
-            <TableCell className='w-20'>
-              Ultra Android 10.0 Smartphone 8GB Ram a Android 10.0 Smartphone 8
-            </TableCell>
-            <TableCell className='w-20'>
-              Ultra Android 10.0 Smartphone 8GB Ram
-            </TableCell>
-            <TableCell className='w-20'>
-              Ultra Android 10.0 Smartphone 8GB Ram
-            </TableCell>
-            <TableCell className='w-20'>
-              Ultra Android 10.0 Smartphone 8GB Ram
-            </TableCell>
+            {handleRenderTableCell('name')}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -50,15 +106,7 @@ const ComparisonDetail = () => {
                 Image
               </Typography>
             </TableCell>
-            <TableCell>
-              <div className='max-w-[170px]'>
-                <img
-                  className='max-w-full rounded-sm'
-                  src={Prod1}
-                  alt='icon1'
-                />
-              </div>
-            </TableCell>
+            {handleRenderTableCell('image', undefined, 'main')}
           </TableRow>
           <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell align='center'>
@@ -66,11 +114,7 @@ const ComparisonDetail = () => {
                 Price
               </Typography>
             </TableCell>
-            <TableCell>
-              <Typography variant='h6' display='block' gutterBottom>
-                $54.50
-              </Typography>
-            </TableCell>
+            {handleRenderTableCell('price', 'raw')}
           </TableRow>
           <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell align='center'>
@@ -78,24 +122,7 @@ const ComparisonDetail = () => {
                 Description
               </Typography>
             </TableCell>
-            <TableCell>
-              <Typography variant='body1'>
-                At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                blanditiis praesentium voluptatum deleniti atque corrupti quos
-                dolores et quas molestias excepturi sint occaecati cupiditate
-                non provident.
-              </Typography>
-            </TableCell>
-          </TableRow>
-          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-            <TableCell align='center'>
-              <Typography variant='subtitle2' gutterBottom>
-                Dimensions
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <div>N/A</div>
-            </TableCell>
+            {handleRenderTableCell('description')}
           </TableRow>
           <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell align='center'>
@@ -103,28 +130,72 @@ const ComparisonDetail = () => {
                 Actions
               </Typography>
             </TableCell>
-            <TableCell>
-              <Button
-                // onClick={() => navigate('/shop')}
-                size='large'
-                variant='contained'
-                sx={{
-                  backgroundColor: 'black',
-                  '&:hover': { backgroundColor: 'black' },
-                  mr: 1,
-                }}
-              >
-                Add To Cart
-              </Button>
-              <Button
-                // onClick={() => navigate('/shop')}
-                size='large'
-                variant='contained'
-                color='error'
-              >
-                Remove
-              </Button>
-            </TableCell>
+            {comparisonItems.map(({ product }) => (
+              <TableCell key={product._id}>
+                <LoadingButton
+                  loading={productId === product._id && isLoadingButton}
+                  onClick={async () => {
+                    if (myInfo.email) {
+                      dispatch(setProductId(product._id));
+                      dispatch({
+                        type: ADD_TO_CART_SAGA,
+                        payload: {
+                          idCart: dataCart.idCart,
+                          data: {
+                            idProduct: product._id,
+                            quantity: 1,
+                          },
+                        },
+                      });
+                    } else {
+                      navigate('/login');
+                    }
+                  }}
+                  startIcon={<AddShoppingCartIcon />}
+                  size='small'
+                  variant='contained'
+                  sx={{
+                    backgroundColor: 'black',
+                    '&:hover': { backgroundColor: 'black' },
+                    mr: 1,
+                  }}
+                >
+                  <span>ADD TO CART</span>
+                </LoadingButton>
+                <LoadingButton
+                  loading={
+                    comparisonId === product._id && isLoadingComparisonButton
+                  }
+                  onClick={async () => {
+                    if (myInfo.email) {
+                      dispatch(setComparisonId(product._id));
+                      dispatch({
+                        type: REMOVE_TO_COMPARISON_SAGA,
+                        payload: {
+                          id: myInfo._id,
+                          idProduct: product._id,
+                        },
+                      });
+                    } else {
+                      navigate('/login');
+                    }
+                  }}
+                  size='small'
+                  variant='contained'
+                  color='error'
+                >
+                  <span>Remove</span>
+                </LoadingButton>
+                {/* <Button
+                  // onClick={() => navigate('/shop')}
+                  size='small'
+                  variant='contained'
+                  color='error'
+                >
+                  Remove
+                </Button> */}
+              </TableCell>
+            ))}
           </TableRow>
         </TableBody>
       </Table>
