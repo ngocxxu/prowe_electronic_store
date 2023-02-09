@@ -13,7 +13,7 @@ import {
   Tooltip,
   Typography,
   useMediaQuery,
-  useTheme
+  useTheme,
 } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,8 +23,10 @@ import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_CART_SAGA,
   ADD_TO_FAVOR_SAGA,
-  REMOVE_TO_FAVOR_SAGA
+  REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
+import { setProductId } from 'src/redux/reducers/cartReducer';
+import { setFavourId } from 'src/redux/reducers/favorReducer';
 
 const CustomizedLoadingButton = styled(LoadingButton)`
   min-width: 0px;
@@ -97,6 +99,7 @@ export const ProductIntro = () => {
           </Box>
           <Tooltip
             onClick={() => {
+              dispatch(setFavourId(_id));
               setToggleFavor(!toggleFavor);
               if (myInfo.email) {
                 !toggleFavor
@@ -230,6 +233,7 @@ export const ProductIntro = () => {
             loading={productId === _id && isLoadingButton}
             onClick={() => {
               if (myInfo.email) {
+                dispatch(setProductId(_id));
                 dispatch({
                   type: ADD_TO_CART_SAGA,
                   payload: {
@@ -255,6 +259,7 @@ export const ProductIntro = () => {
           <Button
             onClick={() => {
               if (myInfo.email) {
+                dispatch(setProductId(_id));
                 dispatch({
                   type: ADD_TO_CART_SAGA,
                   payload: {

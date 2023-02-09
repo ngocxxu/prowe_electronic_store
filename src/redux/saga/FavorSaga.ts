@@ -50,7 +50,7 @@ export function* followGetFavorSaga() {
 function* addToFavorSaga(action: TypeAddToFavorAction) {
   try {
     if (action.payload) {
-      yield put(setFavourId(action.payload.data))
+      // yield put(setFavourId(action.payload.data))
       yield put(toggleLoadingFavourButton(true));
       const { status }: AxiosResponse<IFavor> = yield call(() =>
         AddToFavorHTTP(action.payload.idFavor, action.payload.data)

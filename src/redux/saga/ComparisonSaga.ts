@@ -47,7 +47,7 @@ export function* followGetComparisonSaga() {
 function* addToComparisonSaga(action: TypeAddToComparisonAction) {
   try {
     if (action.payload) {
-      yield put(setComparisonId(action.payload.data));
+      // yield put(setComparisonId(action.payload.data));
       yield put(toggleLoadingComparisonButton(true));
       const { status }: AxiosResponse<IComparison> = yield call(() =>
         AddToComparisonHTTP(action.payload.data)

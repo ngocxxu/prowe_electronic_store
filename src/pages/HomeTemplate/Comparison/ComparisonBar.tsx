@@ -12,7 +12,7 @@ import {
   DialogTitle,
   IconButton,
   TextField,
-  Tooltip
+  Tooltip,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,11 +22,12 @@ import { RootState } from 'src/redux/configStore';
 import {
   ADD_TO_COMPARISON_SAGA,
   GET_ALL_PRODUCTS_QUERY_SAGA,
-  REMOVE_TO_COMPARISON_SAGA
+  REMOVE_TO_COMPARISON_SAGA,
 } from 'src/redux/consts/consts';
+import { setComparisonId } from 'src/redux/reducers/comparisonReducer';
 import {
   toggleOpenComparisonModal,
-  toggleOpenComparisonTable
+  toggleOpenComparisonTable,
 } from 'src/redux/reducers/otherReducer';
 import { IProductCart } from 'src/types/GeneralTypes';
 
@@ -92,15 +93,16 @@ const ComparisonBar = () => {
             <div className='absolute right-0 -top-[4px] hidden group-hover:block'>
               <Tooltip title='Remove' arrow>
                 <IconButton
-                  onClick={() =>
+                  onClick={() => {
+                    dispatch(setComparisonId(product._id));
                     dispatch({
                       type: REMOVE_TO_COMPARISON_SAGA,
                       payload: {
                         id: myInfo._id,
                         idProduct: product._id,
                       },
-                    })
-                  }
+                    });
+                  }}
                   size='small'
                   sx={{
                     padding: '0px',
@@ -112,6 +114,13 @@ const ComparisonBar = () => {
                 </IconButton>
               </Tooltip>
             </div>
+
+            {/* Add <CircularProgress /> when removing */}
+            {isLoadingComparisonButton && comparisonId === product._id && (
+              <div className='absolute top-1 left-1'>
+                <CircularProgress />
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -182,6 +191,7 @@ const ComparisonBar = () => {
                     <Tooltip title='Compare' arrow>
                       <IconButton
                         onClick={async () => {
+                          dispatch(setComparisonId(item._id));
                           dispatch({
                             type: ADD_TO_COMPARISON_SAGA,
                             payload: {
@@ -189,7 +199,6 @@ const ComparisonBar = () => {
                             },
                           });
                         }}
-                        aria-label='upload picture'
                         component='label'
                       >
                         <AddBoxIcon sx={{ fill: 'black' }} />

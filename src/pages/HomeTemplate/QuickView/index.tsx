@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ProductSwiper } from 'src/components/Swiper';
 import { RootState } from 'src/redux/configStore';
 import { ADD_TO_CART_SAGA } from 'src/redux/consts/consts';
+import { setProductId } from 'src/redux/reducers/cartReducer';
 import { toggleOpenQuickViewModal } from 'src/redux/reducers/otherReducer';
 
 const QuickView = () => {
@@ -62,6 +63,7 @@ const QuickView = () => {
           <LoadingButton
             loading={productId === _id && isLoadingButton}
             onClick={() => {
+              dispatch(setProductId(_id))
               dispatch({
                 type: ADD_TO_CART_SAGA,
                 payload: {

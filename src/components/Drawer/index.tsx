@@ -160,18 +160,21 @@ export const TemporaryDrawer = memo(({ direction }: { direction: Anchor }) => {
                       loadingPosition='center'
                       startIcon={<AddShoppingCartIcon />}
                       onClick={() => {
-                        myInfo.email
-                          ? dispatch({
-                              type: ADD_TO_CART_SAGA,
-                              payload: {
-                                idCart: dataCart.idCart,
-                                data: {
-                                  idProduct: item._id,
-                                  quantity: 1,
-                                },
+                        if (myInfo.email) {
+                          dispatch(setProductId(item._id))
+                          dispatch({
+                            type: ADD_TO_CART_SAGA,
+                            payload: {
+                              idCart: dataCart.idCart,
+                              data: {
+                                idProduct: item._id,
+                                quantity: 1,
                               },
-                            })
-                          : navigate('/login');
+                            },
+                          });
+                        } else {
+                          navigate('/login');
+                        }
                       }}
                     />
                   </div>

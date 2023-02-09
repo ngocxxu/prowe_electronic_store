@@ -15,6 +15,9 @@ import {
   GET_PRODUCT_SAGA,
   REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
+import { setProductId } from 'src/redux/reducers/cartReducer';
+import { setComparisonId } from 'src/redux/reducers/comparisonReducer';
+import { setFavourId } from 'src/redux/reducers/favorReducer';
 import {
   toggleOpenComparisonTable,
   toggleOpenQuickViewModal,
@@ -111,7 +114,8 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
                 startIcon={<AddShoppingCartIcon />}
                 onClick={() => {
                   myInfo.email
-                    ? dispatch({
+                    ? dispatch(setProductId(item._id)) &&
+                      dispatch({
                         type: ADD_TO_CART_SAGA,
                         payload: {
                           idCart: dataCart.idCart,
@@ -153,6 +157,7 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
             <Tooltip
               onClick={() => {
                 setToggleFavor(!toggleFavor);
+                dispatch(setFavourId(_id));
                 if (myInfo.email) {
                   !toggleFavor
                     ? dispatch({
@@ -211,7 +216,7 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
                   color: 'white',
                 },
               }}
-              title='Add to Cart'
+              title='Compare'
               placement='top'
               arrow
             >
@@ -221,6 +226,7 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
                 startIcon={<CompareArrowsIcon />}
                 onClick={() => {
                   if (myInfo.email) {
+                    dispatch(setComparisonId(_id));
                     dispatch({
                       type: ADD_TO_COMPARISON_SAGA,
                       payload: {
@@ -238,32 +244,6 @@ const ProductItem = memo(({ item }: { item: IProduct }) => {
                 }}
               />
             </Tooltip>
-            {/* <Tooltip
-              sx={{
-                backgroundColor: 'white',
-                padding: '12px',
-                '&:hover': {
-                  backgroundColor: '#f9773a',
-                  color: 'white',
-                },
-              }}
-              title='Compare'
-              placement='top'
-              arrow
-            >
-              <IconButton
-                onClick={() =>
-                  dispatch({
-                    type: ADD_TO_COMPARISON_SAGA,
-                    payload: {
-                      data: { id: myInfo._id, idProduct: _id },
-                    },
-                  })
-                }
-              >
-                <CompareArrowsIcon />
-              </IconButton>
-            </Tooltip> */}
           </div>
         </div>
       </div>

@@ -53,7 +53,7 @@ export function* followGetCartSaga() {
 function* addToCartSaga(action: TypeAddToCartAction) {
   try {
     if (action.payload) {
-      yield put(setProductId(action.payload.data))
+      // yield put(setProductId(action.payload.data))
       yield put(toggleLoadingButton(true));
       const { status }: AxiosResponse<ICart> = yield call(() =>
         AddToCartHTTP(action.payload.idCart, action.payload.data)

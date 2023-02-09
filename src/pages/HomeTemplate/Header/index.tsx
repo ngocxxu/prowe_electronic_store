@@ -35,6 +35,7 @@ import {
   REMOVE_ALL_FAVOR_SAGA,
   REMOVE_TO_FAVOR_SAGA,
 } from 'src/redux/consts/consts';
+import { setProductId } from 'src/redux/reducers/cartReducer';
 import { setFavourId } from 'src/redux/reducers/favorReducer';
 import {
   toggleOpenModal,
@@ -352,6 +353,7 @@ export const Header = (props: HeaderProps) => {
                                     isLoadingButton
                                   }
                                   onClick={() => {
+                                    dispatch(setProductId(item.product._id))
                                     dispatch({
                                       type: ADD_TO_CART_SAGA,
                                       payload: {
